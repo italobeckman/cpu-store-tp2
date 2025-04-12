@@ -1,0 +1,285 @@
+<mat-toolbar class="toolbar-title">
+    Cadastro de Processador
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+        <form [formGroup]="formGroup">
+            <!-- Campos básicos -->
+            <mat-form-field appearance="fill" class="full-width-input">
+                <mat-label>Nome</mat-label>
+                <input matInput type="text" formControlName="nome">
+                <mat-error *ngIf="formGroup.get('nome') && 
+                                  formGroup.get('nome')?.invalid &&
+                                  formGroup.get('nome')?.touched">
+                    {{getErrorMessage('nome', formGroup.get('nome')?.errors)}}
+
+                    @if (formGroup.get('nome')?.hasError('apiError')) {
+                        <span> {{ formGroup.get('nome')?.getError('apiError') }}</span>
+                    }
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill" class="full-width-input">
+                <mat-label>Socket</mat-label>
+                <input matInput type="text" formControlName="socket">
+                <mat-error *ngIf="formGroup.get('socket') && 
+                                  formGroup.get('socket')?.invalid &&
+                                  formGroup.get('socket')?.touched">
+                    {{getErrorMessage('socket', formGroup.get('socket')?.errors)}}
+
+                    @if (formGroup.get('socket')?.hasError('apiError')) {
+                        <span> {{ formGroup.get('socket')?.getError('apiError') }}</span>
+                    }
+                </mat-error>
+            </mat-form-field>
+            
+            <div class="row">
+                <mat-form-field appearance="fill" class="half-width-input">
+                    <mat-label>Núcleos</mat-label>
+                    <input matInput type="number" formControlName="nucleos">
+                    <mat-error *ngIf="formGroup.get('nucleos') && 
+                                      formGroup.get('nucleos')?.invalid &&
+                                      formGroup.get('nucleos')?.touched">
+                        {{getErrorMessage('nucleos', formGroup.get('nucleos')?.errors)}}
+
+                        @if (formGroup.get('nucleos')?.hasError('apiError')) {
+                            <span> {{ formGroup.get('nucleos')?.getError('apiError') }}</span>
+                        }
+                    </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="half-width-input">
+                    <mat-label>Threads</mat-label>
+                    <input matInput type="number" formControlName="threads">
+                    <mat-error *ngIf="formGroup.get('threads') && 
+                                      formGroup.get('threads')?.invalid &&
+                                      formGroup.get('threads')?.touched">
+                        {{getErrorMessage('threads', formGroup.get('threads')?.errors)}}
+
+                        @if (formGroup.get('threads')?.hasError('apiError')) {
+                            <span> {{ formGroup.get('threads')?.getError('apiError') }}</span>
+                        }
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <div class="row">
+                <mat-form-field appearance="fill" class="half-width-input">
+                    <mat-label>Preço</mat-label>
+                    <input matInput type="number" formControlName="preco">
+                    <mat-error *ngIf="formGroup.get('preco') && 
+                                      formGroup.get('preco')?.invalid &&
+                                      formGroup.get('preco')?.touched">
+                        {{getErrorMessage('preco', formGroup.get('preco')?.errors)}}
+
+                        @if (formGroup.get('preco')?.hasError('apiError')) {
+                            <span> {{ formGroup.get('preco')?.getError('apiError') }}</span>
+                        }
+                    </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="half-width-input">
+                    <mat-label>Fabricante</mat-label>
+                    <mat-select formControlName="fabricante">
+                        <mat-option *ngFor="let fab of fabricantes" [value]="fab.id">
+                            {{fab.nome}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formGroup.get('fabricante') && 
+                                      formGroup.get('fabricante')?.invalid &&
+                                      formGroup.get('fabricante')?.touched">
+                        {{getErrorMessage('fabricante', formGroup.get('fabricante')?.errors)}}
+
+                        @if (formGroup.get('fabricante')?.hasError('apiError')) {
+                            <span> {{ formGroup.get('fabricante')?.getError('apiError') }}</span>
+                        }
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <div class="row">
+                <mat-checkbox formControlName="desbloqueado">Desbloqueado</mat-checkbox>
+            </div>
+            
+            <mat-form-field appearance="fill" class="full-width-input">
+                <mat-label>Placa Integrada</mat-label>
+                <mat-select formControlName="placaIntegrada">
+                    <mat-option [value]="null">Nenhuma</mat-option>
+                    <mat-option *ngFor="let placa of placasIntegradas" [value]="placa">
+                        {{placa.nome}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('placaIntegrada') && 
+                                  formGroup.get('placaIntegrada')?.invalid &&
+                                  formGroup.get('placaIntegrada')?.touched">
+                    {{getErrorMessage('placaIntegrada', formGroup.get('placaIntegrada')?.errors)}}
+
+                    @if (formGroup.get('placaIntegrada')?.hasError('apiError')) {
+                        <span> {{ formGroup.get('placaIntegrada')?.getError('apiError') }}</span>
+                    }
+                </mat-error>
+            </mat-form-field>
+            
+            <!-- Frequência -->
+            <h3>Frequência</h3>
+            <div formGroupName="frequencia">
+                <div class="row">
+                    <mat-form-field appearance="fill" class="half-width-input">
+                        <mat-label>Base (GHz)</mat-label>
+                        <input matInput type="number" formControlName="base">
+                        <mat-error *ngIf="formGroup.get('frequencia.base') && 
+                                          formGroup.get('frequencia.base')?.invalid &&
+                                          formGroup.get('frequencia.base')?.touched">
+                            {{getErrorMessage('frequencia.base', formGroup.get('frequencia.base')?.errors)}}
+
+                            @if (formGroup.get('frequencia.base')?.hasError('apiError')) {
+                                <span> {{ formGroup.get('frequencia.base')?.getError('apiError') }}</span>
+                            }
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="fill" class="half-width-input">
+                        <mat-label>Turbo (GHz)</mat-label>
+                        <input matInput type="number" formControlName="turbo">
+                        <mat-error *ngIf="formGroup.get('frequencia.turbo') && 
+                                          formGroup.get('frequencia.turbo')?.invalid &&
+                                          formGroup.get('frequencia.turbo')?.touched">
+                            {{getErrorMessage('frequencia.turbo', formGroup.get('frequencia.turbo')?.errors)}}
+
+                            @if (formGroup.get('frequencia.turbo')?.hasError('apiError')) {
+                                <span> {{ formGroup.get('frequencia.turbo')?.getError('apiError') }}</span>
+                            }
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            
+            <!-- Memória Cache -->
+            <h3>Memória Cache</h3>
+            <div formGroupName="memoriaCache">
+                <div class="row">
+                    <mat-form-field appearance="fill" class="third-width-input">
+                        <mat-label>L1 (KB)</mat-label>
+                        <input matInput type="number" formControlName="l1">
+                        <mat-error *ngIf="formGroup.get('memoriaCache.l1') && 
+                                          formGroup.get('memoriaCache.l1')?.invalid &&
+                                          formGroup.get('memoriaCache.l1')?.touched">
+                            {{getErrorMessage('memoriaCache.l1', formGroup.get('memoriaCache.l1')?.errors)}}
+
+                            @if (formGroup.get('memoriaCache.l1')?.hasError('apiError')) {
+                                <span> {{ formGroup.get('memoriaCache.l1')?.getError('apiError') }}</span>
+                            }
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="fill" class="third-width-input">
+                        <mat-label>L2 (KB)</mat-label>
+                        <input matInput type="number" formControlName="l2">
+                        <mat-error *ngIf="formGroup.get('memoriaCache.l2') && 
+                                          formGroup.get('memoriaCache.l2')?.invalid &&
+                                          formGroup.get('memoriaCache.l2')?.touched">
+                            {{getErrorMessage('memoriaCache.l2', formGroup.get('memoriaCache.l2')?.errors)}}
+
+                            @if (formGroup.get('memoriaCache.l2')?.hasError('apiError')) {
+                                <span> {{ formGroup.get('memoriaCache.l2')?.getError('apiError') }}</span>
+                            }
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="fill" class="third-width-input">
+                        <mat-label>L3 (MB)</mat-label>
+                        <input matInput type="number" formControlName="l3">
+                        <mat-error *ngIf="formGroup.get('memoriaCache.l3') && 
+                                          formGroup.get('memoriaCache.l3')?.invalid &&
+                                          formGroup.get('memoriaCache.l3')?.touched">
+                            {{getErrorMessage('memoriaCache.l3', formGroup.get('memoriaCache.l3')?.errors)}}
+
+                            @if (formGroup.get('memoriaCache.l3')?.hasError('apiError')) {
+                                <span> {{ formGroup.get('memoriaCache.l3')?.getError('apiError') }}</span>
+                            }
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            
+            <!-- Consumo Energético -->
+            <h3>Consumo Energético</h3>
+            <div formGroupName="consumoEnergetico">
+                <div class="row">
+                    <mat-form-field appearance="fill" class="half-width-input">
+                        <mat-label>TDP (W)</mat-label>
+                        <input matInput type="number" formControlName="tdp">
+                        <mat-error *ngIf="formGroup.get('consumoEnergetico.tdp') && 
+                                          formGroup.get('consumoEnergetico.tdp')?.invalid &&
+                                          formGroup.get('consumoEnergetico.tdp')?.touched">
+                            {{getErrorMessage('consumoEnergetico.tdp', formGroup.get('consumoEnergetico.tdp')?.errors)}}
+
+                            @if (formGroup.get('consumoEnergetico.tdp')?.hasError('apiError')) {
+                                <span> {{ formGroup.get('consumoEnergetico.tdp')?.getError('apiError') }}</span>
+                            }
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="fill" class="half-width-input">
+                        <mat-label>Tecnologia</mat-label>
+                        <input matInput type="text" formControlName="tecnologia">
+                        <mat-error *ngIf="formGroup.get('consumoEnergetico.tecnologia') && 
+                                          formGroup.get('consumoEnergetico.tecnologia')?.invalid &&
+                                          formGroup.get('consumoEnergetico.tecnologia')?.touched">
+                            {{getErrorMessage('consumoEnergetico.tecnologia', formGroup.get('consumoEnergetico.tecnologia')?.errors)}}
+
+                            @if (formGroup.get('consumoEnergetico.tecnologia')?.hasError('apiError')) {
+                                <span> {{ formGroup.get('consumoEnergetico.tecnologia')?.getError('apiError') }}</span>
+                            }
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            
+            <!-- Conectividade -->
+            <h3>Conectividade</h3>
+            <div formGroupName="conectividade">
+                <mat-form-field appearance="fill" class="full-width-input">
+                    <mat-label>PCI Express</mat-label>
+                    <input matInput type="text" formControlName="pciExpress">
+                    <mat-error *ngIf="formGroup.get('conectividade.pciExpress') && 
+                                      formGroup.get('conectividade.pciExpress')?.invalid &&
+                                      formGroup.get('conectividade.pciExpress')?.touched">
+                        {{getErrorMessage('conectividade.pciExpress', formGroup.get('conectividade.pciExpress')?.errors)}}
+
+                        @if (formGroup.get('conectividade.pciExpress')?.hasError('apiError')) {
+                            <span> {{ formGroup.get('conectividade.pciExpress')?.getError('apiError') }}</span>
+                        }
+                    </mat-error>
+                </mat-form-field>
+                
+                <div class="row">
+                    <mat-checkbox formControlName="wireless">Wireless</mat-checkbox>
+                    <mat-checkbox formControlName="bluetooth">Bluetooth</mat-checkbox>
+                </div>
+            </div>
+            
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button 
+            mat-raised-button 
+            routerLink="/admin/processadores"> 
+            Cancelar 
+        </button>
+        <button  
+            mat-raised-button 
+            color="warn"
+            (click)="excluir()"
+            *ngIf="formGroup.get('id')?.value"> 
+            Excluir 
+        </button>
+        <button 
+            mat-raised-button color="primary" 
+            (click)="salvar()"
+            [disabled]="formGroup.invalid">
+            Salvar 
+        </button>
+    </mat-card-actions>
+</mat-card>

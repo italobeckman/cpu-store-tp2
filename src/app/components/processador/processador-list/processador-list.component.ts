@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PlacaIntegradaService } from '../../../services/placa-integrada.service';
+import { ProcessadorService } from '../../../services/processador.service';
 import { MatPaginatorModule, PageEvent, MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { PlacaIntegrada } from '../../../models/placa-integrada.model';
+import { Processador } from '../../../models/processador.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -11,35 +11,35 @@ import { CommonModule } from '@angular/common';
 import { PaginatorIntlService } from '../../../services/paginator-intl.service';
 
 @Component({
-  selector: 'app-placa-integrada-list',
+  selector: 'app-processador-list',
   standalone: true,
   imports: [CommonModule, MatPaginatorModule, RouterLink, MatToolbarModule, MatIconModule, MatButtonModule, MatTableModule],providers: [
     { provide: MatPaginatorIntl, useClass: PaginatorIntlService }
   ],
-  templateUrl: './placa-integrada-list.component.html',
-  styleUrl: './placa-integrada-list.component.css'
+  templateUrl: './processador-list.component.html',
+  styleUrl: './processador-list.component.css'
 })
-export class PlacaIntegradaListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'nome', 'openGl', 'vulkan', 'directX', 'acao'];
-  placaIntegradas: PlacaIntegrada[] = [];
+export class ProcessadorListComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'nome', 'socket', 'threads', 'nucleos', 'desbloqueado', 'preço', 'acao'];
+  processadors: Processador[] = [];
 
   // variaveis de controle de paginacao
   totalRecords = 0;
   pageSize = 2;
   page = 0;
 
-  constructor(private placaIntegradaService: PlacaIntegradaService) { }
+  constructor(private processadorService: ProcessadorService) { }
 
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData(): void {
-    this.placaIntegradaService.findAll(this.page, this.pageSize).subscribe(data => {
-      this.placaIntegradas = data ?? []; // Se `data` for nulo ou undefined, atribui array vazio
+    this.processadorService.findAll(this.page, this.pageSize).subscribe(data => {
+      this.processadors = data ?? []; // Se `data` for nulo ou undefined, atribui array vazio
     });
   
-    this.placaIntegradaService.count().subscribe(data => {
+    this.processadorService.count().subscribe(data => {
       this.totalRecords = data;
     });
   }
@@ -50,8 +50,8 @@ export class PlacaIntegradaListComponent implements OnInit {
     this.loadData();
   }
 
-  excluir(placaIntegrada: PlacaIntegrada): void {
-    this.placaIntegradaService.delete(placaIntegrada.id).subscribe(() => {
+  excluir(processador: Processador): void {
+    this.processadorService.delete(processador.id).subscribe(() => {
       this.loadData();
     });
   }

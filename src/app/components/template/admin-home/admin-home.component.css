@@ -1,0 +1,108 @@
+.admin-home-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .welcome-section {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .welcome-section h1 {
+    color: #3f51b5;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  
+  .welcome-section p {
+    color: #757575;
+    font-size: 18px;
+  }
+  
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  
+  .menu-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+  
+  mat-card-header {
+    margin-bottom: 16px;
+  }
+  
+  mat-card-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  mat-icon {
+    color: #3f51b5;
+  }
+  
+  mat-card-content {
+    color: #616161;
+    min-height: 60px;
+  }
+  
+  mat-card-actions {
+    padding: 8px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  @media (max-width: 600px) {
+    .cards-container {
+      grid-template-columns: 1fr;
+    }
+  }
+
+
+
+
+  /* Adicione esses estilos ao seu CSS existente */
+
+.disabled-card {
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+    background-color: #f9f9f9;
+    border: 1px dashed #bdbdbd;
+  }
+  
+  .disabled-card:hover {
+    transform: none;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 
+                0 1px 1px 0 rgba(0,0,0,.14), 
+                0 1px 3px 0 rgba(0,0,0,.12);
+  }
+  
+  .disabled-icon {
+    opacity: 0.5;
+  }
+  
+  .coming-soon-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: #ff9800;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }

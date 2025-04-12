@@ -1,0 +1,75 @@
+<mat-toolbar>
+    <div class="flex-container">
+        <span class="toolbar-title"> Controle de Processador </span>
+        <button mat-fab class="accent" routerLink="/admin/processadores/new">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+  </mat-toolbar>
+  
+  <table mat-table [dataSource]="processadors" class="mat-elevation-z8">
+  
+    <!-- id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+  
+    <!-- nome Column -->
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+    </ng-container>
+  
+    <!-- openGl Column -->
+    <ng-container matColumnDef="socket">
+      <th mat-header-cell *matHeaderCellDef> Socket </th>
+      <td mat-cell *matCellDef="let element"> {{element.socket}} </td>
+    </ng-container>
+  
+    <!-- vulkan Column -->
+    <ng-container matColumnDef="threads">
+      <th mat-header-cell *matHeaderCellDef> Threads </th>
+      <td mat-cell *matCellDef="let element"> {{element.threads}} </td>
+    </ng-container>
+  
+    <!-- directX Column -->
+    <ng-container matColumnDef="nucleos">
+      <th mat-header-cell *matHeaderCellDef> Nucleos </th>
+      <td mat-cell *matCellDef="let element"> {{element.nucleos}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="desbloqueado">
+        <th mat-header-cell *matHeaderCellDef> Desbloqueado </th>
+        <td mat-cell *matCellDef="let element"> {{element.desbloqueado}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="preço">
+        <th mat-header-cell *matHeaderCellDef> Preço </th>
+        <td mat-cell *matCellDef="let element"> {{element.preco}} </td>
+      </ng-container>
+
+    <!-- acao Column -->
+    <ng-container matColumnDef="acao">
+        <th mat-header-cell *matHeaderCellDef> Ação </th>
+        <td mat-cell *matCellDef="let element"> 
+            <button mat-icon-button 
+                color="primary"
+                routerLink="/admin/processadores/edit/{{element.id}}">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="excluir(element)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[2, 4, 8, 16]"
+    [pageSize]="pageSize"
+    [length]="totalRecords"
+    (page)="paginar($event)">
+  </mat-paginator>

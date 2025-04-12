@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Usuario } from '../../../models/usuario.model';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Component, OnInit, ViewChild, signal } from '@angular/core';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { ConfirmDialogComponent } from '../../estado/popup-confirmar-delecao/popup-confirmar-delecao.component';
 import { FuncionariosService } from '../../../services/funcionarios.service';
 import { CargosDialogComponent } from './cargos-dialog/cargos-dialog.component';
+import { PaginatorIntlService } from '../../../services/paginator-intl.service';
 
 @Component({
   selector: 'app-usuario-list',
@@ -33,6 +34,8 @@ import { CargosDialogComponent } from './cargos-dialog/cargos-dialog.component';
     MatDialogModule,
     RouterLink,
     MatListModule,
+  ],providers: [
+    { provide: MatPaginatorIntl, useClass: PaginatorIntlService }
   ],
   templateUrl: './usuario-list.component.html',
   styleUrls: ['./usuario-list.component.css']

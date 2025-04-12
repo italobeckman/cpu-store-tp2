@@ -15,6 +15,10 @@ import { EnderecoListComponent } from './components/endereco/endereco-list/ender
 import { EnderecoFormComponent } from './components/endereco/endereco-form/endereco-form.component';
 import { PlacaIntegradaListComponent } from './components/placa-integrada/placa-integrada-list/placa-integrada-list.component';
 import { PlacaIntegradaFormComponent } from './components/placa-integrada/placa-integrada-form/placa-integrada-form.component';
+import { ProcessadorListComponent } from './components/processador/processador-list/processador-list.component';
+import { ProcessadorFormComponent } from './components/processador/processador-form/processador-form.component';
+import { ProcessadorResolver } from './components/processador/processador.resolver';
+import { AdminHomeComponent } from './components/template/admin-home/admin-home.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +29,16 @@ export const routes: Routes = [
       {
         path: '', pathMatch: 'full', redirectTo: 'estados' 
       },
+      // Rotas de Home
+{
+  path: 'home',
+  component: AdminHomeComponent
+  , title: 'Home'
+},
+
+
+
+
 
       // Rotas de Estado
       {
@@ -105,6 +119,23 @@ export const routes: Routes = [
         path: 'placasintegradas/edit/:id',
         component: PlacaIntegradaFormComponent,
         title: 'Edição de Placas Integradas',
+      },
+      {
+        path: 'processadores',
+        component: ProcessadorListComponent,
+        title: 'Listagem de Processadores',
+      },
+      {
+        path: 'processadores/new',
+        component: ProcessadorFormComponent,
+        title: 'Cadastro de Processadores', 
+      },
+      {
+        path: 'processadores/edit/:id',
+        component: ProcessadorFormComponent,
+        resolve: {
+          processador : ProcessadorResolver
+        }
       }
     ]
   },

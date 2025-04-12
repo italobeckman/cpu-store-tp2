@@ -1,0 +1,81 @@
+<div class="admin-home-container">
+    <div class="welcome-section">
+      <h1>Bem-vindo ao Painel Administrativo</h1>
+      <p>Selecione uma das opções abaixo para gerenciar os recursos da loja:</p>
+    </div>
+  
+    <div class="cards-container">
+      <mat-card class="menu-card" (click)="navigate('/admin/processadores')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>memory</mat-icon>
+          <mat-card-title>Processadores</mat-card-title>
+          <mat-card-subtitle>Gerenciar catálogo de CPUs</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Adicione, edite ou remova processadores do catálogo da loja.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+  
+      <mat-card class="menu-card" (click)="navigate('/admin/placas-integradas')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>developer_board</mat-icon>
+          <mat-card-title>Placas Integradas</mat-card-title>
+          <mat-card-subtitle>Gerenciar placas de vídeo integradas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Adicione, edite ou remova placas de vídeo integradas do catálogo.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+  
+      <mat-card class="menu-card" (click)="navigate('/admin/usuarios')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>people</mat-icon>
+          <mat-card-title>Usuários</mat-card-title>
+          <mat-card-subtitle>Gerenciar contas de usuário</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Administre as contas de usuários e permissões do sistema.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+  
+      <!-- <mat-card class="menu-card" (click)="navigate('/admin/vendas')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>shopping_cart</mat-icon>
+          <mat-card-title>Vendas</mat-card-title>
+          <mat-card-subtitle>Gerenciar pedidos e vendas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Acompanhe pedidos, histórico de vendas e desempenho da loja.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card > -->
+      <mat-card class="menu-card disabled-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="disabled-icon">shopping_cart</mat-icon>
+          <mat-card-title>Vendas</mat-card-title>
+          <mat-card-subtitle>Gerenciar pedidos e vendas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Acompanhe pedidos, histórico de vendas e desempenho da loja.</p>
+          <div class="coming-soon-badge">Em breve</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button disabled color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+
+
+
+    </div>
+  </div>
