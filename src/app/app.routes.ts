@@ -23,6 +23,7 @@ import { placaIntegrada } from './components/placa-integrada/placa-integrada.res
 import { FabricanteListComponent } from './components/fabricante/fabrocante-list/fabrocante-list.component';
 import { FabrocanteFormComponent } from './components/fabricante/fabrocante-form/fabrocante-form.component';
 import { fabricanteResolver } from './components/fabricante/fabricante-resolver.resolver';
+import { UsuarioResolver } from './components/usuario/usuario-list/usuario.resolver';
 
 export const routes: Routes = [
   {
@@ -31,7 +32,7 @@ export const routes: Routes = [
     title: 'Administrativo',
     children: [
       {
-        path: '', pathMatch: 'full', redirectTo: 'estados' 
+        path: '', pathMatch: 'full', redirectTo: 'home' 
       },
       // Rotas de Home
 {
@@ -86,7 +87,24 @@ export const routes: Routes = [
       {
         path: 'usuarios/edit/:id',
         component: UsuarioFormComponent,
-        title: 'Edição de Usuário'
+          resolve: { usuario: UsuarioResolver },
+      },
+
+      {
+        path: 'fabricantes',
+        component: FabricanteListComponent,
+        title: 'Listagem de Fabricantes'
+      },
+      {
+        path: 'fabricantes/new',
+        component: FornecedorFormComponent,
+        title: 'Cadastro de Fabricante',
+      },
+      {
+        path: 'fabricante/new/:id',
+        component: FornecedorFormComponent,
+        title: 'Edição de Fabricante',
+        resolve: { fabricante: fabricanteResolver },
       },
 
       {

@@ -25,4 +25,19 @@ export class AdminHomeComponent {
   navigate(route: string): void {
     this.router.navigate([route]);
   }
+
+  showSecretMessage(): void {
+    // Criar o elemento para a mensagem secreta
+    const messageEl = document.createElement('div');
+    messageEl.className = 'secret-message';
+    messageEl.innerHTML = `<strong>Segredo da CPU Store</strong> A concorrência vende processador falso! 😂`;
+    
+    // Adicionar ao corpo do documento
+    document.body.appendChild(messageEl);
+    
+    // Remover após a animação terminar
+    setTimeout(() => {
+      document.body.removeChild(messageEl);
+    }, 4000);
+  }
 }

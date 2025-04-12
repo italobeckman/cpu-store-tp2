@@ -1,17 +1,161 @@
-mat-toolbar {
-    background-color: #1976d2;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 64px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Estilos para garantir que o footer fique no fim da página */
+:host {
+  display: block;
+  margin-top: auto;
+}
+
+.footer-container {
+  width: 100%;
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: white;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 320px;
+}
+
+.footer-logo {
+  height: 60px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.footer-brand-text h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.footer-slogan {
+  margin: 4px 0 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.footer-links-section h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.footer-links-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links-section li {
+  margin-bottom: 10px;
+}
+
+.footer-links-section a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.footer-links-section a:hover {
+  color: white;
+}
+
+.footer-links-section a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.footer-links-section a:hover::after {
+  width: 100%;
+}
+
+.footer-bottom {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 16px 24px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer-bottom p {
+  margin: 5px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Garantindo que o footer só apareça no final da página */
+@media (max-width: 768px) {
+  .footer-main {
+    flex-direction: column;
+    gap: 32px;
   }
   
-  .toolbar-title {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 1px;
+  .footer-links {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-brand {
+    flex-direction: column;
+    align-items: flex-start;
   }
   
-  
+  .footer-links {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+
+/* Adicione estes estilos ao seu styles.css global */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+router-outlet + * {
+  flex: 1;
+}

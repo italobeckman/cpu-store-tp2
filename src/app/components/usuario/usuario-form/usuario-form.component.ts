@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,6 +37,8 @@ export class UsuarioFormComponent implements OnInit {
   valido: boolean = false
   formUsuario!: FormGroup
   usuarioSerchedByCpf!: UsuarioParaRetorno
+  isEdicao: boolean = false;
+  usuarioId: number | null = null;
 
   perfis = [
     { label: 'Administrador', value: 'ADMIN' },
@@ -54,7 +56,13 @@ export class UsuarioFormComponent implements OnInit {
     { label: 'Suporte ao Cliente', value: 'SUPORTE_CLIENTE' }
   ];
 
-  constructor(private fb: FormBuilder, private router: Router, private usuarioService: UsuarioService, private datePipe: DatePipe) {}
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router, 
+    private usuarioService: UsuarioService, 
+    private datePipe: DatePipe,
+    private route: ActivatedRoute // Adicionado o ActivatedRoute
+  ) {}
 
   findUserByCpf(cpf: string) {
     this.usuarioService.findByCpfS(cpf).subscribe(data => {
@@ -69,8 +77,8 @@ export class UsuarioFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
     this.formUsuario = this.fb.group({
+      id: [null],
       username: ['', Validators.required],
       cpf: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -82,7 +90,43 @@ export class UsuarioFormComponent implements OnInit {
       salario: [''],
     });
 
-    if (this.usuarioSerchedByCpf != null) {
+    // Verificar se há dados do resolver (modo de edição)
+    this.route.data.subscribe(data => {
+      const usuario = data['usuario'];
+      if (usuario) {
+        this.isEdicao = true;
+        this.usuarioId = usuario.id;
+        
+        // Preencher o formulário com os dados do usuário
+        this.formUsuario.patchValue({
+          id: usuario.id,
+          username: usuario.username,
+          cpf: usuario.cpf,
+          email: usuario.email,
+          senha: '****************', // Não exibir a senha real
+          dataNascimento: new Date(usuario.dataNascimento),
+          categoria: usuario.categoria
+        });
+
+        // Se telefone for um objeto com codigoArea e numero
+        if (usuario.telefone && usuario.telefone.codigoArea && usuario.telefone.numero) {
+          this.formUsuario.get('telefone')?.setValue(
+            `+${usuario.telefone.codigoArea} ${usuario.telefone.numero}`
+          );
+        }
+
+        // Se for funcionário, preencher os campos adicionais
+        if (usuario.funcionario) {
+          this.formUsuario.get('cargo')?.setValue(usuario.funcionario.cargo);
+          this.formUsuario.get('salario')?.setValue(usuario.funcionario.salario);
+        }
+
+        this.valido = true;
+        this.formUsuario.markAllAsTouched();
+      }
+    });
+
+    if (this.usuarioSerchedByCpf != null && !this.isEdicao) {
       this.valido = true
       this.formUsuario.get('email')?.setValue(this.usuarioSerchedByCpf.email);
       this.formUsuario.get('username')?.setValue(this.usuarioSerchedByCpf.username);
@@ -113,14 +157,21 @@ export class UsuarioFormComponent implements OnInit {
       const usuario = this.formUsuario.value;
       console.log('Usuário a ser salvo:', usuario);
 
-      // Aqui você pode chamar o service para salvar o usuário
-      (
-        // Aqui você pode chamar o service para salvar o usuário
-        await this.usuarioService.insert(usuario)).subscribe(() => {
-        this.router.navigate(['/admin/usuarios']);
-      });
-
-      this.router.navigate(['/admin/usuarios']);
+      try {
+        if (this.isEdicao && this.usuarioId) {
+          // Se estiver em modo de edição, chama o método de atualização
+          (await this.usuarioService.update(usuario)).subscribe(() => {
+            this.router.navigate(['/admin/usuarios']);
+          });
+        } else {
+          // Se estiver em modo de criação, chama o método de inserção
+          (await this.usuarioService.insert(usuario)).subscribe(() => {
+            this.router.navigate(['/admin/usuarios']);
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao salvar usuário:', error);
+      }
     }
   }
 }

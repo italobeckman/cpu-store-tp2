@@ -1,8 +1,9 @@
 <div class="admin-home-container">
-    <div class="welcome-section">
-      <h1>Bem-vindo ao Painel Administrativo</h1>
-      <p>Selecione uma das opções abaixo para gerenciar os recursos da loja:</p>
-    </div>
+  <div class="welcome-section">
+    <h1>Bem-vindo ao Painel Administrativo</h1>
+    <p>Selecione uma das opções abaixo para gerenciar os recursos da loja:</p>
+    <span class="easter-egg" (click)="showSecretMessage()">🤫</span>
+  </div>
   
     <div class="cards-container">
       <mat-card class="menu-card" (click)="navigate('/admin/processadores')">
@@ -46,7 +47,62 @@
           <button mat-button color="primary">ACESSAR</button>
         </mat-card-actions>
       </mat-card>
-  
+
+      <mat-card class="menu-card" (click)="navigate('/admin/fornecedores')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>local_shipping</mat-icon>
+          <mat-card-title>Fornecedores</mat-card-title>
+          <mat-card-subtitle>Gerenciar fornecedores</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Cadastre e gerencie os fornecedores de produtos para sua loja.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+      
+      <mat-card class="menu-card" (click)="navigate('/admin/fabricantes')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>factory</mat-icon>
+          <mat-card-title>Fabricantes</mat-card-title>
+          <mat-card-subtitle>Gerenciar fabricantes</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Cadastre e gerencie os fabricantes dos produtos disponíveis na loja.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+      
+      <mat-card class="menu-card" (click)="navigate('/admin/estados')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>map</mat-icon>
+          <mat-card-title>Estados</mat-card-title>
+          <mat-card-subtitle>Gerenciar estados</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Cadastre e gerencie os estados disponíveis para endereços de entrega.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+      
+      <mat-card class="menu-card" (click)="navigate('/admin/cidades')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>location_city</mat-icon>
+          <mat-card-title>Municípios</mat-card-title>
+          <mat-card-subtitle>Gerenciar municípios</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Cadastre e gerencie os municípios disponíveis para endereços de entrega.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
       <!-- <mat-card class="menu-card" (click)="navigate('/admin/vendas')">
         <mat-card-header>
           <mat-icon mat-card-avatar>shopping_cart</mat-icon>
@@ -74,6 +130,21 @@
           <button mat-button disabled color="primary">ACESSAR</button>
         </mat-card-actions>
       </mat-card>
+      <mat-card class="menu-card disabled-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="disabled-icon">inventory</mat-icon>
+          <mat-card-title>Lote de Produtos</mat-card-title>
+          <mat-card-subtitle>Gerenciar lotes e estoque</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Gerencie a entrada de lotes de produtos e controle o estoque da loja.</p>
+          <div class="coming-soon-badge">Em breve</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button disabled color="primary">ACESSAR</button>
+        </mat-card-actions>
+      </mat-card>
+      
 
 
 
