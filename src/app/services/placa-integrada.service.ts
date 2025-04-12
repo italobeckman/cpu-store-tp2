@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { PlacaIntegrada } from '../models/placa-integrada.model';
 
 interface PageResponse<T> {
@@ -18,18 +18,21 @@ export class PlacaIntegradaService {
 
   constructor(private httpClient: HttpClient) { }
 
-  findAll(page?: number, pageSize?: number): Observable<PageResponse<PlacaIntegrada>> {
-    let params = {};
-
-    if (page !== undefined && pageSize !== undefined) {
-      params = {
-        page: page.toString(),
-        page_size: pageSize.toString()
-      };
+  findAll(page?: number, pageSize?: number): Observable<PlacaIntegrada[]> {
+      let params = {};
+  
+      if (page !== undefined && pageSize !== undefined) {
+        params = {
+          page: page.toString(),
+          page_size: pageSize.toString()
+        };
+      }
+  
+      return this.httpClient.get<PlacaIntegrada[]>(this.baseUrl, { params })
+        .pipe(
+          tap(data => console.log('Placas graficas retornados da API:', data))
+        );
     }
-
-    return this.httpClient.get<PageResponse<PlacaIntegrada>>(this.baseUrl, { params });
-  }
 
   count(): Observable<number> {
     return this.httpClient.get<number>(`${this.baseUrl}/count`);

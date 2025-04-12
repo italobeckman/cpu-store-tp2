@@ -6,6 +6,6 @@ import { PlacaIntegradaService } from '../../services/placa-integrada.service';
 export const placaIntegrada: ResolveFn<PlacaIntegrada> = 
     (route : ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
       
-      return inject(PlacaIntegradaService).findById(route.paramMap.get('id')!);
+      return inject(PlacaIntegradaService).findById(Number(route.paramMap.get('id')));
     
 };

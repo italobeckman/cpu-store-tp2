@@ -68,7 +68,10 @@ export class CidadeListComponent implements OnInit, AfterViewInit {
         const estadoIds = new Set<number>();
         data.forEach(cidade => {
           if (cidade.estado) {
-            estadoIds.add(cidade.estado);
+            // Verifica se o estado é um objeto ou um ID
+            const estadoId = typeof cidade.estado === 'object' ? 
+                            Number(cidade.estado.id) : Number(cidade.estado);
+            estadoIds.add(estadoId);
           }
         });
   
@@ -90,18 +93,23 @@ export class CidadeListComponent implements OnInit, AfterViewInit {
             
             forkJoin(requests).subscribe(estados => {
               // Create map of estado id -> nome
+              console.log('Estados carregados:', estados);
+              
               estados.forEach(estado => {
                 if (estado) {
-                  // Garantir que o ID seja convertido para o tipo correto para o Map
-                  console.log('Estado carregado:', estado);
-                  estadoMap.set(Number(estado.id), estado.nome);
+                  const estadoId = Number(estado.id);
+                  console.log(`Adicionando ao map - ID: ${estadoId}, Nome: ${estado.nome}, Tipo ID: ${typeof estadoId}`);
+                  estadoMap.set(estadoId, estado.nome);
                 }
               });
               
               // Set the nomeEstado for each cidade
               this.cidades = data.map(cidade => {
-                const estadoNome = estadoMap.get(Number(cidade.estado));
-                console.log(`Cidade ID ${cidade.id}, Estado ID ${cidade.estado}, Nome Estado: ${estadoNome || 'Não encontrado'}`);
+                // Obtém o ID do estado, seja ele objeto ou valor direto
+                const estadoId = typeof cidade.estado === 'object' ? 
+                                Number(cidade.estado.id) : Number(cidade.estado);
+                const estadoNome = estadoMap.get(estadoId);
+                console.log(`Cidade ID ${cidade.id}, Estado ID ${JSON.stringify(cidade.estado)}, ID usado: ${estadoId}, Nome Estado: ${estadoNome || 'Não encontrado'}`);
                 return {
                   ...cidade,
                   nomeEstado: estadoNome || 'N/A'

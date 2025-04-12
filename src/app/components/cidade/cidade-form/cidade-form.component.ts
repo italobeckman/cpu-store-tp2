@@ -82,7 +82,7 @@ export class CidadeFormComponent implements OnInit {
       if (cidade.id == null) {
         this.cidadeService.create(cidade).subscribe({
           next: () => {
-            this.router.navigateByUrl('/cidades');
+            this.router.navigateByUrl('/admin/cidades');
           },
           error: (errorResponse) => {
             console.log('Erro ao gravar' + JSON.stringify(errorResponse));
@@ -91,7 +91,7 @@ export class CidadeFormComponent implements OnInit {
       } else {
         this.cidadeService.update(cidade.id, cidade).subscribe({
           next: () => {
-            this.router.navigateByUrl('/cidades');
+            this.router.navigateByUrl('/admin/cidades');
           },
           error: (errorResponse) => {
             console.log('Erro ao gravar' + JSON.stringify(errorResponse));
@@ -106,7 +106,7 @@ export class CidadeFormComponent implements OnInit {
     if (cidade.id != null) {
       this.cidadeService.delete(cidade.id).subscribe({
         next: () => {
-          this.router.navigateByUrl('/cidades');
+          this.router.navigateByUrl('/admin/cidades');
         },
         error: (errorResponse) => {
           console.log('Erro ao excluir' + JSON.stringify(errorResponse));
