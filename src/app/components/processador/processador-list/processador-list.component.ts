@@ -9,11 +9,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PaginatorIntlService } from '../../../services/paginator-intl.service';
+import { MatFormField, MatLabel } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-processador-list',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule, RouterLink, MatToolbarModule, MatIconModule, MatButtonModule, MatTableModule],providers: [
+  imports: [CommonModule, MatPaginatorModule, RouterLink, MatToolbarModule, 
+    MatIconModule, MatButtonModule, MatTableModule
+  ],providers: [
     { provide: MatPaginatorIntl, useClass: PaginatorIntlService }
   ],
   templateUrl: './processador-list.component.html',
@@ -27,6 +31,8 @@ export class ProcessadorListComponent implements OnInit {
   totalRecords = 0;
   pageSize = 2;
   page = 0;
+  dataSource: any;
+filtro: any;
 
   constructor(private processadorService: ProcessadorService) { }
 
@@ -55,4 +61,5 @@ export class ProcessadorListComponent implements OnInit {
       this.loadData();
     });
   }
+  
 }

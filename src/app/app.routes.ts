@@ -79,6 +79,11 @@ export const routes: Routes = [
         component: UsuarioFormComponent,
         title: 'Cadastro de Usuário',
       },
+      {
+        path: 'usuarios/edit/:id',
+        component: UsuarioFormComponent,
+        title: 'Edição de Usuário'
+      },
 
       // Rotas de Fornecedor
       {

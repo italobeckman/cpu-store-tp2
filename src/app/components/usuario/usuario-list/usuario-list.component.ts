@@ -135,7 +135,7 @@ export class UsuarioListComponent implements OnInit {
   }
   
   isEven(id: number): boolean {
-    console.log(id % 2 === 0)
+    // console.log(id % 2 === 0) 
     return id % 2 === 0;
   }
 }
