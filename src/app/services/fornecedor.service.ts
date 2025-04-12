@@ -52,7 +52,14 @@ export class FornecedorService {
   }
   
   update(fornecedor: Fornecedor): Observable<any> {
-    return this.httpClient.put<Fornecedor>(`${this.baseUrl}/${fornecedor.id}`, fornecedor);
+    const telefone: Telefone =  TelefoneService.converteStringToTelefone(fornecedor.telefone)
+
+    const fornecedorParaAtualizar: FornecedorParaInserir = {
+      telefone: telefone,
+      nome: fornecedor.nome,
+      email: fornecedor.email,
+    } 
+    return this.httpClient.put<Fornecedor>(`${this.baseUrl}/${fornecedor.id}`, fornecedorParaAtualizar);
   }
   
   findById(id: string): Observable<Fornecedor> {

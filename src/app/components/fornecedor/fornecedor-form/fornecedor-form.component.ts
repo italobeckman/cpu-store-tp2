@@ -57,7 +57,7 @@ export class FornecedorFormComponent {
 
       operation.subscribe({
         next: () => this.navigateBack(),
-        error: (error) => console.error('Erro ao salvar:', error)
+        error: (error: any) => console.error('Erro ao salvar:', error)
       });
     }
   }
@@ -67,12 +67,12 @@ export class FornecedorFormComponent {
     if (fornecedor.id) {
       this.fornecedorService.delete(fornecedor).subscribe({
         next: () => this.navigateBack(),
-        error: (error) => console.error('Erro ao excluir:', error)
+        error: (error: any) => console.error('Erro ao excluir:', error)
       });
     }
   }
 
   private navigateBack() {
-    this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+    this.router.navigate(['/admin/fornecedores']);
   }
 }

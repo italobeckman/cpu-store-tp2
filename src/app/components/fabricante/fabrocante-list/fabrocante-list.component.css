@@ -1,0 +1,21 @@
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .add-button {
+    margin-left: auto;
+    transform: scale(0.8);
+  }
+  

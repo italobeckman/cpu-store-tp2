@@ -19,6 +19,10 @@ import { ProcessadorListComponent } from './components/processador/processador-l
 import { ProcessadorFormComponent } from './components/processador/processador-form/processador-form.component';
 import { ProcessadorResolver } from './components/processador/processador.resolver';
 import { AdminHomeComponent } from './components/template/admin-home/admin-home.component';
+import { placaIntegrada } from './components/placa-integrada/placa-integrada.resolver';
+import { FabricanteListComponent } from './components/fabricante/fabrocante-list/fabrocante-list.component';
+import { FabrocanteFormComponent } from './components/fabricante/fabrocante-form/fabrocante-form.component';
+import { fabricanteResolver } from './components/fabricante/fabricante-resolver.resolver';
 
 export const routes: Routes = [
   {
@@ -83,6 +87,23 @@ export const routes: Routes = [
         path: 'usuarios/edit/:id',
         component: UsuarioFormComponent,
         title: 'Edição de Usuário'
+      },
+
+      {
+        path: 'fabricantes',
+        component: FabricanteListComponent,
+        title: 'Listagem de Fabricantes'
+      },
+      {
+        path: 'fabricantes/new',
+        component: FornecedorFormComponent,
+        title: 'Cadastro de Fabricante',
+      },
+      {
+        path: 'fabricante/new/:id',
+        component: FornecedorFormComponent,
+        title: 'Edição de Fabricante',
+        resolve: { fabricante: fabricanteResolver },
       },
 
       // Rotas de Fornecedor
