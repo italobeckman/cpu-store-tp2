@@ -24,6 +24,7 @@ import { FabricanteListComponent } from './components/fabricante/fabrocante-list
 import { FabrocanteFormComponent } from './components/fabricante/fabrocante-form/fabrocante-form.component';
 import { fabricanteResolver } from './components/fabricante/fabricante-resolver.resolver';
 import { UsuarioResolver } from './components/usuario/usuario-list/usuario.resolver';
+import { NotFound404Component } from './components/not-found-404/not-found-404.component';
 
 export const routes: Routes = [
   {
@@ -179,9 +180,15 @@ export const routes: Routes = [
         component: ProcessadorFormComponent,
         resolve: {
           processador : ProcessadorResolver
-        }
-      }
+        },
+      },
+      
     ]
   },
+  {
+    path: '**',
+    component: NotFound404Component,
+    title: 'Página não encontrada'
+  }
   
 ];
