@@ -1,0 +1,44 @@
+.toolbar-title {
+    display: flex;
+    justify-content: center;
+    font-size: x-large;
+    padding: 16px;
+}
+
+.form-container {
+    padding: 16px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-field {
+    flex: 1;
+}
+
+mat-card {
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    gap: 8px;
+}
+
+button[mat-raised-button] {
+    min-width: 120px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

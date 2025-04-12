@@ -1,0 +1,78 @@
+<mat-toolbar color="primary" class="toolbar-title">
+    Cadastro de Endereço
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+        <form [formGroup]="formGroup" class="form-container">
+            <!-- Linha 1 -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Logradouro*</mat-label>
+                    <input matInput formControlName="logradouro">
+                    <mat-error *ngIf="formGroup.get('logradouro')?.invalid && formGroup.get('logradouro')?.touched">
+                        Logradouro é obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>CEP*</mat-label>
+                    <input matInput formControlName="cep" placeholder="00000-000">
+                    <mat-error *ngIf="formGroup.get('cep')?.invalid && formGroup.get('cep')?.touched">
+                        CEP inválido (formato: 00000-000)
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- Linha 2 -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Bairro*</mat-label>
+                    <input matInput formControlName="bairro">
+                    <mat-error *ngIf="formGroup.get('bairro')?.invalid && formGroup.get('bairro')?.touched">
+                        Bairro é obrigatório
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Número*</mat-label>
+                    <input matInput type="number" formControlName="numero">
+                    <mat-error *ngIf="formGroup.get('numero')?.invalid && formGroup.get('numero')?.touched">
+                        Número é obrigatório
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- Linha 3 -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Complemento</mat-label>
+                    <input matInput formControlName="complemento">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Cidade*</mat-label>
+                    <mat-select formControlName="idCidade">
+                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.id">
+                            {{ cidade.nome }} ({{ cidade.nomeEstado }})
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formGroup.get('idCidade')?.invalid && formGroup.get('idCidade')?.touched">
+                        Selecione uma cidade
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button routerLink="/admin/enderecos">
+            Cancelar
+        </button>
+        <button mat-raised-button color="warn" (click)="excluir()" [disabled]="formGroup.invalid || !formGroup.get('id')?.value">
+            Excluir
+        </button>
+        <button mat-raised-button color="primary" (click)="salvar()" [disabled]="formGroup.invalid">
+            Salvar
+        </button>
+    </mat-card-actions>
+</mat-card>

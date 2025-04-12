@@ -1,0 +1,50 @@
+.toolbar-title {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .flex-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .demo-table {
+    width: 100%;
+  }
+  
+  .mat-column-id {
+    width: 5em;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+  }
+  
+  .mat-column-nome {
+    width: 40%;
+  }
+  
+  .mat-column-estado {
+    width: 30%;
+  }
+  
+  .mat-column-acao {
+    width: 10em;
+    text-align: center;
+  }
+  
+  mat-paginator {
+    visibility: visible !important;
+  }
+  
+  /* Garante que o painel do paginador seja visível */
+  .mat-mdc-select-panel {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+  
+  /* Remove qualquer backdrop que possa estar bloqueando */
+  .cdk-overlay-backdrop {
+    display: none !important;
+  }

@@ -1,0 +1,107 @@
+/* Estilos para o contêiner principal */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Estilos para a div que envolve o campo de entrada e o botão */
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  margin-top: 24px;
+}
+
+/* Estilos para o campo de entrada */
+.input-field {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.busca{
+  background-color: white;
+}
+
+/* Estilos para o botão de pesquisa */
+.search-button {
+  width: 54px;
+  height: 54px;
+  align-self: flex-start;
+}
+
+/* Estilos para o ícone de pesquisa */
+mat-icon {
+  font-size: 24px;
+}
+
+/* Estilos para a tabela */
+.full-width-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Alternating row colors */
+.even-row {
+  background-color: #f2f2f2; /* cor mais clara para pares */
+}
+
+.odd-row {
+  background-color: #ffffff; /* cor branca para ímpares */
+}
+
+.mat-row:hover {
+  background-color: #e0e0e0; /* cor no hover */
+}
+
+
+/* Column specific styles */
+.demo-table {
+  width: 80%;
+}
+
+.mat-column-id-column {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: center;
+}
+
+.mat-column-acoes-column {
+  text-align: center;
+}
+
+.mat-column-nome-column {
+  padding-left: 16px;
+  font-size: 20px;
+}
+
+/* Profile column styles */
+.mat-column-perfil-column {
+  span {
+    display: block;
+    line-height: 1.4;
+    
+    &:first-child {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+/* Toolbar styles */
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.toolbar-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+}

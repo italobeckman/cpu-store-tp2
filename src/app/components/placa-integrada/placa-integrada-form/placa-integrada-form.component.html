@@ -1,0 +1,85 @@
+<mat-toolbar class="toolbar-title">
+    Cadastro de Placa Integrada
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+        <form [formGroup]="formGroup">
+            <mat-form-field appearance="fill" class="full-width-input">
+                <mat-label>Nome</mat-label>
+                <input matInput type="text" formControlName="nome">
+                <mat-error *ngIf="formGroup.get('nome') && 
+                                  formGroup.get('nome')?.invalid &&
+                                  formGroup.get('nome')?.touched">
+                    {{getErrorMessage('nome', formGroup.get('nome')?.errors)}}
+
+                    @if (formGroup.get('nome')?.hasError('apiError')) {
+                        <span> {{ formGroup.get('nome')?.getError('apiError') }}</span>
+                    }
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill" class="full-width-input">
+                <mat-label>OpenGL</mat-label>
+                <input type="text" matInput formControlName="openGl">
+                <mat-error *ngIf="formGroup.get('openGl') && 
+                                  formGroup.get('openGl')?.invalid &&
+                                  formGroup.get('openGl')?.touched">
+                     {{getErrorMessage('openGl', formGroup.get('openGl')?.errors)}}
+
+                     @if (formGroup.get('openGl')?.hasError('apiError')) {
+                        <span> {{ formGroup.get('openGl')?.getError('apiError') }}</span>
+                    }
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill" class="full-width-input">
+                <mat-label>Vulkan</mat-label>
+                <input matInput type="text" formControlName="vulkan">
+                <mat-error *ngIf="formGroup.get('vulkan') && 
+                                  formGroup.get('vulkan')?.invalid &&
+                                  formGroup.get('vulkan')?.touched">
+                     {{getErrorMessage('vulkan', formGroup.get('vulkan')?.errors)}}
+
+                     @if (formGroup.get('vulkan')?.hasError('apiError')) {
+                        <span> {{ formGroup.get('vulkan')?.getError('apiError') }}</span>
+                    }
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill" class="full-width-input">
+                <mat-label>DirectX</mat-label>
+                <input matInput type="text" formControlName="directX">
+                <mat-error *ngIf="formGroup.get('directX') && 
+                                  formGroup.get('directX')?.invalid &&
+                                  formGroup.get('directX')?.touched">
+                     {{getErrorMessage('directX', formGroup.get('directX')?.errors)}}
+
+                     @if (formGroup.get('directX')?.hasError('apiError')) {
+                        <span> {{ formGroup.get('directX')?.getError('apiError') }}</span>
+                    }
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button 
+            mat-raised-button 
+            routerLink="/admin/placasintegradas"> 
+            Cancelar 
+        </button>
+        <button  
+            mat-raised-button 
+            color="warn"
+            (click)="excluir()"
+            [disabled]="formGroup.invalid"> 
+            Excluir 
+        </button>
+        <button 
+            mat-raised-button color="primary" 
+            (click)="salvar()"
+            [disabled]="formGroup.invalid">
+            Salvar 
+        </button>
+    </mat-card-actions>
+</mat-card>

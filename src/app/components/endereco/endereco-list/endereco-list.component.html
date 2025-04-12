@@ -1,0 +1,81 @@
+<mat-toolbar color="primary">
+    <div class="flex-container">
+        <span class="toolbar-title">Controle de Endereços</span>
+        <button mat-fab color="accent" routerLink="/admin/enderecos/new">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
+
+<div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<table mat-table [dataSource]="enderecos" class="mat-elevation-z8" *ngIf="!isLoading">
+
+    <!-- id Column -->
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <!-- logradouro Column -->
+    <ng-container matColumnDef="logradouro">
+        <th mat-header-cell *matHeaderCellDef> Logradouro </th>
+        <td mat-cell *matCellDef="let element"> {{element.logradouro}} </td>
+    </ng-container>
+
+    <!-- cep Column -->
+    <ng-container matColumnDef="cep">
+        <th mat-header-cell *matHeaderCellDef> CEP </th>
+        <td mat-cell *matCellDef="let element"> {{element.cep}} </td>
+    </ng-container>
+
+    <!-- bairro Column -->
+    <ng-container matColumnDef="bairro">
+        <th mat-header-cell *matHeaderCellDef> Bairro </th>
+        <td mat-cell *matCellDef="let element"> {{element.bairro}} </td>
+    </ng-container>
+
+    <!-- numero Column -->
+    <ng-container matColumnDef="numero">
+        <th mat-header-cell *matHeaderCellDef> Número </th>
+        <td mat-cell *matCellDef="let element"> {{element.numero}} </td>
+    </ng-container>
+
+    <!-- cidade Column -->
+    <ng-container matColumnDef="cidade">
+        <th mat-header-cell *matHeaderCellDef> Cidade </th>
+        <td mat-cell *matCellDef="let element"> 
+            {{element.cidade?.nome || 'N/A'}} 
+            <span *ngIf="element.cidade?.sigla">({{element.cidade.sigla}})</span>
+        </td>
+    </ng-container>
+
+    <!-- acao Column -->
+    <ng-container matColumnDef="acao">
+        <th mat-header-cell *matHeaderCellDef> Ação </th>
+        <td mat-cell *matCellDef="let element"> 
+            <button mat-icon-button 
+                    color="primary"
+                    routerLink="/admin/enderecos/edit/{{element.id}}">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="excluir(element)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator
+    *ngIf="enderecos.length > 0 && !isLoading"  
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="pageSize"
+    [length]="totalRecords"
+    (page)="paginar($event)"
+    aria-label="Selecione a página">
+</mat-paginator>

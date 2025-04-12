@@ -1,0 +1,25 @@
+.container {
+    padding: 16px;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  
+  /* Para inputs readonly */
+input[readonly], mat-select[readonly] {
+  background-color: #d8d8d8; /* Cor de fundo cinza claro */
+  border: 1px solid #ccc;    /* Cor de borda mais suave */
+  pointer-events: none;      /* Desabilita interação (evita o foco) */
+}

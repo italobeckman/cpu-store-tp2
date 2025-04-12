@@ -1,0 +1,29 @@
+.toolbar-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.mat-column-acao {
+    width: 120px;
+    text-align: center;
+}
+
+/* Responsive table adjustments */
+@media (max-width: 768px) {
+    .mat-column-cidade, .mat-column-bairro {
+        display: none;
+    }
+}

@@ -1,0 +1,101 @@
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.custom-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 64px;
+  background-color: #1a1a1a;
+  color: white;
+  border-bottom: 2px solid #00b4d8;
+  z-index: 999;
+}
+
+.example-spacer {
+  flex: 1;
+}
+
+.nome_loja {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 12px;
+  color: white;
+  text-decoration: none;
+}
+
+
+
+.login-text {
+  font-size: 14px;
+  color: #ffffff;
+  margin: 0 12px;
+  display: flex;
+  align-items: center;
+}
+
+.login-text a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 0 4px;
+}
+
+.login-text a:hover {
+  text-decoration: underline;
+}
+
+button.mat-icon-button {
+  color: white;
+}
+
+.mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.search-field-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 350px; /* Tamanho máximo */
+  border-radius: 25px;
+  overflow: hidden; /* Evita que os elementos internos saiam do limite */
+}
+
+.search-field {
+  flex: 1; /* O input ocupa todo o espaço disponível */
+}
+
+.search-field .mat-form-field-wrapper {
+  padding: 0; /* Remove espaços internos do campo */
+}
+
+.input {
+  padding: 10px;
+  font-size: 14px;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px; /* Mesma altura do campo */
+  height: 56px; /* Ajuste para ficar alinhado */
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: white;
+}
+
+.search-button mat-icon {
+  font-size: 24px;
+}

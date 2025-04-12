@@ -1,0 +1,79 @@
+<mat-toolbar>
+    <span>Cadastro de Usuário</span>
+  </mat-toolbar>
+  
+  <div class="container">
+    <form [formGroup]="formUsuario" (ngSubmit)="salvar()">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome de usuário</mat-label>
+          <input matInput formControlName="username" [readonly]="usuarioSerchedByCpf != null" required>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf" required (blur)="findUserByCpf(formUsuario.get('cpf')?.value)">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" [readonly]="usuarioSerchedByCpf != null" required>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" formControlName="senha" [readonly]="usuarioSerchedByCpf != null" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Data de Nascimento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dataNascimento" [readonly]="usuarioSerchedByCpf != null" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+          
+        <mat-form-field appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <mat-select formControlName="categoria" required>
+              <mat-option value="ADMIN">Admin</mat-option>
+              <mat-option value="USER">User</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <ng-container *ngIf="formUsuario.get('categoria')?.value === 'ADMIN'">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Cargo</mat-label>
+            <mat-select formControlName="cargo" required>
+              <mat-option *ngFor="let cargo of cargos" [value]="cargo.value">
+                {{ cargo.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>          
+        
+          <mat-form-field appearance="outline">
+            <mat-label>Salário</mat-label>
+            <input matInput formControlName="salario" type="number" required>
+          </mat-form-field>
+        
+        </ng-container>
+        
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Número de telefone</mat-label>
+          <input matInput formControlName="telefone" placeholder="Ex: 99 99999-9999" [readonly]="usuarioSerchedByCpf != null" required>
+        </mat-form-field>
+  
+      </div>
+  
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="formUsuario.invalid">
+          Salvar
+        </button>
+        <button mat-stroked-button color="warn" routerLink="/admin/usuarios">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+  

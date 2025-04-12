@@ -1,0 +1,50 @@
+<mat-toolbar color="primary">
+    <span>Cadastro de Fornecedor</span>
+</mat-toolbar>
+
+<div class="container">
+    <form [formGroup]="formGroup">
+        <div class="form-grid">
+            <!-- Linha 1 -->
+            <mat-form-field appearance="outline">
+                <mat-label>Nome*</mat-label>
+                <input matInput formControlName="nome" required>
+                <mat-error *ngIf="formGroup.get('nome')?.invalid && formGroup.get('nome')?.touched">
+                    Nome é obrigatório
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Linha 2 -->
+            <mat-form-field appearance="outline">
+                <mat-label>Email*</mat-label>
+                <input matInput type="email" formControlName="email" required>
+                <mat-error *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                    Email inválido
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Telefone*</mat-label>
+                <input matInput type="tel" formControlName="telefone" required>
+                <mat-error *ngIf="formGroup.get('telefone')?.invalid && formGroup.get('telefone')?.touched">
+                    Telefone é obrigatório
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <div class="button-group">
+            <button mat-stroked-button 
+                    color="basic" 
+                    routerLink="/admin/fornecedores">
+                Cancelar
+            </button>
+            <button mat-raised-button 
+                    color="primary" 
+                    (click)="salvar()"
+                    [disabled]="formGroup.invalid">
+                Salvar
+            </button>
+        </div>
+    </form>
+</div>

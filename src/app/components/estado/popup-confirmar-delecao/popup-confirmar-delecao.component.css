@@ -1,0 +1,30 @@
+.dialog-title {
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .dialog-content {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .cancel-button {
+    color: #666;
+  }
+  
+  .delete-button {
+    font-weight: bold;
+    color: white;
+    background-color: red;
+  }
+  
