@@ -49,6 +49,7 @@ export class PlacaIntegradaFormComponent {
 
     if (this.formGroup.valid) {
       const placaIntegrada = this.formGroup.value;
+      console.log(placaIntegrada)
 
       const operacao = placaIntegrada.id == null
         ? this.placaIntegradaService.insert(placaIntegrada)

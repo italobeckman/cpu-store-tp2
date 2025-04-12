@@ -34,6 +34,7 @@ import { UsuarioParaRetorno } from '../../../models/usuario_para_retorno.model';
   styleUrl: './usuario-form.component.css'
 })
 export class UsuarioFormComponent implements OnInit {
+  valido: boolean = false
   formUsuario!: FormGroup
   usuarioSerchedByCpf!: UsuarioParaRetorno
 
@@ -58,7 +59,10 @@ export class UsuarioFormComponent implements OnInit {
   findUserByCpf(cpf: string) {
     this.usuarioService.findByCpfS(cpf).subscribe(data => {
       this.usuarioSerchedByCpf = data
+      console.log(this.usuarioSerchedByCpf)
       if(this.usuarioSerchedByCpf){
+        console.log("aQuii")
+        console.log(this.usuarioSerchedByCpf)
         this.ngOnInit()
       }
     })
@@ -79,6 +83,7 @@ export class UsuarioFormComponent implements OnInit {
     });
 
     if (this.usuarioSerchedByCpf != null) {
+      this.valido = true
       this.formUsuario.get('email')?.setValue(this.usuarioSerchedByCpf.email);
       this.formUsuario.get('username')?.setValue(this.usuarioSerchedByCpf.username);
       this.formUsuario.get('cpf')?.setValue(this.usuarioSerchedByCpf.cpf);
@@ -89,6 +94,9 @@ export class UsuarioFormComponent implements OnInit {
       console.log(this.formUsuario.get('dataNascimento')?.value)
 
       this.formUsuario.get('telefone')?.setValue(`+${this.usuarioSerchedByCpf.telefone.codigoArea} ${this.usuarioSerchedByCpf.telefone.numero}`);
+
+      this.formUsuario.updateValueAndValidity();
+      this.formUsuario.markAllAsTouched();
     }
   
     // Se quiser limpar os campos quando a categoria mudar

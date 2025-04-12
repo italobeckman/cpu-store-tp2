@@ -33,7 +33,7 @@ export class PlacaIntegradaListComponent implements OnInit {
 
   loadData(): void {
     this.placaIntegradaService.findAll(this.page, this.pageSize).subscribe(data => {
-      this.placaIntegradas = data.results;
+      this.placaIntegradas = data;
     });
     
     this.placaIntegradaService.count().subscribe(data => {
