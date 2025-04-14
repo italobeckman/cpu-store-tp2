@@ -1,0 +1,105 @@
+<div class="registration-container">
+    <mat-card class="registration-card">
+      <div class="header">
+        <h1>Cadastro de Usuário</h1>
+        <p>Preencha os campos abaixo para criar sua conta</p>
+      </div>
+  
+      <form [formGroup]="formCadastro" (ngSubmit)="salvar()">
+        <div class="form-grid">
+          <!-- Nome de Usuário -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome de Usuário*</mat-label>
+            <input matInput formControlName="username" placeholder="Digite seu nome de usuário">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="formCadastro.get('username')?.hasError('required')">
+              <mat-icon>error</mat-icon> Nome de usuário é obrigatório
+            </mat-error>
+          </mat-form-field>
+  
+          <!-- CPF -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>CPF*</mat-label>
+            <input matInput formControlName="cpf" placeholder="000.000.000-00" 
+                   (input)="formatarCPF($event)">
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-error *ngIf="formCadastro.get('cpf')?.hasError('required')">
+              <mat-icon>error</mat-icon> CPF é obrigatório
+            </mat-error>
+            <mat-error *ngIf="formCadastro.get('cpf')?.hasError('pattern')">
+              <mat-icon>error</mat-icon> Formato inválido (use 000.000.000-00)
+            </mat-error>
+          </mat-form-field>
+  
+          <!-- Email -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email*</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="seu@email.com">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="formCadastro.get('email')?.hasError('required')">
+              <mat-icon>error</mat-icon> Email é obrigatório
+            </mat-error>
+            <mat-error *ngIf="formCadastro.get('email')?.hasError('email')">
+              <mat-icon>error</mat-icon> Email inválido
+            </mat-error>
+          </mat-form-field>
+  
+          <!-- Senha -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Senha*</mat-label>
+            <input matInput type="password" formControlName="senha" 
+                   placeholder="Mínimo 6 caracteres">
+            <mat-icon matSuffix>lock</mat-icon>
+            <mat-error *ngIf="formCadastro.get('senha')?.hasError('required')">
+              <mat-icon>error</mat-icon> Senha é obrigatória
+            </mat-error>
+            <mat-error *ngIf="formCadastro.get('senha')?.hasError('minlength')">
+              <mat-icon>error</mat-icon> Mínimo 6 caracteres
+            </mat-error>
+          </mat-form-field>
+  
+          <!-- Data de Nascimento -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Data de Nascimento*</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-icon matSuffix>cake</mat-icon>
+            <mat-error *ngIf="formCadastro.get('dataNascimento')?.hasError('required')">
+              <mat-icon>error</mat-icon> Data de nascimento é obrigatória
+            </mat-error>
+          </mat-form-field>
+  
+          <!-- Telefone -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Telefone*</mat-label>
+            <input matInput formControlName="telefone" placeholder="(00) 00000-0000"
+                   (input)="formatarTelefone($event)">
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-error *ngIf="formCadastro.get('telefone')?.hasError('required')">
+              <mat-icon>error</mat-icon> Telefone é obrigatório
+            </mat-error>
+            <mat-error *ngIf="formCadastro.get('telefone')?.hasError('pattern')">
+              <mat-icon>error</mat-icon> Formato inválido (use (00) 00000-0000)
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="actions">
+          <button mat-raised-button color="primary" type="submit" class="submit-button"
+                  [disabled]="formCadastro.invalid">
+            <mat-icon>how_to_reg</mat-icon> Cadastrar
+          </button>
+          
+          <button mat-stroked-button type="button" class="cancel-button" 
+                  (click)="router.navigate(['/login'])">
+            <mat-icon>cancel</mat-icon> Cancelar
+          </button>
+        </div>
+      </form>
+  
+      <div class="login-redirect">
+        Já possui uma conta? <a mat-button color="primary" routerLink="/login">Faça login</a>
+      </div>
+    </mat-card>
+  </div>

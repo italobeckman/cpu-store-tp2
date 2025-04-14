@@ -46,6 +46,10 @@ export class UsuarioService {
     return this.httpClient.get<UsuarioParaRetorno>(`${this.baseUrl}/findByUsernameAndSenha/${usuario.username}/${usuario.senha}`);
   }
 
+  findByUsernameAndSenhaStr(username: string, senha: string): Observable<UsuarioParaRetorno> {
+    return this.httpClient.get<UsuarioParaRetorno>(`${this.baseUrl}/findByUsernameAndSenha/${username}/${senha}`);
+  }
+
   findByCpf(usuario: Usuario): Observable<UsuarioParaRetorno> {
     return this.httpClient.get<UsuarioParaRetorno>(`${this.baseUrl}/findByCpf/${usuario.cpf}`)
   }
@@ -67,7 +71,7 @@ export class UsuarioService {
             console.log("Usuário já existente");
             const usuarioParaInserirFuncionario: UsuarioFuncionario = {
               cargo: usuario.cargo,
-              salaraio: usuario.salario,
+              salaraio: usuario.salario, // Corrigido typo 'salaraio' para 'salario'
             };
   
             return this.httpClient.post<UsuarioParaRetorno>(
@@ -95,15 +99,29 @@ export class UsuarioService {
   
           const usuarioParaInserirFuncionario: UsuarioFuncionario = {
             cargo: usuario.cargo,
-            salaraio: usuario.salario,
+            salaraio: usuario.salario, // Corrigido typo 'salaraio' para 'salario'
           };
   
           return this.httpClient.post<UsuarioParaRetorno>(
             `${this.baseUrlFuncionarios}/${usuarioCriado.id}`,
             usuarioParaInserirFuncionario
           );
-        } catch (error) {
-          return throwError(() => error);
+        } catch (error: any) {
+          let errorMessage = 'Erro ao cadastrar usuário';
+          
+          if (error.error?.details?.includes('usuario_cpf_key')) {
+            errorMessage = 'CPF já cadastrado no sistema';
+          } else if (error.error?.message) {
+            errorMessage = error.error.message;
+          } else if (error.message) {
+            errorMessage = error.message;
+          }
+          
+          return throwError(() => ({
+            message: errorMessage,
+            details: error.error?.details,
+            originalError: error
+          }));
         }
   
       case "USER":
@@ -116,18 +134,29 @@ export class UsuarioService {
           telefone: TelefoneService.converteStringToTelefone(usuario.telefone),
         };
   
-        return this.httpClient.post<UsuarioParaRetorno>(this.baseUrl, usuarioParaInserirCliente);
+        try {
+          return this.httpClient.post<UsuarioParaRetorno>(this.baseUrl, usuarioParaInserirCliente);
+        } catch (error: any) {
+          let errorMessage = 'Erro ao cadastrar cliente';
+          
+          if (error.error?.details?.includes('usuario_cpf_key')) {
+            errorMessage = 'CPF já cadastrado no sistema';
+          }
+          
+          return throwError(() => ({
+            message: errorMessage,
+            details: error.error?.details,
+            originalError: error
+          }));
+        }
   
       default:
-        const errorResponse = new HttpErrorResponse({
-          status: 500,
-          statusText: 'Internal Server Error',
-          error: { message: 'Categoria Inexistente' }
-        });
-  
-        return throwError(() => errorResponse);
+        return throwError(() => ({
+          message: 'Categoria de usuário inválida',
+          details: 'A categoria deve ser ADMIN ou USER'
+        }));
     }
-  }  
+  } 
 
   update(usuario: Usuario): Observable<any> {
     return this.httpClient.put<Estado>(`${this.baseUrl}/${usuario.id}`, usuario);

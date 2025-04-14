@@ -1,0 +1,184 @@
+/* login.component.css */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    background-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%),
+      url('https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  .login-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .header h1 {
+    color: #212529;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .header p {
+    color: #495057;
+    font-size: 1rem;
+    margin: 0;
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  /* Estilo dos campos */
+  mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #dee2e6;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+  }
+  
+  mat-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+  }
+  
+  mat-error {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 4px;
+    color: #dc3545;
+  }
+  
+  mat-error mat-icon {
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+    color: #dc3545;
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5rem 0;
+  }
+  
+  .forgot-password {
+    color: #0d6efd;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+  }
+  
+  .error-message mat-icon {
+    margin-right: 0.5rem;
+  }
+  
+  .actions {
+    margin-top: 1.5rem;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(13, 110, 253, 0.3);
+  }
+  
+  .submit-button:disabled {
+    background: #adb5bd;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .signup-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #6c757d;
+    font-size: 0.95rem;
+  }
+  
+  .signup-link a {
+    color: #0d6efd;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-left: 0.5rem;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .login-container {
+      padding: 1.5rem;
+      background-attachment: scroll;
+    }
+    
+    .login-card {
+      padding: 1.75rem;
+    }
+    
+    .header h1 {
+      font-size: 1.8rem;
+    }
+  }

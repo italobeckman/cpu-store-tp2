@@ -5,11 +5,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon'; // Novo módulo adicionado
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LoginService } from '../../services/login.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
     MatCardModule,
     MatFormFieldModule,
@@ -17,14 +21,17 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     ReactiveFormsModule,
     CommonModule,
-    MatCheckboxModule
+    RouterModule ,
+    MatCheckboxModule,
+    MatIconModule // Novo módulo adicionado
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-
 export class LoginComponent {
-  
+  loginError = false;
+  hidePassword = true; // Variável para controlar a visibilidade da senha
+
   usernameFormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(3),
@@ -61,17 +68,37 @@ export class LoginComponent {
   password: string = '';
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    // Inicializando o formulário com os campos username e password
+  constructor(
+    private fb: FormBuilder, 
+    private loginService: LoginService, 
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]]
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
+      rememberMe: [false]
     });
   }
 
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
   public onSubmit(): void {
-    console.log('Aqiiiiiiiiiiiiiiiii');
     const username = this.loginForm.get('username')?.value;
-    const password = this.loginForm.get('password')?.value;
+    const senha = this.loginForm.get('password')?.value;
+  
+    this.loginService.login(username, senha).subscribe(bolVerify => {
+      if (bolVerify) {
+        this.loginError = false;
+        this.navigateBack();
+      } else {
+        this.loginError = true;
+      }
+    });
+  }
+
+  private navigateBack() {
+    this.router.navigate(['/home']);
   }
 }

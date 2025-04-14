@@ -25,170 +25,75 @@ import { FabrocanteFormComponent } from './components/fabricante/fabrocante-form
 import { fabricanteResolver } from './components/fabricante/fabricante-resolver.resolver';
 import { UsuarioResolver } from './components/usuario/usuario-list/usuario.resolver';
 import { NotFound404Component } from './components/not-found-404/not-found-404.component';
+import { LoginComponent } from './components/login/login.component';
+import { ToolbarOverviewExample } from './components/toolbar/toolbar.component';
+import { CadastroComponent } from './components/cadastro/cadastro.component';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: ToolbarOverviewExample,
+    title: 'Telas de Usuário',
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+        title: 'Tela de Login',
+      },
+      {
+        path: 'cadastro',
+        component: CadastroComponent,
+        title: 'Cadastro',
+      }
+    ]
+  },
   {
     path: 'admin',
     component: AdminTemplateComponent,
     title: 'Administrativo',
     children: [
-      {
-        path: '', pathMatch: 'full', redirectTo: 'home' 
-      },
-      // Rotas de Home
-{
-  path: 'home',
-  component: AdminHomeComponent
-  , title: 'Home'
-},
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
+      { path: 'home', component: AdminHomeComponent, title: 'Home' },
 
-
-
-
-
-      // Rotas de Estado
-      {
-        path: 'estados',
-        component: EstadoListComponent,
-        title: 'Lista de Estados',
-      },
+      // Estados
+      { path: 'estados', component: EstadoListComponent, title: 'Lista de Estados' },
       { path: 'estados/new', component: EstadoFormComponent, title: 'Novo Estado' },
-      {
-        path: 'estados/edit/:id',
-        component: EstadoFormComponent,
-        title: 'Edição de Estado',
-        resolve: { estado: estadoResolver },
-      },
+      { path: 'estados/edit/:id', component: EstadoFormComponent, resolve: { estado: estadoResolver }, title: 'Edição de Estado' },
 
-      // Rotas de Cidade
-      {
-        path: 'cidades',
-        component: CidadeListComponent,
-        title: 'Lista de Cidades',
-      },
+      // Cidades
+      { path: 'cidades', component: CidadeListComponent, title: 'Lista de Cidades' },
       { path: 'cidades/new', component: CidadeFormComponent, title: 'Nova Cidade' },
-      {
-        path: 'cidades/edit/:id',
-        component: CidadeFormComponent,
-        title: 'Edição de Cidade',
-        resolve: { cidade: cidadeResolver },
-      },
+      { path: 'cidades/edit/:id', component: CidadeFormComponent, resolve: { cidade: cidadeResolver }, title: 'Edição de Cidade' },
 
-      // Rotas de Usuário
-      {
-        path: 'usuarios',
-        component: UsuarioListComponent,
-        title: 'Listagem de usuário',
-      },
-      {
-        path: 'usuarios/new',
-        component: UsuarioFormComponent,
-        title: 'Cadastro de Usuário',
-      },
-      {
-        path: 'usuarios/edit/:id',
-        component: UsuarioFormComponent,
-          resolve: { usuario: UsuarioResolver },
-      },
+      // Usuários
+      { path: 'usuarios', component: UsuarioListComponent, title: 'Listagem de Usuário' },
+      { path: 'usuarios/new', component: UsuarioFormComponent, title: 'Cadastro de Usuário' },
+      { path: 'usuarios/edit/:id', component: UsuarioFormComponent, resolve: { usuario: UsuarioResolver }, title: 'Edição de Usuário' },
 
-      {
-        path: 'fabricantes',
-        component: FabricanteListComponent,
-        title: 'Listagem de Fabricantes'
-      },
-      {
-        path: 'fabricantes/new',
-        component: FornecedorFormComponent,
-        title: 'Cadastro de Fabricante',
-      },
-      {
-        path: 'fabricante/new/:id',
-        component: FornecedorFormComponent,
-        title: 'Edição de Fabricante',
-        resolve: { fabricante: fabricanteResolver },
-      },
+      // Fabricantes
+      { path: 'fabricantes', component: FabricanteListComponent, title: 'Listagem de Fabricantes' },
+      { path: 'fabricantes/new', component: FabrocanteFormComponent, title: 'Cadastro de Fabricante' },
+      { path: 'fabricantes/edit/:id', component: FabrocanteFormComponent, resolve: { fabricante: fabricanteResolver }, title: 'Edição de Fabricante' },
 
-      {
-        path: 'fabricantes',
-        component: FabricanteListComponent,
-        title: 'Listagem de Fabricantes'
-      },
-      {
-        path: 'fabricantes/new',
-        component: FornecedorFormComponent,
-        title: 'Cadastro de Fabricante',
-      },
-      {
-        path: 'fabricante/new/:id',
-        component: FornecedorFormComponent,
-        title: 'Edição de Fabricante',
-        resolve: { fabricante: fabricanteResolver },
-      },
-
-      // Rotas de Fornecedor
-      {
-        path: 'fornecedores',
-        component: FornecedorListComponent,
-        title: 'Listagem de Fornecedores',
-      },
+      // Fornecedores
+      { path: 'fornecedores', component: FornecedorListComponent, title: 'Listagem de Fornecedores' },
       { path: 'fornecedores/new', component: FornecedorFormComponent, title: 'Novo Fornecedor' },
-      {
-        path: 'fornecedores/edit/:id',
-        component: FornecedorFormComponent,
-        title: 'Edição de Fornecedor',
-        resolve: { fornecedor: fornecedorResolver },
-      },
+      { path: 'fornecedores/edit/:id', component: FornecedorFormComponent, resolve: { fornecedor: fornecedorResolver }, title: 'Edição de Fornecedor' },
 
-      // Rotas de Endereço
-      {
-        path: 'enderecos',
-        component: EnderecoListComponent,
-        title: 'Listafem de Endereços',
-      },
-      {
-        path: 'enderecos/new',
-        component: EnderecoFormComponent,
-        title: 'Cadastro de Endereços',
-      },
-      {
-        path: 'placasintegradas',
-        component: PlacaIntegradaListComponent,
-        title: 'Listagem de Placas Integradas',
-      },
-      {
-        path: 'placasintegradas/new',
-        component: PlacaIntegradaFormComponent,
-        title: 'Cadastro de Placas Integradas',
-      },
-      {
-        path: 'placasintegradas/edit/:id',
-        component: PlacaIntegradaFormComponent,
-        title: 'Edição de Placas Integradas',
-      },
-      {
-        path: 'processadores',
-        component: ProcessadorListComponent,
-        title: 'Listagem de Processadores',
-      },
-      {
-        path: 'processadores/new',
-        component: ProcessadorFormComponent,
-        title: 'Cadastro de Processadores', 
-      },
-      {
-        path: 'processadores/edit/:id',
-        component: ProcessadorFormComponent,
-        resolve: {
-          processador : ProcessadorResolver
-        },
-      },
-      
+      // Endereços
+      { path: 'enderecos', component: EnderecoListComponent, title: 'Listagem de Endereços' },
+      { path: 'enderecos/new', component: EnderecoFormComponent, title: 'Cadastro de Endereços' },
+
+      // Placas Integradas
+      { path: 'placasintegradas', component: PlacaIntegradaListComponent, title: 'Listagem de Placas Integradas' },
+      { path: 'placasintegradas/new', component: PlacaIntegradaFormComponent, title: 'Cadastro de Placas Integradas' },
+      { path: 'placasintegradas/edit/:id', component: PlacaIntegradaFormComponent, title: 'Edição de Placas Integradas' },
+
+      // Processadores
+      { path: 'processadores', component: ProcessadorListComponent, title: 'Listagem de Processadores' },
+      { path: 'processadores/new', component: ProcessadorFormComponent, title: 'Cadastro de Processadores' },
+      { path: 'processadores/edit/:id', component: ProcessadorFormComponent, resolve: { processador: ProcessadorResolver }, title: 'Edição de Processadores' },
     ]
   },
-  {
-    path: '**',
-    component: NotFound404Component,
-    title: 'Página não encontrada'
-  }
-  
+  { path: '**', component: NotFound404Component, title: 'Página não encontrada' }
 ];
