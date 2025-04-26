@@ -2,13 +2,12 @@
 .content-container {
   padding: 20px;
   background-color: #2d2d2d;
-  background-image: url("../../../../public/img/WhatsApp\ Image\ 2025-04-22\ at\ 14.40.01.jpeg");
 }
 
 .section-container {
   margin: 20px 0;
   padding: 20px;
-  background-color: rgba(26, 26, 26, 0.3); /* 90% de opacidade */
+  background-color: rgba(103, 103, 103, 0.3); /* 90% de opacidade */
   border-radius: 12px;
   backdrop-filter: blur(2px); /* Opcional: efeito de desfoque suave */
 }
