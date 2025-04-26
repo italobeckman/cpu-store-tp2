@@ -1,0 +1,218 @@
+/* home.component.css */
+.content-container {
+  padding: 20px;
+  background-color: #2d2d2d;
+  background-image: url("../../../../public/img/WhatsApp\ Image\ 2025-04-22\ at\ 14.40.01.jpeg");
+}
+
+.section-container {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: rgba(26, 26, 26, 0.3); /* 90% de opacidade */
+  border-radius: 12px;
+  backdrop-filter: blur(2px); /* Opcional: efeito de desfoque suave */
+}
+
+.section-title {
+  color: #ff6d00;
+  font-size: 26px;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #0a1f3d;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 15px;
+}
+
+.product-card {
+  background: #ffffff;
+  border-radius: 10px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid #0a1f3d;
+}
+
+.product-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(255, 109, 0, 0.2);
+}
+
+.price-container {
+  padding: 15px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.original-price {
+  color: #666;
+  text-decoration: line-through;
+  font-size: 0.9em;
+}
+
+.discount-price {
+  color: #0a1f3d;
+  font-size: 1.4em;
+  font-weight: 700;
+  margin: 5px 0;
+}
+
+.installment {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.promo-badge {
+  background: #ff6d00;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+}
+
+.promo-badge mat-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+mat-card-actions {
+  padding: 15px !important;
+  margin-top: auto;
+}
+
+button[mat-raised-button] {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1em;
+}
+
+.mat-card-content{
+  padding-left: 20%;
+}
+
+.mat-card-content img{
+  position: relative;
+  max-width: 50vh;
+  height: 200px;
+  object-fit: contain;
+  padding: 16px;
+  background-color: #f0f0f0;
+  border-radius: 12px 12px 0 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+  background-color: #e8e8e8;
+}
+
+.product-card {
+  box-shadow: 0 4px 8px rgba(10, 31, 61, 0.3);
+}
+
+.product-card:hover {
+  box-shadow: 0 8px 20px rgba(255, 109, 0, 0.4);
+}
+
+/* Adicione isso ao seu home.component.css existente */
+
+/* Melhorias para os títulos das seções */
+.section-title {
+  color: #ff6d00;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  padding-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  text-align: center;
+  border-bottom: none; /* Removendo a borda inferior original */
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6d00, #0a1f3d);
+  border-radius: 2px;
+}
+
+/* Melhorias para os botões */
+button[mat-raised-button] {
+  background: linear-gradient(135deg, #ff6d00, #ff8f00);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(255, 109, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+button[mat-raised-button]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 109, 0, 0.4);
+  background: linear-gradient(135deg, #ff8f00, #ff6d00);
+}
+
+button[mat-raised-button]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(255, 109, 0, 0.4);
+}
+
+/* Efeito brilho ao passar o mouse */
+button[mat-raised-button]::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(30deg);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+button[mat-raised-button]:hover::after {
+  left: 100%;
+}
+
+/* Estilo específico para o botão COMPRAR */
+.product-card mat-card-actions button {
+  margin-top: 15px;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.card_title{
+  font-size: 18px;
+  font-weight: bold;
+  color: #0a1f3d;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.card_subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+  text-align: center;
+}

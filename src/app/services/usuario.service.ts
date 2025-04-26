@@ -71,7 +71,7 @@ export class UsuarioService {
             console.log("Usuário já existente");
             const usuarioParaInserirFuncionario: UsuarioFuncionario = {
               cargo: usuario.cargo,
-              salaraio: usuario.salario, // Corrigido typo 'salaraio' para 'salario'
+              salaraio: usuario.salario, 
             };
   
             return this.httpClient.post<UsuarioParaRetorno>(
@@ -99,7 +99,7 @@ export class UsuarioService {
   
           const usuarioParaInserirFuncionario: UsuarioFuncionario = {
             cargo: usuario.cargo,
-            salaraio: usuario.salario, // Corrigido typo 'salaraio' para 'salario'
+            salaraio: usuario.salario, 
           };
   
           return this.httpClient.post<UsuarioParaRetorno>(

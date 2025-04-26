@@ -1,0 +1,76 @@
+<!-- home.component.html -->
+<div *ngIf="isLoading" class="loading-spinner">
+  <mat-spinner diameter="50" color="accent"></mat-spinner>
+</div>
+
+<div *ngIf="!isLoading" class="content-container">
+  <!-- Seção de Processadores -->
+  <div class="section-container">
+    <h2 class="section-title">Processadores</h2>
+    <div class="products-grid">
+      <mat-card class="product-card" *ngFor="let proc of processadores">
+        <mat-card-header>
+          <mat-card-title class="card_title">{{ proc.nome }}</mat-card-title>
+          <mat-card-subtitle class="card_subtitle">{{ proc.socket }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="mat-card-content">
+          <!-- <p><strong>Núcleos:</strong> {{ proc.nucleos }}</p>
+          <p><strong>Threads:</strong> {{ proc.threads }}</p>
+          <p><strong>Frequência Base:</strong> {{ proc.frequencia.base }} GHz</p>
+          <p *ngIf="proc.frequencia.turbo"><strong>Turbo:</strong> {{ proc.frequencia.turbo }} GHz</p>
+
+          <p *ngIf="proc.memoriaCache.l1"><strong>Cache L1:</strong> {{ proc.memoriaCache.l1 }} KB</p>
+          <p *ngIf="proc.memoriaCache.l2"><strong>Cache L2:</strong> {{ proc.memoriaCache.l2 }} KB</p>
+          <p *ngIf="proc.memoriaCache.l3"><strong>Cache L3:</strong> {{ proc.memoriaCache.l3 }} MB</p>
+
+          <p><strong>TDP:</strong> {{ proc.consumoEnergetico.tdp }} W</p>
+          <p><strong>Tecnologia:</strong> {{ proc.consumoEnergetico.tecnologia }}</p>
+
+          <p><strong>PCI Express:</strong> {{ proc.conectividade.pciExpress }}</p>
+          <p *ngIf="proc.conectividade.wireless"><strong>Wireless:</strong> Sim</p>
+          <p *ngIf="proc.conectividade.bluetooth"><strong>Bluetooth:</strong> Sim</p>
+
+          <div *ngIf="proc.placaIntegrada">
+            <p><strong>Placa Integrada:</strong> {{ proc.placaIntegrada.nome }}</p>
+            <p>
+              <strong>DirectX:</strong> {{ proc.placaIntegrada.directX }},
+              <strong>OpenGL:</strong> {{ proc.placaIntegrada.openGl }},
+              <strong>Vulkan:</strong> {{ proc.placaIntegrada.vulkan }}
+            </p>
+          </div>
+
+          <p><strong>Desbloqueado para Overclock:</strong> {{ proc.desbloqueado ? 'Sim' : 'Não' }}</p>
+
+          <div class="price-box">
+            <span class="price">R$ {{ proc.preco }}</span>
+          </div> -->
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlR55qawVBYKs7gtRGLmm5P9f0cFnZb_6a5A&s" alt="">
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="accent">COMPRAR</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Seção de Placas de Vídeo (ajustada ao model PlacaIntegrada) -->
+<div class="section-container">
+  <h2 class="section-title">Placas de Vídeo Integradas</h2>
+  <div class="products-grid">
+    <mat-card class="product-card" *ngFor="let placa of placasIntegradas">
+      <mat-card-header>
+        <mat-card-title>{{ placa.nome }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>DirectX:</strong> {{ placa.directX }}</p>
+        <p><strong>OpenGL:</strong> {{ placa.openGl }}</p>
+        <p><strong>Vulkan:</strong> {{ placa.vulkan }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="accent">DETALHES</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+</div>

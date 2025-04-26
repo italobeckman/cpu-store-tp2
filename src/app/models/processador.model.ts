@@ -14,6 +14,7 @@ export class Processador {
     frequencia!: Frequencia;
     consumoEnergetico!: ConsumoEnergetico;
     conectividade!: Conectividade;
+    imagens!: string[];
   }
   
   // Interfaces auxiliares (você pode ajustar conforme a estrutura real dessas classes em Java)

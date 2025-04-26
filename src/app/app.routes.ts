@@ -28,6 +28,7 @@ import { NotFound404Component } from './components/not-found-404/not-found-404.c
 import { LoginComponent } from './components/login/login.component';
 import { ToolbarOverviewExample } from './components/toolbar/toolbar.component';
 import { CadastroComponent } from './components/cadastro/cadastro.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,11 @@ export const routes: Routes = [
         path: 'cadastro',
         component: CadastroComponent,
         title: 'Cadastro',
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+        title: 'Home',
       }
     ]
   },
