@@ -1,0 +1,133 @@
+<div class="page-container">
+    <!-- Back to Shopping Link -->
+    <div class="back-link">
+      <a (click)="continuarComprando()" class="continue-shopping">
+        <mat-icon>arrow_back</mat-icon>
+        Continuar Comprando
+      </a>
+    </div>
+  
+    <!-- Cart Content -->
+    <div class="cart-layout" *ngIf="produtosNoCarrinho.length > 0; else emptyCart">
+      <!-- Cart Items -->
+      <div class="cart-items-container">
+        <div class="cart-item" *ngFor="let produto of produtosNoCarrinho">
+          <div class="item-left">
+            <div class="item-image">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPGOwAx3GZnUdgf50t2O_jxkEFxTQ2mAwDdg&s" [alt]="produto.nome">
+            </div>
+          </div>
+          
+          <div class="item-middle">
+            <div class="quantity-controls">
+              <button 
+                class="quantity-btn" 
+                (click)="diminuir(produto.id)"
+                [disabled]="produto.quantidade <= 1"
+              >
+                <mat-icon>remove</mat-icon>
+              </button>
+              
+              <span class="quantity-value">{{ produto.quantidade }}</span>
+              
+              <button 
+                class="quantity-btn" 
+                (click)="aumentar(produto.id)"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+          
+          <div class="item-right">
+            <div class="item-total">
+              <span>Total:</span>
+              <span class="total-value">R${{ produto.preco * produto.quantidade }}</span>
+            </div>
+            
+            <button 
+              class="remove-btn"
+              (click)="removerProduto(produto.id)"
+            >
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h2>Resumo do Pedido</h2>
+        
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>R${{ subtotal }}</span>
+        </div>
+        
+        <div class="summary-row">
+          <span>Frete</span>
+          <span *ngIf="frete > 0">R${{ frete }}</span>
+          <span *ngIf="frete === 0" class="free-shipping">Grátis</span>
+        </div>
+        
+        <div class="summary-row" *ngIf="desconto > 0">
+          <span>Desconto</span>
+          <span class="discount">-R${{ desconto }}</span>
+        </div>
+        
+        <div class="summary-divider"></div>
+        
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <span>R${{ totalFinal }}</span>
+        </div>
+        
+        <div class="promo-code">
+          <input 
+            type="text" 
+            placeholder="Código promocional" 
+            [(ngModel)]="codigoPromocional"
+            [disabled]="descontoAplicado"
+          >
+        </div>
+        
+        <button 
+          class="apply-code-btn"
+          (click)="aplicarCupom()"
+          [disabled]="descontoAplicado || !codigoPromocional"
+        >
+          Aplicar
+        </button>
+        
+        <button 
+          class="checkout-btn"
+          (click)="finalizarCompra()"
+        >
+          Finalizar Compra
+        </button>
+        
+        <div class="payment-methods">
+          <p>Formas de pagamento</p>
+          <div class="payment-icons">
+            <mat-icon>credit_card</mat-icon>
+            <mat-icon>account_balance</mat-icon>
+            <mat-icon>payments</mat-icon>
+            <mat-icon>qr_code</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Empty Cart Template -->
+    <ng-template #emptyCart>
+      <div class="empty-cart">
+        <mat-icon class="empty-cart-icon">shopping_cart</mat-icon>
+        <h2>Seu carrinho está vazio</h2>
+        <p>Parece que você ainda não adicionou nenhum produto ao seu carrinho.</p>
+        <button class="buy-button" (click)="continuarComprando()">
+          Explorar Produtos
+        </button>
+      </div>
+    </ng-template>
+  </div>
+  

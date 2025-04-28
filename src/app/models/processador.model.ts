@@ -1,3 +1,4 @@
+import { Fabricante } from "./fabricante.model";
 import { PlacaIntegrada } from "./placa-integrada.model";
 
 export class Processador {
@@ -8,7 +9,7 @@ export class Processador {
     nucleos!: number;
     desbloqueado!: boolean;
     preco!: number;
-    fabricante!: number;
+    fabricante!: Fabricante;
     placaIntegrada!: PlacaIntegrada;
     memoriaCache!: MemoriaCache;
     frequencia!: Frequencia;

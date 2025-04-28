@@ -132,7 +132,7 @@ export class ProcessadorService {
     return processadorCopy;
   }
 
-  // Adicione este método ao seu serviço
-
-
+  public getImageUrl(nomeImagem: string): string {
+    return `${this.baseUrl}/download/imagem/${nomeImagem}`;
+  }
 }

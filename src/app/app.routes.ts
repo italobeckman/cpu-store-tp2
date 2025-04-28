@@ -26,14 +26,17 @@ import { fabricanteResolver } from './components/fabricante/fabricante-resolver.
 import { UsuarioResolver } from './components/usuario/usuario-list/usuario.resolver';
 import { NotFound404Component } from './components/not-found-404/not-found-404.component';
 import { LoginComponent } from './components/login/login.component';
-import { ToolbarOverviewExample } from './components/toolbar/toolbar.component';
 import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { HomeComponent } from './components/home/home.component';
+import { DetalhesProcessadorComponent } from './components/home/detalhes-processador/detalhes-processador.component';
+import { detalhesProcessadorResolver } from './components/home/detalhes-processador/detalhes-processador.resolver';
+//import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { CarinhoProcessadorComponent } from './components/home/carinho-processador/carinho-processador.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: ToolbarOverviewExample,
+    //component: ToolbarComponent,
     title: 'Telas de Usuário',
     children: [
       {
@@ -50,6 +53,17 @@ export const routes: Routes = [
         path: 'home',
         component: HomeComponent,
         title: 'Home',
+      },
+      {
+        path: 'detalhes/:id',
+        component: DetalhesProcessadorComponent,
+        title: 'Detalhes do Processador',
+        resolve: { processador: detalhesProcessadorResolver },
+      },
+      {
+        path: 'carrinho',
+        component: CarinhoProcessadorComponent,
+        title: 'Carrinho de Compras',
       }
     ]
   },

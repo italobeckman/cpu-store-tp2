@@ -64,5 +64,9 @@ export class FabricanteService {
 
   findById(id: string): Observable<Fabricante> {
     return this.httpClient.get<Fabricante>(`${this.baseUrl}/${id}`)
+  }
+
+  findByIdStr(id: number): Observable<Fabricante> {
+    return this.httpClient.get<Fabricante>(`${this.baseUrl}/${id}`)
     }
 }

@@ -1,0 +1,142 @@
+<div class="content-container">
+    <div class="product-details-container">
+      <h1 class="product-title">Detalhes do Processador</h1>
+      
+      <div class="product-layout">
+        <!-- Left side - Product Image -->
+        <div class="product-gallery">
+          <div class="product-image-container">
+            <img 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPGOwAx3GZnUdgf50t2O_jxkEFxTQ2mAwDdg&s"
+              [alt]="processador.nome" 
+              class="product-image"
+            />
+          </div>
+        </div>
+        
+        <!-- Right side - Product Info -->
+        <div class="product-info">
+          <div class="product-header">
+            <h2 class="model-name">{{ formGroup.get('nome')?.value }}</h2>
+            <div class="manufacturer">
+              <span class="manufacturer-label">Fabricante:</span>
+              <span class="manufacturer-name">{{ processador.fabricante?.nome }}</span>
+            </div>
+          </div>
+          
+          <div class="product-specs">
+            <h3 class="specs-title">Especificações Técnicas</h3>
+            <div class="specs-grid">
+              <div class="spec-item">
+                <div class="spec-icon">
+                  <span class="material-icons">memory</span>
+                </div>
+                <div class="spec-details">
+                  <span class="spec-label">Socket</span>
+                  <span class="spec-value">{{ formGroup.get('socket')?.value }}</span>
+                </div>
+              </div>
+              
+              <div class="spec-item">
+                <div class="spec-icon">
+                  <span class="material-icons">speed</span>
+                </div>
+                <div class="spec-details">
+                  <span class="spec-label">Frequência</span>
+                  <span class="spec-value">{{ formGroup.get('frequencia')?.value }} GHz</span>
+                </div>
+              </div>
+              
+              <div class="spec-item">
+                <div class="spec-icon">
+                  <span class="material-icons">grid_view</span>
+                </div>
+                <div class="spec-details">
+                  <span class="spec-label">Núcleos</span>
+                  <span class="spec-value">{{ formGroup.get('nucleos')?.value }}</span>
+                </div>
+              </div>
+              
+              <div class="spec-item">
+                <div class="spec-icon">
+                  <span class="material-icons">timeline</span>
+                </div>
+                <div class="spec-details">
+                  <span class="spec-label">Threads</span>
+                  <span class="spec-value">{{ formGroup.get('threads')?.value }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-purchase">
+            <div class="price-container">
+              <div class="price-tag">
+                <span class="currency">R$</span>
+                <span class="amount">{{ formGroup.get('preco')?.value | number:'1.2-2' }}</span>
+              </div>
+              <div class="installment">
+                ou em até 10x de R$ {{ (formGroup.get('preco')?.value / 10) | number:'1.2-2' }} sem juros
+              </div>
+            </div>
+            
+            <div class="purchase-actions">
+              <button mat-raised-button class="buy-button" (click)="comprar(processador)">
+                <span class="material-icons">shopping_cart</span>
+                Comprar Agora
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Additional product details section -->
+      <div class="additional-details">
+        <div class="details-tabs">
+          <div class="tab-header">
+            <div class="tab-item active">Especificações</div>
+            <div class="tab-item">Compatibilidade</div>
+            <div class="tab-item">Avaliações</div>
+          </div>
+          
+          <div class="tab-content">
+            <table class="specs-table">
+              <tr>
+                <th>Característica</th>
+                <th>Especificação</th>
+              </tr>
+              <tr>
+                <td>Modelo</td>
+                <td>{{ formGroup.get('nome')?.value }}</td>
+              </tr>
+              <tr>
+                <td>Fabricante</td>
+                <td>{{ processador.fabricante?.nome }}</td>
+              </tr>
+              <tr>
+                <td>Socket</td>
+                <td>{{ formGroup.get('socket')?.value }}</td>
+              </tr>
+              <tr>
+                <td>Frequência Base</td>
+                <td>{{ formGroup.get('frequencia')?.value }} GHz</td>
+              </tr>
+              <tr>
+                <td>Núcleos</td>
+                <td>{{ formGroup.get('nucleos')?.value }}</td>
+              </tr>
+              <tr>
+                <td>Threads</td>
+                <td>{{ formGroup.get('threads')?.value }}</td>
+              </tr>
+              <tr>
+                <td>ID do Produto</td>
+                <td>{{ formGroup.get('id')?.value }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
