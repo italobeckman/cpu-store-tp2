@@ -1,0 +1,124 @@
+<!-- Barra de Navegação Principal -->
+<mat-toolbar class="main-toolbar">
+    <!-- Botão do Menu Mobile -->
+    <button mat-icon-button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <!-- Área do Logo -->
+    <div class="logo-container">
+      <img src="/img/logoDragaoLoco.png" alt="Logo da Marca" class="logo-image">
+    </div>
+  
+    <!-- Links de Navegação (Desktop) -->
+    <nav class="nav-links">
+      <ng-container *ngFor="let item of navItems">
+        <a [routerLink]="item.link" routerLinkActive="active-link" class="nav-link">
+          {{ item.label }}
+        </a>
+      </ng-container>
+    </nav>
+  
+    <!-- Espaçador -->
+    <span class="toolbar-spacer"></span>
+  
+    <!-- Campo de Busca -->
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <input matInput [(ngModel)]="searchQuery" placeholder="Buscar..." (keyup.enter)="onSearch()">
+        <button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Limpar" (click)="searchQuery=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-icon matSuffix (click)="onSearch()" class="search-icon">search</mat-icon>
+      </mat-form-field>
+    </div>
+  
+    <!-- Botões de Ação -->
+    <div class="action-buttons">
+      <!-- Conta do Usuário -->
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Conta do usuário">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/account/profile">
+          <mat-icon>person</mat-icon>
+          <span>Perfil</span>
+        </button>
+        <button mat-menu-item routerLink="/account/orders">
+          <mat-icon>receipt_long</mat-icon>
+          <span>Pedidos</span>
+        </button>
+        <button mat-menu-item routerLink="/account/settings">
+          <mat-icon>settings</mat-icon>
+          <span>Configurações</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item routerLink="/auth/logout">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Sair</span>
+        </button>
+      </mat-menu>
+  
+      <!-- Favoritos -->
+      <button mat-icon-button aria-label="Favoritos" routerLink="/favorites">
+        <mat-icon class="favorite-button" color="warn">favorite</mat-icon>
+      </button>
+  
+      <!-- Carrinho de Compras -->
+      <button mat-icon-button aria-label="Carrinho de compras" routerLink="/cart" [matBadge]="cartItemCount" matBadgeColor="warn" [matBadgeHidden]="cartItemCount === 0">
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  
+  <!-- Menu de Navegação Mobile -->
+  <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+    <div class="mobile-menu-header">
+      <div class="logo-placeholder">
+        <mat-icon class="logo-icon">store</mat-icon>
+        <span class="logo-text">DRAGÃO LOCO</span>
+      </div>
+      <button mat-icon-button (click)="closeMobileMenu()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  
+    <mat-divider></mat-divider>
+  
+    <!-- Busca Mobile -->
+    <div class="mobile-search">
+      <mat-form-field appearance="outline" class="mobile-search-field">
+        <input matInput [(ngModel)]="searchQuery" placeholder="Buscar..." (keyup.enter)="onSearch()">
+        <mat-icon matSuffix (click)="onSearch()">search</mat-icon>
+      </mat-form-field>
+    </div>
+  
+    <!-- Links de Navegação Mobile -->
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let item of navItems" [routerLink]="item.link" (click)="closeMobileMenu()">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    </mat-nav-list>
+  
+    <mat-divider></mat-divider>
+  
+    <!-- Ações do Usuário Mobile -->
+    <mat-nav-list>
+      <a mat-list-item routerLink="/account/profile" (click)="closeMobileMenu()">
+        <mat-icon matListItemIcon>person</mat-icon>
+        <span matListItemTitle>Perfil</span>
+      </a>
+      <a mat-list-item routerLink="/favorites" (click)="closeMobileMenu()">
+        <mat-icon matListItemIcon>favorite_border</mat-icon>
+        <span matListItemTitle>Favoritos</span>
+      </a>
+      <a mat-list-item routerLink="/cart" (click)="closeMobileMenu()">
+        <mat-icon matListItemIcon>shopping_cart</mat-icon>
+        <span matListItemTitle>Carrinho ({{ cartItemCount }})</span>
+      </a>
+    </mat-nav-list>
+  </div>
+  
+  <!-- Fundo escuro ao abrir menu mobile -->
+  <div class="mobile-menu-overlay" [class.visible]="isMobileMenuOpen" (click)="closeMobileMenu()"></div>

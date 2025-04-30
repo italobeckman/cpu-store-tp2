@@ -32,11 +32,12 @@ import { DetalhesProcessadorComponent } from './components/home/detalhes-process
 import { detalhesProcessadorResolver } from './components/home/detalhes-processador/detalhes-processador.resolver';
 //import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { CarinhoProcessadorComponent } from './components/home/carinho-processador/carinho-processador.component';
+import { TemplateComponent } from './components/templateUser/template/template.component';
 
 export const routes: Routes = [
   {
     path: '',
-    //component: ToolbarComponent,
+    component: TemplateComponent,
     title: 'Telas de Usuário',
     children: [
       {

@@ -14,7 +14,8 @@
         <div class="cart-item" *ngFor="let produto of produtosNoCarrinho">
           <div class="item-left">
             <div class="item-image">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPGOwAx3GZnUdgf50t2O_jxkEFxTQ2mAwDdg&s" [alt]="produto.nome">
+              {{getUrlImgProduto(produto.id)}}
+              <img [src]="imgUrls.get(produto.id)" [alt]="produto.nome">
             </div>
           </div>
           

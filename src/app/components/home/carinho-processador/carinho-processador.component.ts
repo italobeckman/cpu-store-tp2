@@ -15,6 +15,7 @@ import type { Produto } from "../../../models/Produto.model"
 import { CarrinhoService } from "../../../services/carrinho.service"
 import { MatSnackBar } from "@angular/material/snack-bar"
 import { Observable } from "rxjs"
+import { ProcessadorService } from "../../../services/processador.service"
 
 @Component({
   selector: "app-carinho-processador",
@@ -46,12 +47,15 @@ export class CarinhoProcessadorComponent implements OnInit {
   subtotal = 0
   desconto = 0
   totalFinal = 0
+  ids: number[] = []
+  imgUrls = new Map<number, string>();
 
   produtos!: Observable<Produto[]>;
 
   constructor(
     private carrinhoService: CarrinhoService,
     private snackBar: MatSnackBar,
+    private processadorService: ProcessadorService,
   ) {}
 
   aumentar(produtoId: number) {
@@ -130,5 +134,12 @@ export class CarinhoProcessadorComponent implements OnInit {
     window.location.href = "/home";
   }
 
-  
+  getUrlImgProduto(id: number): void {
+    if (!this.imgUrls.has(id)) {
+      this.processadorService.findById(id).subscribe((processador) => {
+        const url = this.processadorService.getImageUrl(processador.imagens[0]);
+        this.imgUrls.set(id, url);
+      });
+    }
+  }
 }

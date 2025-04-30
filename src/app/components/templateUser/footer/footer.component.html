@@ -1,0 +1,105 @@
+<footer class="footer">
+    <!-- Conteúdo Principal do Footer -->
+    <div class="footer-content">
+      <!-- Informações da Empresa & Newsletter -->
+      <div class="footer-company-info">
+        <!-- Logo -->
+        <div class="footer-logo">
+          <mat-icon class="logo-icon">store</mat-icon>
+          <span class="logo-text">DragãoLoco</span>
+        </div>
+        
+        <!-- Descrição da Empresa -->
+        <p class="company-description">
+          Fornecemos produtos de alta qualidade com atendimento excepcional ao cliente. Nossa missão é oferecer a melhor experiência de compra aos nossos clientes.
+        </p>
+        
+        <!-- Inscrição na Newsletter -->
+        <div class="newsletter-signup">
+          <h3>Assine nossa Newsletter</h3>
+          <p>Receba as últimas atualizações, notícias e ofertas especiais</p>
+          
+          <div class="newsletter-form">
+            <mat-form-field appearance="outline" class="email-input">
+              <input matInput type="email" placeholder="Seu endereço de e-mail" [(ngModel)]="emailSubscription">
+            </mat-form-field>
+            
+            <button mat-raised-button color="primary" (click)="inscreverNewsletter()">
+              Assinar
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Links do Footer -->
+      <div class="footer-links">
+        <div class="footer-links-column" *ngFor="let category of footerLinks">
+          <h3>{{ category.category }}</h3>
+          <ul>
+            <li *ngFor="let link of category.links">
+              <a [routerLink]="link.url">{{ link.label }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contato & Redes Sociais -->
+    <div class="footer-contact-social">
+      <div class="contact-info">
+        <div class="contact-item">
+          <mat-icon>location_on</mat-icon>
+          <span>Rua 20 Lote 21 Q. 101 Aureny III Palmas TO, 01234-567</span>
+        </div>
+        
+        <div class="contact-item">
+          <mat-icon>phone</mat-icon>
+          <span>(11) 4567-8900</span>
+        </div>
+        
+        <div class="contact-item">
+          <mat-icon>email</mat-icon>
+          <span>danilo.belem.28&#64;gmail.com</span>
+        </div>
+      </div>
+      
+      <div class="social-links">
+        <a *ngFor="let social of socialLinks" [href]="social.url" target="_blank" [matTooltip]="social.label" class="social-icon">
+          <mat-icon>{{ social.icon }}</mat-icon>
+        </a>
+      </div>
+    </div>
+    
+    <mat-divider></mat-divider>
+    
+    <!-- Formas de Pagamento -->
+    <div class="payment-methods">
+      <span class="payment-title">Formas de Pagamento:</span>
+      <div class="payment-icons">
+        <span *ngFor="let payment of paymentMethods" class="payment-icon" [matTooltip]="payment.label">
+          <mat-icon>{{ payment.icon }}</mat-icon>
+        </span>
+        <!-- Ícone específico para Pix -->
+        <span class="payment-icon pix-icon" matTooltip="Pix">
+          <div class="pix-logo">PIX</div>
+        </span>
+      </div>
+    </div>
+    
+    <mat-divider></mat-divider>
+    
+    <!-- Rodapé Inferior -->
+    <div class="footer-bottom">
+      <div class="copyright">
+        &copy; {{ currentYear }} Sua Marca. Todos os direitos reservados.
+      </div>
+      
+      <div class="legal-links">
+        <a routerLink="/politica-de-privacidade">Política de Privacidade</a>
+        <a routerLink="/termos-de-servico">Termos de Serviço</a>
+        <a routerLink="/acessibilidade">Acessibilidade</a>
+        <a routerLink="/mapa-do-site">Mapa do Site</a>
+      </div>
+    </div>
+  </footer>
+  

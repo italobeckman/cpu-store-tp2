@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms"
 import { Fabricante } from "../../../models/fabricante.model"
 import { SafeResourceUrl } from "@angular/platform-browser"
 import { CarrinhoService } from "../../../services/carrinho.service"
+import { ProcessadorService } from "../../../services/processador.service"
 
 interface ProcessadorCard {
   id: number
@@ -35,12 +36,14 @@ interface ProcessadorCard {
 export class DetalhesProcessadorComponent implements OnInit {
   formGroup!: FormGroup
   processador!: Processador
+  primaryImgUrl: string | undefined
 
   constructor(
     private fabricanteService: FabricanteService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private carrinhoService: CarrinhoService,
+    private procesadorServicethis: ProcessadorService,
   ) {
     this.processador = this.activatedRoute.snapshot.data["processador"]
 
@@ -57,7 +60,7 @@ export class DetalhesProcessadorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Initialize any additional data if needed
+    this.primaryImgUrl = this.procesadorServicethis.getImageUrl(this.processador.imagens[0]);
   }
 
   comprar(processador: Processador): void {
