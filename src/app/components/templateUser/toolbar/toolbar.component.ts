@@ -1,7 +1,7 @@
 import { Component, type OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { FormsModule } from "@angular/forms"
-import { RouterLink, RouterModule, RouterOutlet } from "@angular/router"
+import { Router, RouterLink, RouterModule, RouterOutlet } from "@angular/router"
 
 // Angular Material Imports
 import { MatToolbarModule } from "@angular/material/toolbar"
@@ -13,6 +13,7 @@ import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatBadgeModule } from "@angular/material/badge"
 import { MatSidenavModule } from "@angular/material/sidenav"
 import { MatListModule } from "@angular/material/list"
+import { SearchService } from "../../../services/search.service"
 
 @Component({
   selector: "app-toolbar",
@@ -50,14 +51,15 @@ export class ToolbarComponent implements OnInit {
     { label: "Contato", link: "/contact", icon: "contact_support" },
 ]
 
-  constructor() {}
+  constructor(private searchService: SearchService, private router: Router) {}
 
   ngOnInit(): void {}
 
   onSearch(): void {
     if (this.searchQuery.trim()) {
       console.log("Searching for:", this.searchQuery)
-      // Implement search logic
+      this.searchService.updateQuery(this.searchQuery);
+      this.router.navigate(['/home'], { queryParams: { search: this.searchQuery } });
     }
   }
 

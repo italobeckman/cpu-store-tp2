@@ -5,6 +5,31 @@
     min-height: 100vh;
     font-family: "Roboto", sans-serif;
   }
+  .back-button-container {
+    position: relative;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+  }
+  
+  .back-button {
+    background-color: #f57c00; /* Laranja principal */
+    color: white;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .back-button:hover {
+    background-color: #ef6c00; /* Um tom mais escuro no hover */
+    transform: scale(1.05);
+  }
+  
+  .material-icons {
+    font-size: 24px;
+  }
   
   .product-details-container {
     max-width: 1200px;

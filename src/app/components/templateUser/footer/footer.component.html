@@ -21,10 +21,17 @@
           
           <div class="newsletter-form">
             <mat-form-field appearance="outline" class="email-input">
-              <input matInput type="email" placeholder="Seu endereço de e-mail" [(ngModel)]="emailSubscription">
+              <input
+                matInput
+                type="email"
+                placeholder="Seu endereço de e-mail"
+                [(ngModel)]="emailSubscription"
+                class="custom-placeholder"
+              />
             </mat-form-field>
             
-            <button mat-raised-button color="primary" (click)="inscreverNewsletter()">
+          
+            <button mat-raised-button [ngStyle]="{'background-color': 'green', 'color': 'white'}" (click)="inscreverNewsletter()" class="subscribe-button">
               Assinar
             </button>
           </div>

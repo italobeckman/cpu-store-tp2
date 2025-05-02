@@ -15,7 +15,7 @@
   /* Footer Principal */
   .footer {
     background-color: var(--dark-gray);
-    color: var(--white);
+    color: white;
     padding: 60px 24px 24px;
     font-family: "Roboto", sans-serif;
   }
@@ -77,15 +77,26 @@
   
   .newsletter-signup p {
     font-size: 14px;
-    color: #b0b0b0;
+    color: #171717;
     margin: 0 0 16px 0;
   }
   
+  /* Estilo para o placeholder */
+.email-input .custom-placeholder::placeholder {
+  color: rgb(255, 255, 255);
+  opacity: 1; /* Garante que a cor seja totalmente vermelha em todos os navegadores */
+}
+
+/* Estilo para o input quando estiver focado (opcional) */
+.email-input .mat-input-element:focus::placeholder {
+  color: rgb(241, 241, 241); /* Um tom mais escuro quando em foco */
+}
+
   .newsletter-form {
     display: flex;
     gap: 8px;
   }
-  
+
   .email-input {
     flex: 1;
   }

@@ -10,6 +10,9 @@ import type { Fabricante } from "../../models/fabricante.model"
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser"
 import { ProcessadorService } from "../../services/processador.service"
 import { CarrinhoService } from "../../services/carrinho.service"
+import { SearchService } from "../../services/search.service"
+import { BehaviorSubject, interval, Subscription } from "rxjs"
+import SwiperCore from 'swiper';
 
 interface ProcessadorCard {
   id: number
@@ -23,6 +26,7 @@ interface ProcessadorCard {
   frequencia: number
   nucleos: number
   threads: number
+  desconto: number
 }
 
 @Component({
@@ -35,17 +39,40 @@ interface ProcessadorCard {
 export class HomeComponent implements OnInit {
   processadores: Processador[] = []
   cards: ProcessadorCard[] = []
+  cardsAMD: ProcessadorCard[] = []
+  cardsIntel: ProcessadorCard[] = []
   isLoading = true
   errorMessage = ""
+  query: string = ""
+  private countdownSub?: Subscription;
+  private _countdown = new BehaviorSubject<string>('00D 00:00:00');
+  countdown$ = this._countdown.asObservable();
+  countdown = '';
+  currentIndex = 0;
+  images = [
+    '/img/promocao.jpeg'
+  ];
 
   constructor(
     private processadorService: ProcessadorService,
     private sanitizer: DomSanitizer,
     private carrinhoService: CarrinhoService,
+    private searchService: SearchService,
   ) {}
 
   ngOnInit(): void {
-    this.loadProcessadores()
+    this.searchService.query$.subscribe(value => {
+      this.query = value;
+      console.log('Recebido no outro componente:', value);
+      this.loadProcessadores()
+    });
+
+    const endDate = new Date('2025-06-01T23:59:59');
+    this.startCountdown(endDate);
+
+    this.countdown$.subscribe((countdown) => {
+      this.countdown = countdown;
+    })
   }
 
   loadProcessadores(): void {
@@ -55,6 +82,14 @@ export class HomeComponent implements OnInit {
         this.processadores = data
         this.carregarCardsProcessadores()
         this.isLoading = false
+
+        console.log(this.query.length)
+        if (this.query.length > 0) {
+          this.filterCardsByQuery();
+        }
+
+        this.loadProcessadoresIbm()
+        this.loadProcessadoresIntel()
       },
       error: (err) => {
         console.error("Erro ao carregar processadores:", err)
@@ -62,6 +97,32 @@ export class HomeComponent implements OnInit {
         this.isLoading = false
       },
     })
+  }
+
+  filterCardsByQuery(): void {
+    console.log("Filtrando cards com a query:", this.query)
+    this.cards = this.cards.filter((card) => {
+
+      const srcProcessador = card.nome.toLowerCase() + 
+                            card.fabricante?.nome.toLowerCase() +
+                            card.nucleos +
+                            card.threads +
+                            card.frequencia +
+                            card.socket +
+                            card.preco 
+
+      const queryLower = this.query.toLowerCase()
+      return srcProcessador.includes(queryLower)
+    })
+  }
+
+  loadProcessadoresIbm(): void {
+    console.log(this.cards[0].fabricante?.nome)
+    this.cardsAMD = this.cards.filter((card) => card.fabricante?.nome === "AMD")
+  }
+
+  loadProcessadoresIntel(): void {
+    this.cardsIntel = this.cards.filter((card) => card.fabricante?.nome === "Intel");
   }
 
   private carregarCardsProcessadores(): void {
@@ -84,6 +145,7 @@ export class HomeComponent implements OnInit {
         threads: processador.threads,
         primaryImageUrl,
         safeImageUrl: this.sanitizer.bypassSecurityTrustResourceUrl(primaryImageUrl),
+        desconto: processador.desconto,
       }
       return card
     })
@@ -110,5 +172,50 @@ export class HomeComponent implements OnInit {
   // Método para lidar com erros de carregamento de imagem
   handleImageError(card: ProcessadorCard): void {
     card.safeImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl("assets/images/processor-placeholder.png")
+  }
+
+  startCountdown(targetDate: Date): void {
+    if (this.countdownSub) {
+      this.countdownSub.unsubscribe();
+    }
+
+    this.countdownSub = interval(1000).subscribe(() => {
+      const now = new Date().getTime();
+      const distance = targetDate.getTime() - now;
+
+      if (distance <= 0) {
+        this._countdown.next('00D 00:00:00');
+        this.countdownSub?.unsubscribe();
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const formatted = `${this.pad(days)}D ${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
+      this._countdown.next(formatted);
+    });
+  }
+
+  private pad(num: number): string {
+    return num.toString().padStart(2, '0');
+  }
+
+  prevSlide() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    } else {
+      this.currentIndex = this.images.length - 1;
+    }
+  }
+
+  nextSlide() {
+    if (this.currentIndex < this.images.length - 1) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0;
+    }
   }
 }

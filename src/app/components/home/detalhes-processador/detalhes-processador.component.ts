@@ -76,4 +76,8 @@ export class DetalhesProcessadorComponent implements OnInit {
     
     window.location.href = "/carrinho";
   }
+
+  voltar(): void {
+    window.location.href = "/home";
+  }
 }

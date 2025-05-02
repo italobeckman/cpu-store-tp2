@@ -12,6 +12,26 @@
     <button mat-raised-button color="accent" (click)="loadProcessadores()">Tentar Novamente</button>
   </div>
 
+  <div class="carousel-container">
+    <button class="carousel-prev" (click)="prevSlide()">&#10094;</button>
+  
+    <div class="carousel-slide" [ngStyle]="{'transform': 'translateX(' + currentIndex * -100 + '%)'}">
+      <div class="carousel-item" *ngFor="let image of images">
+        <img [src]="image" alt="Imagem do Carrossel" />
+      </div>
+    </div>
+  
+    <button class="carousel-next" (click)="nextSlide()">&#10095;</button>
+  </div>
+
+  <div class="mega-maio-banner">
+    <h3>MEGA MAIO</h3>
+    <div class="termina-em">
+      <span>TERMINA EM:</span>
+      <span class="timer">⏱  {{ countdown }}</span>
+    </div>
+  </div>
+
   <!-- Content -->
   <div *ngIf="!isLoading && !errorMessage" class="content-container">
     <div class="section-container">
@@ -24,6 +44,21 @@
             <div class="product-header">
               <h2 class="product-title">{{ proc.nome }}</h2>
               <p class="product-subtitle">{{ proc.socket }}</p>
+                <p class="product-price" *ngIf="proc.desconto > 0.0; else semDesconto">
+                  <span class="original-price">R$ {{ proc.preco | number:'1.2-2' }}</span>
+                  R$ {{ (proc.preco - (proc.preco * proc.desconto)) | number:'1.2-2' }}
+                </p>
+                <ng-template #semDesconto>
+                  <p class="product-price">
+                  R$ {{ proc.preco | number:'1.2-2' }}
+                  </p>
+                </ng-template>
+                <ng-template #semDesconto>
+                  <p class="product-price">
+                  R$ {{ proc.preco | number:'1.2-2' }}
+                  </p>
+                </ng-template>
+                <p *ngIf="proc.desconto > 0.0" class="desconto">{{ proc.desconto * 100 }}%</p>
             </div>
             
             <!-- Product Image -->
@@ -42,6 +77,70 @@
           </div>
         </div>
       </div>
+      <div class="section-container" id="section-container">
+        <h1 class="section-title">Intel</h1>
+        
+        <div class="products-grid">
+          <div class="product-card-wrapper" *ngFor="let proc of cardsIntel">
+            <div class="product-card">
+              <!-- Product Header -->
+              <div class="product-header">
+                <h2 class="product-title">{{ proc.nome }}</h2>
+                <p class="product-subtitle">{{ proc.socket }}</p>
+              </div>
+              
+              <!-- Product Image -->
+              <div class="product-image-container">
+                <img 
+                  [src] = "proc.primaryImageUrl"
+                  class="product-image"
+                >
+              </div>
+              
+              <!-- Product Actions -->
+              <div class="product-actions">
+                <a [routerLink]="['/detalhes', proc.id]" class="view-more-link">Ver mais</a>
+                <button class="buy-button" (click)="comprar(proc)">COMPRAR</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section-container" id="section-container">
+          <h1 class="section-title">AMD</h1>
+          
+          <div class="products-grid">
+            <div class="product-card-wrapper" *ngFor="let proc of cardsAMD">
+              <div class="product-card">
+                <!-- Product Header -->
+                <div class="product-header">
+                  <h2 class="product-title">{{ proc.nome }}</h2>
+                  <p class="product-subtitle">{{ proc.socket }}</p>
+                </div>
+                
+                <!-- Product Image -->
+                <div class="product-image-container">
+                  <img 
+                    [src] = "proc.primaryImageUrl"
+                    class="product-image"
+                  >
+                </div>
+                
+                <!-- Product Actions -->
+                <div class="product-actions">
+                  <a [routerLink]="['/detalhes', proc.id]" class="view-more-link">Ver mais</a>
+                  <button class="buy-button" (click)="comprar(proc)">COMPRAR</button>
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
   </div>
+  <a 
+  href="https://wa.me/5599999999999" 
+  target="_blank" 
+  class="whatsapp-float" 
+  aria-label="Converse no WhatsApp"
+>
+<img src="/img/logoZapZap.svg" alt="WhatsApp" class="whatsapp-icon">
+</a>
 </div>

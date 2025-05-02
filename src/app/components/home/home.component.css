@@ -1,3 +1,50 @@
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Tamanho máximo do carrossel */
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  min-width: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 30px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+.content-container{
+  background-color: #ffffff;
+}
+
 /* Base Styles */
 .page-container {
   width: 100%;
@@ -5,6 +52,105 @@
   margin: 0 auto;
   padding: 20px;
   font-family: "Roboto", sans-serif;
+}
+
+.carousel-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.mega-maio-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff8f00 ; /* Laranja */
+  color: white;
+  padding: 20px 40px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.product-price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2e7d32; /* verde escuro para contraste ou #f57c00 se quiser laranja */
+  margin: 4px 0;
+}
+
+.mega-maio-banner h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.termina-em {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.timer {
+  font-size: 24px;
+  color: white;
+}
+
+.original-price{
+  text-decoration: line-through;
+  color: #999; /* Cinza claro */
+  font-size: 0.9rem;
+}
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #25D366;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-icon {
+  width: 32px;
+  height: 32px;
+  filter: invert(1); /* Deixa o ícone branco sobre fundo verde */
+}
+
+
+.desconto {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: rgba(0, 200, 83, 0.8); /* Verde vibrante e meio transparente */
+  color: rgb(248, 248, 248);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block !important; /* Garante que não seja sobrescrito */
+  opacity: 1 !important;     /* Visível */
+  visibility: visible !important; /* Visível */
+  z-index: 10; /* Garante que fique acima de outros elementos, se necessário */
 }
 
 /* Loading & Error States */
@@ -41,6 +187,10 @@
 /* Section Styles */
 .section-container {
   margin-bottom: 40px;
+}
+
+#section-container {
+  padding-top: 6%;
 }
 
 .section-title {
@@ -80,6 +230,7 @@
 }
 
 .product-card {
+  position: relative; /* <-- Adicione isto */
   width: 100%;
   max-width: 320px;
   background: #ffffff;
@@ -228,3 +379,4 @@
     max-width: 100%;
   }
 }
+
