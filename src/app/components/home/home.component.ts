@@ -80,6 +80,7 @@ export class HomeComponent implements OnInit {
     this.processadorService.findAll().subscribe({
       next: (data) => {
         this.processadores = data
+        this.processadores = this.processadores.reverse()
         this.carregarCardsProcessadores()
         this.isLoading = false
 

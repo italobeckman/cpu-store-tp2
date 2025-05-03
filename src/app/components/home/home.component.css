@@ -1,9 +1,36 @@
+/* Remove margin and padding between divs */
+.mega-maio-banner,
+.content-container,
+.section-container {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure the divs are stacked without gaps */
+.mega-maio-banner + .content-container,
+.content-container + .section-container {
+  margin-top: 0;
+}
+
+/* Optional: Remove default margin from h1, h3, and other headings */
+h1, h3 {
+  margin: 0;
+}
+
+/* Ensure the grid items inside the sections also align properly */
+.products-grid {
+  gap: 0; /* Remove grid gap if any */
+}
+
 .carousel-container {
   position: relative;
   width: 100%;
   max-width: 600px; /* Tamanho máximo do carrossel */
   margin: auto;
   overflow: hidden;
+  padding-top: 5px;
+  padding-bottom: 28px;
+  
 }
 
 .carousel-slide {
@@ -123,6 +150,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: pulse 1.5s infinite;
 }
 
 .whatsapp-float:hover {
@@ -133,6 +161,22 @@
   width: 32px;
   height: 32px;
   filter: invert(1); /* Deixa o ícone branco sobre fundo verde */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-color: #92d3aa;
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: #63df90;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #0bda57;
+    
+  }
 }
 
 
