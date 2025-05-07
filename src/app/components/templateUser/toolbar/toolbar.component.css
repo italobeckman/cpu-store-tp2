@@ -1,101 +1,73 @@
 /* Color Variables */
+:root {
+  --primary-color: #ff6d00;
+  --secondary-color: #481e00;
+  --background-dark: #23262A;
+  --text-light: #ffffff;
+}
 
 .favorite-button {
   color: #e53935; /* vermelho tomate vibrante */
 }
   
-/* Main Toolbar */
+/* Main Toolbar - Convertido para dois andares */
 .main-toolbar {
-  background-color: #ff6d00;;
-  color:#481e00;;
-  height: 64px;
-  padding: 0 16px;
+  flex-direction: column;
+  background-color: #23262A;
+  color: #ffffff;
+  height: auto;
+  padding: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-/* Logo Area */
+/* Primeira linha da toolbar */
+.main-toolbar::before {
+  content: "";
+  display: flex;
+  width: 100%;
+  height: 64px;
+  background-color: #23262A;
+  padding: 0 16px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+/* Área do Logo - Ajustado para primeira linha */
 .logo-container {
+  position: absolute;
+  top: 0;
+  left: 16px;
+  height: 64px;
   display: flex;
   align-items: center;
   padding-right: 24px;
+  z-index: 1;
 }
 
 .logo-container img {
-    height: 100%;
-    max-height: 64px;
-    width: auto;
+  height: 80%;
+  max-height: 50px;
+  width: auto;
 }
 
-.logo-link {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  align-items: center;
-}
-
-.logo-placeholder {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo-icon {
-  color: var(--primary-orange);
-  font-size: 28px;
-  height: 28px;
-  width: 28px;
-}
-
-.logo-text {
-  font-size: 20px;
-  font-weight: 700;
-  color: #481e00;
-  letter-spacing: 1px;
-}
-
-/* Navigation Links */
-.nav-links {
-  display: flex;
-  gap: 16px;
-}
-
-.nav-link {
-  color:#481e00;;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.nav-link:hover {
-  color: var(--primary-orange);
-  background-color: rgba(255, 109, 0, 0.05);
-}
-
-.active-link {
-  color: var(--primary-orange);
-  font-weight: 600;
-}
-
-/* Spacer */
-.toolbar-spacer {
-  flex: 1;
-}
-
-/* Search Bar */
+/* Área de Busca - Centralizada na primeira linha */
 .search-container {
-  margin: 0 16px;
-  width: 300px;
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  max-width: 600px;
+  margin: 0;
 }
 
 .search-field {
   width: 100%;
+  background-color: white;
+  border-radius: 4px;
 }
 
 ::ng-deep .search-field .mat-mdc-form-field-subscript-wrapper {
@@ -103,7 +75,7 @@
 }
 
 ::ng-deep .search-field .mat-mdc-text-field-wrapper {
-  background-color: #f5f5f5;
+  background-color: white;
   border-radius: 4px;
 }
 
@@ -124,33 +96,70 @@
   min-height: unset !important;
 }
 
-.search-icon {
-  cursor: pointer;
-  color: var(--medium-gray);
-}
-
-.search-icon:hover {
-  color: var(--primary-orange);
-}
-
-/* Action Buttons */
+/* Botões de Ação - Movidos para direita na primeira linha */
 .action-buttons {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  height: 64px;
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
 .action-buttons button {
-  color:#481e00;;
+  color: #ffffff;
 }
 
 .action-buttons button:hover {
-  color: var(--primary-orange);
+  color: var(--primary-color);
 }
 
-/* Mobile Menu Toggle */
-.mobile-menu-toggle {
+/* Segunda linha da toolbar */
+.nav-links {
+  background-color: #ff6d00;
+  display: flex;
+  width: 100%;
+  padding: 0 16px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.nav-link:hover {
+  color: #481e00;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.active-link {
+  color: #481e00;
+  font-weight: 600;
+}
+
+/* Removido, pois não precisamos mais do spacer */
+.toolbar-spacer {
   display: none;
-  margin-right: 8px;
+}
+
+/* Mobile Menu Toggle - Ajustado para a primeira linha */
+.mobile-menu-toggle {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  display: none;
+  color: white;
+  z-index: 2;
 }
 
 /* Mobile Menu */
@@ -160,7 +169,7 @@
   left: -280px;
   width: 280px;
   height: 100vh;
-  background-color: var(--white);
+  background-color: white;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
   z-index: 1001;
   transition: left 0.3s ease;
@@ -176,6 +185,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
+  background-color: #23262A;
 }
 
 .mobile-search {
@@ -184,6 +194,26 @@
 
 .mobile-search-field {
   width: 100%;
+}
+
+.logo-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  color: #ff6d00;
+  font-size: 28px;
+  height: 28px;
+  width: 28px;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
 }
 
 /* Mobile Menu Overlay */
@@ -208,7 +238,7 @@
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .search-container {
-    width: 250px;
+    width: 35%;
   }
 }
 
@@ -220,33 +250,30 @@
   .mobile-menu-toggle {
     display: block;
   }
+  
+  .logo-container {
+    left: 60px;
+  }
 }
 
 @media (max-width: 768px) {
   .search-container {
-    display: none;
+    width: 50%;
+    max-width: 300px;
   }
+}
 
-  .logo-text {
-    font-size: 18px;
+@media (max-width: 600px) {
+  .search-container {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .main-toolbar {
-    padding: 0 8px;
+  .logo-container {
+    left: 50px;
   }
-
-  .logo-icon {
-    font-size: 24px;
-    height: 24px;
-    width: 24px;
-  }
-
-  .logo-text {
-    font-size: 16px;
-  }
-
+  
   .action-buttons {
     gap: 4px;
   }
@@ -254,7 +281,7 @@
 
 /* Custom Badge Styles */
 ::ng-deep .mat-badge-content {
-  background-color: var(--primary-orange) !important;
+  background-color: #ff6d00 !important;
 }
 
 /* Custom Menu Styles */
@@ -263,18 +290,18 @@
 }
 
 ::ng-deep .mat-mdc-menu-item .mat-icon {
-  color: var(--medium-gray);
+  color: #666;
 }
 
 ::ng-deep .mat-mdc-menu-item:hover .mat-icon {
-  color: var(--primary-orange);
+  color: #ff6d00;
 }
 
 /* Custom Button Styles */
 ::ng-deep .mat-mdc-raised-button.mat-primary {
-  background-color: var(--primary-orange) !important;
+  background-color: #ff6d00 !important;
 }
 
 ::ng-deep .mat-mdc-raised-button.mat-primary:hover {
-  background-color: var(--primary-orange-hover) !important;
+  background-color: #e66000 !important;
 }
