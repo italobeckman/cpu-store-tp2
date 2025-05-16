@@ -193,6 +193,7 @@
   .social-links {
     display: flex;
     gap: 16px;
+    color: red;
   }
   
   .social-icon {

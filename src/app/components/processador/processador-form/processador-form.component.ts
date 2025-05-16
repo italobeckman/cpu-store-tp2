@@ -32,6 +32,8 @@ export class ProcessadorFormComponent {
     { id: 1, nome: 'AMD' },
     { id: 2, nome: 'Intel' }
   ];
+  imagemFile: File | null = null;
+  imagemUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,6 +90,7 @@ export class ProcessadorFormComponent {
     });
 
     // Carregar as placas integradas disponíveis
+
     this.carregarPlacasIntegradas();
   }
 
@@ -102,7 +105,21 @@ export class ProcessadorFormComponent {
     });
   }
 
-  salvar() {
+  onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+  if (file) {
+    this.imagemFile = file;
+    
+    // Criar URL para pré-visualização
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagemUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+  async salvar() {
     this.formGroup.markAllAsTouched();
 
     if (this.formGroup.valid) {
@@ -113,6 +130,9 @@ export class ProcessadorFormComponent {
         ? this.processadorService.insert(processador)
         : this.processadorService.update(processador.id, processador);
 
+      if (this.imagemFile) {
+        const response = await this.processadorService.uploadImagem(this.imagemFile, processador.id);
+      }
       operacao.subscribe({
         next: () => {
           this.router.navigateByUrl('/admin/processadores');

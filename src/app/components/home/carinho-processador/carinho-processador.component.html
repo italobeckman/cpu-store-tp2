@@ -83,22 +83,6 @@
           <span>R${{ totalFinal }}</span>
         </div>
         
-        <div class="promo-code">
-          <input 
-            type="text" 
-            placeholder="Código promocional" 
-            [(ngModel)]="codigoPromocional"
-            [disabled]="descontoAplicado"
-          >
-        </div>
-        
-        <button 
-          class="apply-code-btn"
-          (click)="aplicarCupom()"
-          [disabled]="descontoAplicado || !codigoPromocional"
-        >
-          Aplicar
-        </button>
         
         <button 
           class="checkout-btn"

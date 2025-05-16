@@ -1,7 +1,6 @@
 import { Component, type OnInit } from "@angular/core"
 import { CommonModule, CurrencyPipe } from "@angular/common"
-import { FormsModule } from "@angular/forms"
-import { RouterLink } from "@angular/router"
+import { FormsModule, ReactiveFormsModule, type FormGroup, Validators, FormBuilder } from "@angular/forms"
 
 // Angular Material Imports
 import { MatCardModule } from "@angular/material/card"
@@ -10,12 +9,14 @@ import { MatIconModule } from "@angular/material/icon"
 import { MatDividerModule } from "@angular/material/divider"
 import { MatBadgeModule } from "@angular/material/badge"
 import { MatTooltipModule } from "@angular/material/tooltip"
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar"
 
 import type { Produto } from "../../../models/Produto.model"
+import type { Observable } from "rxjs"
+
 import { CarrinhoService } from "../../../services/carrinho.service"
-import { MatSnackBar } from "@angular/material/snack-bar"
-import { Observable } from "rxjs"
 import { ProcessadorService } from "../../../services/processador.service"
+import { Router } from "@angular/router"
 
 @Component({
   selector: "app-carinho-processador",
@@ -23,14 +24,14 @@ import { ProcessadorService } from "../../../services/processador.service"
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
+    ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
     MatBadgeModule,
     MatTooltipModule,
-    // MatSnackBar removed from imports as it is not a standalone component
+    MatSnackBarModule,
     CurrencyPipe,
   ],
   templateUrl: "./carinho-processador.component.html",
@@ -43,33 +44,72 @@ export class CarinhoProcessadorComponent implements OnInit {
   descontoAplicado = false
   codigoPromocional = ""
 
+  // Formulários
+  enderecoForm!: FormGroup
+  pagamentoForm!: FormGroup
+  revisaoForm!: FormGroup
+
+  // Estado do processamento
+  isProcessando = false
+  formError = false
+
   // Valores para cálculos
   subtotal = 0
   desconto = 0
   totalFinal = 0
   ids: number[] = []
-  imgUrls = new Map<number, string>();
+  imgUrls = new Map<number, string>()
 
-  produtos!: Observable<Produto[]>;
+  produtos!: Observable<Produto[]>
 
   constructor(
     private carrinhoService: CarrinhoService,
     private snackBar: MatSnackBar,
     private processadorService: ProcessadorService,
-  ) {}
+    private router: Router,
+    private fb: FormBuilder,
+  ) {
+    // Inicialização dos formulários
+    this.enderecoForm = this.fb.group({
+      nomeCompleto: ["", [Validators.required, Validators.minLength(3)]],
+      email: ["", [Validators.required, Validators.email]],
+      telefone: ["", [Validators.required]],
+      cep: ["", [Validators.required]],
+      endereco: ["", [Validators.required]],
+      numero: ["", [Validators.required]],
+      complemento: [""],
+      bairro: ["", [Validators.required]],
+      cidade: ["", [Validators.required]],
+      estado: ["", [Validators.required]],
+    })
+
+    this.pagamentoForm = this.fb.group({
+      metodoPagamento: ["cartao", [Validators.required]],
+      numeroCartao: ["", []],
+      nomeCartao: ["", []],
+      validadeCartao: ["", []],
+      cvvCartao: ["", []],
+      parcelamento: ["1"],
+      chavePix: ["cpf"],
+      cpfBoleto: ["", []],
+    })
+
+    this.revisaoForm = this.fb.group({
+      aceitarTermos: [false, [Validators.requiredTrue]],
+    })
+  }
 
   aumentar(produtoId: number) {
-    this.carrinhoService.aumentarQuantidade(produtoId);
+    this.carrinhoService.aumentarQuantidade(produtoId)
   }
 
   diminuir(produtoId: number) {
-    this.carrinhoService.diminuirQuantidade(produtoId);
+    this.carrinhoService.diminuirQuantidade(produtoId)
   }
 
-
   ngOnInit(): void {
-    this.produtos = this.carrinhoService.obterProdutos();
-    this.carregarProdutos();
+    this.produtos = this.carrinhoService.obterProdutos()
+    this.carregarProdutos()
   }
 
   carregarProdutos(): void {
@@ -119,27 +159,22 @@ export class CarinhoProcessadorComponent implements OnInit {
     }
   }
 
+  // Finalização da compra
   finalizarCompra(): void {
-    this.snackBar.open("Pedido finalizado com sucesso!", "Fechar", {
-      duration: 3000,
-      horizontalPosition: "end",
-      verticalPosition: "bottom",
-    })
-    // Aqui você implementaria a navegação para a página de checkout
-    // this.router.navigate(['/checkout']);
+    this.router.navigate(["/pagamento"])
   }
 
   continuarComprando(): void {
     // Navega de volta para a página inicial
-    window.location.href = "/home";
+    window.location.href = "/home"
   }
 
   getUrlImgProduto(id: number): void {
     if (!this.imgUrls.has(id)) {
       this.processadorService.findById(id).subscribe((processador) => {
-        const url = this.processadorService.getImageUrl(processador.imagens[0]);
-        this.imgUrls.set(id, url);
-      });
+        const url = this.processadorService.getImageUrl(processador.imagens[0])
+        this.imgUrls.set(id, url)
+      })
     }
   }
 }

@@ -33,6 +33,8 @@ import { detalhesProcessadorResolver } from './components/home/detalhes-processa
 //import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { CarinhoProcessadorComponent } from './components/home/carinho-processador/carinho-processador.component';
 import { TemplateComponent } from './components/templateUser/template/template.component';
+import { ResumoPagamentoComponent } from './components/pagamento/pagamento.component';
+import { AdicionarCartaoComponent } from './components/pagamento/adicionar-cartao/adicionar-cartao.component';
 
 export const routes: Routes = [
   {
@@ -65,7 +67,16 @@ export const routes: Routes = [
         path: 'carrinho',
         component: CarinhoProcessadorComponent,
         title: 'Carrinho de Compras',
-      }
+      },
+      {
+        path: 'pagamento',
+        component: ResumoPagamentoComponent,
+        title: 'Tela de pagamento',
+      },
+      {
+        path: 'pagamento/adicionar_cartao',
+        component: AdicionarCartaoComponent
+      },
     ]
   },
   {

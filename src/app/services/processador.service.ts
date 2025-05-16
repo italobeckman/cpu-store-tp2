@@ -1,7 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import {  Observable, tap, throwError } from 'rxjs';
 import { Processador } from '../models/processador.model';
+
+import { catchError } from 'rxjs/operators';
+
 
 interface PageResponse<T> {
   page: number;
@@ -134,5 +137,46 @@ export class ProcessadorService {
 
   public getImageUrl(nomeImagem: string): string {
     return `${this.baseUrl}/download/imagem/${nomeImagem}`;
+  }
+
+  public uploadImagem(file: File, id: number): Observable<any> {
+    // 1. Validação do tipo de arquivo
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    if (!allowedTypes.includes(file.type)) {
+        return throwError(() => new Error('Tipo de arquivo não suportado. Use PNG ou JPEG.'));
+    }
+
+    // 2. Preparar FormData CORRETAMENTE
+    const formData = new FormData();
+    // Adiciona o nome do arquivo (como espera o back-end)
+    formData.append('nomeImagem', file.name); 
+    // Adiciona o arquivo com o nome de campo EXATO que o back-end espera
+    formData.append('imagem', file, file.name); // O terceiro parâmetro é importante
+
+    // 3. Verificação no console (para debug)
+    // Isso mostra os dados que estão sendo enviados
+    formData.forEach((value, key) => {
+        console.log(key, value);
+    });
+
+    // 4. Fazer a requisição PATCH sem headers manuais
+    // O Angular vai automaticamente configurar o Content-Type correto
+    // com o boundary necessário para multipart/form-data
+    return this.httpClient.patch(
+        `${this.baseUrl}/${id}/upload/imagem`,
+        formData
+    ).pipe(
+        catchError(error => {
+            console.error('Erro completo no upload:', error);
+            // Mensagem mais detalhada para o usuário
+            let errorMsg = 'Erro desconhecido no upload';
+            if (error.status === 413) {
+                errorMsg = 'Arquivo muito grande';
+            } else if (error.status === 415) {
+                errorMsg = 'Tipo de arquivo não suportado';
+            }
+            return throwError(() => new Error(errorMsg));
+        })
+    );
   }
 }

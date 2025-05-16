@@ -39,6 +39,8 @@ export class CarrinhoService {
     this.atualizarStorage();
   }
 
+  limparCarrinho(){}
+  
   removerProduto(produtoId: number) {
     this.produtos = this.produtos.filter(p => p.id !== produtoId);
     this.atualizarStorage();

@@ -1,0 +1,142 @@
+/* Estilos gerais */
+.toolbar-title {
+    background-color: #3f51b5; /* Cor primária do Material */
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 0 16px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+  }
+  
+  mat-card {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 24px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  mat-card-content {
+    padding: 16px;
+  }
+  
+  /* Layout dos campos */
+  .row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .full-width-input {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .half-width-input {
+    flex: 1;
+    min-width: calc(50% - 8px);
+  }
+  
+  .third-width-input {
+    flex: 1;
+    min-width: calc(33.33% - 11px);
+  }
+  
+  /* Títulos das seções */
+  h3 {
+    color: #3f51b5;
+    margin: 24px 0 16px 0;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+  }
+  
+  /* Estilos para os campos de formulário */
+  mat-form-field {
+    margin-bottom: 8px;
+  }
+  
+  mat-checkbox {
+    margin-right: 16px;
+  }
+  
+  /* Botões de ação */
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 16px 0 0 0;
+  }
+  
+  /* Estilos para upload de imagem */
+  .image-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .image-preview {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .image-preview button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Estilos para mensagens de erro */
+  mat-error {
+    font-size: 12px;
+    color: #f44336; /* Vermelho do Material */
+    margin-top: 4px;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .half-width-input, 
+    .third-width-input {
+      width: 100%;
+      min-width: 100%;
+    }
+    
+    mat-card {
+      margin: 16px;
+      padding: 16px;
+    }
+  }
+  
+  /* Efeitos de hover e focus */
+  mat-form-field.mat-focused .mat-form-field-label {
+    color: #3f51b5;
+  }
+  
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  
+  .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
+    background-color: rgba(63, 81, 181, 0.04);
+  }
+  
+  /* Estilo para botão de upload */
+  button[mat-raised-button] {
+    align-self: flex-start;
+  }

@@ -236,7 +236,27 @@
                     </mat-form-field>
                 </div>
             </div>
-            
+
+            <!-- Adicione isso após o campo de nome ou em uma posição adequada -->
+            <div class="full-width-input">
+                <label class="mat-label">Imagem</label>
+              
+                <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput style="display: none">
+              
+                <div class="image-upload-container">
+                  <button mat-raised-button type="button" (click)="fileInput.click()">
+                    <mat-icon>upload</mat-icon> Selecionar Imagem
+                  </button>
+              
+                  <div *ngIf="imagemUrl" class="image-preview">
+                    <img [src]="imagemUrl" alt="Pré-visualização da imagem" class="preview-image" />
+                    <button mat-icon-button color="warn" (click)="imagemUrl = null; imagemFile = null">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+                        
             <!-- Conectividade -->
             <h3>Conectividade</h3>
             <div formGroupName="conectividade">

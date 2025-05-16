@@ -1,0 +1,95 @@
+<div class="page-container">
+    <div class="confirmation-container">
+      <div class="confirmation-header">
+        <div class="success-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <h1 class="confirmation-title">Pedido Confirmado!</h1>
+        <p class="confirmation-subtitle">Obrigado por sua compra</p>
+      </div>
+      
+      <div class="order-details">
+        <div class="order-info">
+          <div class="info-item">
+            <span class="info-label">Número do pedido:</span>
+            <span class="info-value">{{ numeroPedido }}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Data do pedido:</span>
+            <span class="info-value">{{ today | date:'dd/MM/yyyy' }}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Previsão de entrega:</span>
+            <span class="info-value">{{ dataEntrega }}</span>
+          </div>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <div class="confirmation-message">
+          <p>Enviamos um e-mail com os detalhes do seu pedido.</p>
+          <p>Você pode acompanhar o status do seu pedido na área <strong>"Meus Pedidos"</strong> da sua conta.</p>
+        </div>
+        
+        <div class="tracking-info">
+          <h2 class="tracking-title">Acompanhe seu pedido</h2>
+          <div class="tracking-steps">
+            <div class="tracking-step active">
+              <div class="step-icon">
+                <mat-icon>check_circle</mat-icon>
+              </div>
+              <div class="step-content">
+                <span class="step-title">Pedido confirmado</span>
+                <span class="step-date">{{ today | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+            
+            <div class="tracking-step">
+              <div class="step-icon">
+                <mat-icon>inventory_2</mat-icon>
+              </div>
+              <div class="step-content">
+                <span class="step-title">Em preparação</span>
+                <span class="step-date">-</span>
+              </div>
+            </div>
+            
+            <div class="tracking-step">
+              <div class="step-icon">
+                <mat-icon>local_shipping</mat-icon>
+              </div>
+              <div class="step-content">
+                <span class="step-title">Em transporte</span>
+                <span class="step-date">-</span>
+              </div>
+            </div>
+            
+            <div class="tracking-step">
+              <div class="step-icon">
+                <mat-icon>home</mat-icon>
+              </div>
+              <div class="step-content">
+                <span class="step-title">Entregue</span>
+                <span class="step-date">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="confirmation-actions">
+        <button mat-raised-button color="primary" routerLink="/meus-pedidos">
+          <mat-icon>receipt_long</mat-icon>
+          Meus Pedidos
+        </button>
+        
+        <button mat-raised-button routerLink="/inicio">
+          <mat-icon>shopping_bag</mat-icon>
+          Continuar Comprando
+        </button>
+      </div>
+    </div>
+  </div>
+  

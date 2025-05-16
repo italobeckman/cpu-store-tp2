@@ -50,7 +50,8 @@ export class HomeComponent implements OnInit {
   countdown = '';
   currentIndex = 0;
   images = [
-    '/img/promocao.jpeg'
+    '/img/promocao.jpeg',
+    '/img/ChatGPT Image 15 de mai. de 2025, 11_34_28.png'
   ];
 
   constructor(
@@ -165,8 +166,9 @@ export class HomeComponent implements OnInit {
       nome: processador.nome,
       preco: processador.preco,
       quantidade: 1,
+      desconto: processador.desconto
     })
-    
+
     window.location.href = "/carrinho";
   }
 

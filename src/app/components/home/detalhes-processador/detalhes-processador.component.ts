@@ -72,6 +72,7 @@ export class DetalhesProcessadorComponent implements OnInit {
       nome: processador.nome,
       preco: processador.preco,
       quantidade: 1,
+      desconto: processador.desconto,
     })
     
     window.location.href = "/carrinho";

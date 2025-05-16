@@ -17,7 +17,7 @@
   color: #ffffff;
   height: auto;
   padding: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(219, 51, 51, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -29,7 +29,7 @@
   display: flex;
   width: 100%;
   height: 64px;
-  background-color: #23262A;
+  background-color: #1c1c1c;
   padding: 0 16px;
   box-sizing: border-box;
   align-items: center;
@@ -117,14 +117,18 @@
 
 /* Segunda linha da toolbar */
 .nav-links {
-  background-color: #ff6d00;
+  background-color: #ff2600;
   display: flex;
+  flex-wrap: wrap; /* Permite quebrar linha se necessário */
   width: 100%;
+  max-width: 100%;
   padding: 0 16px;
-  height: 40px;
+  height: auto;
   justify-content: center;
   align-items: center;
   gap: 20px;
+  box-sizing: border-box;
+  overflow-x: auto; /* Ajuda em overflow horizontal */
 }
 
 .nav-link {
