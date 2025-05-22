@@ -9,18 +9,17 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root',
 })
 export class AuthService {
-
   private baseURL: string = 'http://localhost:8080/auth';
   private tokenKey = 'jwt_token';
   private usuarioLogadoKey = 'usuario_logado';
   private usuarioLogadoSubject = new BehaviorSubject<Usuario | null>(null);
 
-  constructor(private http: HttpClient, 
-              private localStorageService: LocalStorageService, 
-              private jwtHelper: JwtHelperService) {
-
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private jwtHelper: JwtHelperService
+  ) {
     this.initUsuarioLogado();
-
   }
 
   private initUsuarioLogado() {
@@ -33,10 +32,10 @@ export class AuthService {
       }
     } catch (error) {
       console.error('Erro ao inicializar o usuário logado:', error);
-      this.usuarioLogadoSubject.next(null); 
+      this.usuarioLogadoSubject.next(null);
     }
   }
-  
+
   setUsuarioLogado(usuario: Usuario): void {
     try {
       const usuarioString = JSON.stringify(usuario);
@@ -51,25 +50,27 @@ export class AuthService {
       username: username,
       senha: senha,
     };
-    return this.http.post(`${this.baseURL}`, params, { observe: 'response' }).pipe(
-      tap((res: any) => {
-        const authToken = res.headers.get('Authorization') ?? '';
-        if (authToken) {
-          this.setToken(authToken);
-          const usuarioLogado = res.body;
-
-          if (usuarioLogado) {
-            this.setUsuarioLogado(usuarioLogado);
-            this.usuarioLogadoSubject.next(usuarioLogado);
-          } 
-        }
+    return this.http
+      .post(`${this.baseURL}`, params, {
+        observe: 'response',
+        responseType: 'text', // <- importante!
       })
-    );
+      .pipe(
+        tap((res: any) => {
+          // Se o token vier no corpo da resposta como texto puro
+          const authToken = res.headers.get('Authorization') || res.body;
+          if (authToken) {
+            this.setToken(authToken);
+            // Se não houver usuário no body, apenas atualize o token
+            // Se precisar buscar dados do usuário, faça uma requisição extra aqui
+            this.usuarioLogadoSubject.next(null);
+          }
+        })
+      );
   }
 
   setToken(token: string): void {
-  this.localStorageService.setItem(this.tokenKey, token);
-  
+    this.localStorageService.setItem(this.tokenKey, token);
   }
 
   getUsuarioLogado() {
@@ -97,9 +98,8 @@ export class AuthService {
     try {
       return this.jwtHelper.isTokenExpired(token);
     } catch (error) {
-      console.error("Token inválido ou expirado", error);
+      console.error('Token inválido ou expirado', error);
       return true;
-    } 
+    }
   }
-
 }
