@@ -12,7 +12,8 @@ body {
 }
 
 .page-container {
-  max-width: 1200px;
+  max-width: 65%;
+  width: 100%;
   margin: 0 auto;
   background-color: #0a0a0a;
 }
@@ -81,19 +82,26 @@ body {
   transform: translateY(-2px);
 }
 
-/* Carousel - Estilo Gamer */
+/* Carousel - Estilo Gamer Banner Responsivo */
 .carousel-container {
   position: relative;
   width: 100%;
-  height: auto;
+  min-height: 220px;
+  height: 28vw; /* Altura relativa à largura da tela */
+  max-height: 400px; /* Limite para telas grandes (ex: 4K) */
   overflow: hidden;
-  margin-bottom: 0;
-  border: 1px solid rgba(255, 0, 0, 0.3);
+  margin-bottom: 32px;
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(255,0,0,0.10), 0 1.5px 8px rgba(255,0,0,0.08);
+  background: linear-gradient(90deg, #1a0000 60%, #500000 100%);
+  display: flex;
+  align-items: center;
 }
 
 .carousel-slide {
   display: flex;
-  transition: transform 0.5s ease;
+  transition: transform 0.8s cubic-bezier(.4,0,.2,1);
   height: 100%;
 }
 
@@ -105,8 +113,16 @@ body {
 
 .carousel-item img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
+  border-radius: 18px;
+  transition: transform 0.4s;
+}
+
+.carousel-item img:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05) drop-shadow(0 4px 24px rgba(255,0,0,0.10));
 }
 
 .carousel-prev,
@@ -114,32 +130,76 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.7);
+  width: 48px;
+  height: 48px;
+  background: rgba(0,0,0,0.65);
   color: #ff0000;
-  border: 1px solid #ff0000;
-  font-size: 18px;
+  border: 2px solid #ff0000;
+  font-size: 22px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(255,0,0,0.10);
 }
 
 .carousel-prev:hover,
 .carousel-next:hover {
-  background-color: #ff0000;
-  color: #ffffff;
+  background: #ff0000;
+  color: #fff;
+  border-color: #fff;
 }
 
 .carousel-prev {
-  left: 10px;
+  left: 24px;
 }
 
 .carousel-next {
-  right: 10px;
+  right: 24px;
+}
+
+/* Responsividade para o banner/carrossel */
+@media (max-width: 1200px) {
+  .carousel-container {
+    min-height: 160px;
+    height: 32vw;
+    max-height: 320px;
+  }
+  .carousel-prev,
+  .carousel-next {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    min-height: 120px;
+    height: 38vw;
+    max-height: 200px;
+    border-radius: 10px;
+  }
+  .carousel-prev,
+  .carousel-next {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    left: 8px;
+    right: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    min-height: 80px;
+    height: 44vw;
+    max-height: 120px;
+    border-radius: 6px;
+  }
 }
 
 /* Mega Maio Banner - Estilo Gamer */
@@ -278,7 +338,7 @@ body {
 }
 
 /* Ribbon de desconto */
-.product-card-wrapper::after {
+/* .product-card-wrapper::after {
   content: "OFERTA";
   position: absolute;
   top: 0;
@@ -295,7 +355,7 @@ body {
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 2;
-}
+} */
 
 /* Product Header */
 .product-header {

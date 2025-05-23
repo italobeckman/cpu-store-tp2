@@ -53,16 +53,17 @@ export class AuthService {
     return this.http
       .post(`${this.baseURL}`, params, {
         observe: 'response',
-        responseType: 'text', // <- importante!
+        responseType: 'json', // agora espera JSON
       })
       .pipe(
         tap((res: any) => {
-          // Se o token vier no corpo da resposta como texto puro
-          const authToken = res.headers.get('Authorization') || res.body;
-          if (authToken) {
-            this.setToken(authToken);
-            // Se não houver usuário no body, apenas atualize o token
-            // Se precisar buscar dados do usuário, faça uma requisição extra aqui
+          // O corpo da resposta agora é um objeto JSON
+          const body = res.body;
+          if (body && body.token) {
+            this.setToken(body.token);
+            // Salva o username no localStorage
+            this.localStorageService.setItem('username', body.username);
+            // Atualize o usuário logado se necessário
             this.usuarioLogadoSubject.next(null);
           }
         })
@@ -85,8 +86,13 @@ export class AuthService {
     this.localStorageService.removeItem(this.tokenKey);
   }
 
+  getUsername(): string | null {
+    return this.localStorageService.getItem('username');
+  }
+
   removeUsuarioLogado(): void {
     this.localStorageService.removeItem(this.usuarioLogadoKey);
+    this.localStorageService.removeItem('username');
     this.usuarioLogadoSubject.next(null);
   }
 

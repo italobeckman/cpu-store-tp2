@@ -1,71 +1,80 @@
-import { Component, type OnInit } from "@angular/core"
-import { CommonModule } from "@angular/common"
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
-import { MatIconModule } from "@angular/material/icon"
-import { MatButtonModule } from "@angular/material/button"
-import { MatCardModule } from "@angular/material/card"
-import { RouterLink } from "@angular/router"
-import type { Processador } from "../../models/processador.model"
-import type { Fabricante } from "../../models/fabricante.model"
-import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser"
-import { ProcessadorService } from "../../services/processador.service"
-import { CarrinhoService } from "../../services/carrinho.service"
-import { SearchService } from "../../services/search.service"
-import { BehaviorSubject, interval, Subscription } from "rxjs"
+import { Component, type OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
+import type { Processador } from '../../models/processador.model';
+import type { Fabricante } from '../../models/fabricante.model';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ProcessadorService } from '../../services/processador.service';
+import { CarrinhoService } from '../../services/carrinho.service';
+import { SearchService } from '../../services/search.service';
+import { BehaviorSubject, interval, Subscription } from 'rxjs';
 import SwiperCore from 'swiper';
 
 interface ProcessadorCard {
-  id: number
-  nome: string
-  preco: number
-  fabricante: Fabricante
-  imagensUrl: string[]
-  primaryImageUrl: string
-  safeImageUrl?: SafeResourceUrl
-  socket: string
-  frequencia: number
-  nucleos: number
-  threads: number
-  desconto: number
+  id: number;
+  nome: string;
+  preco: number;
+  fabricante: Fabricante;
+  imagensUrl: string[];
+  primaryImageUrl: string;
+  safeImageUrl?: SafeResourceUrl;
+  socket: string;
+  frequencia: number;
+  nucleos: number;
+  threads: number;
+  desconto: number;
 }
 
 @Component({
-  selector: "app-home",
+  selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatCardModule, RouterLink],
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatCardModule,
+    RouterLink,
+  ],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  processadores: Processador[] = []
-  cards: ProcessadorCard[] = []
-  cardsAMD: ProcessadorCard[] = []
-  cardsIntel: ProcessadorCard[] = []
-  isLoading = true
-  errorMessage = ""
-  query: string = ""
+  processadores: Processador[] = [];
+  cards: ProcessadorCard[] = [];
+  cardsAMD: ProcessadorCard[] = [];
+  cardsIntel: ProcessadorCard[] = [];
+  isLoading = true;
+  errorMessage = '';
+  query: string = '';
   private countdownSub?: Subscription;
   private _countdown = new BehaviorSubject<string>('00D 00:00:00');
   countdown$ = this._countdown.asObservable();
   countdown = '';
   currentIndex = 0;
+  autoSlideInterval: any;
+
   images = [
     '/img/promocao.jpeg',
-    '/img/ChatGPT Image 15 de mai. de 2025, 11_34_28.png'
+    '/img/ChatGPT Image 15 de mai. de 2025, 11_34_28.png',
   ];
 
   constructor(
     private processadorService: ProcessadorService,
     private sanitizer: DomSanitizer,
     private carrinhoService: CarrinhoService,
-    private searchService: SearchService,
+    private searchService: SearchService
   ) {}
 
   ngOnInit(): void {
-    this.searchService.query$.subscribe(value => {
+    this.searchService.query$.subscribe((value) => {
       this.query = value;
       console.log('Recebido no outro componente:', value);
-      this.loadProcessadores()
+      this.loadProcessadores();
     });
 
     const endDate = new Date('2025-06-01T23:59:59');
@@ -73,58 +82,65 @@ export class HomeComponent implements OnInit {
 
     this.countdown$.subscribe((countdown) => {
       this.countdown = countdown;
-    })
+    });
+
+    this.startAutoSlide();
   }
 
   loadProcessadores(): void {
-    this.isLoading = true
+    this.isLoading = true;
     this.processadorService.findAll().subscribe({
       next: (data) => {
-        this.processadores = data
-        this.processadores = this.processadores.reverse()
-        this.carregarCardsProcessadores()
-        this.isLoading = false
+        this.processadores = data;
+        this.processadores = this.processadores.reverse();
+        this.carregarCardsProcessadores();
+        this.isLoading = false;
 
-        console.log(this.query.length)
+        console.log(this.query.length);
         if (this.query.length > 0) {
           this.filterCardsByQuery();
         }
 
-        this.loadProcessadoresIbm()
-        this.loadProcessadoresIntel()
+        this.loadProcessadoresIbm();
+        this.loadProcessadoresIntel();
       },
       error: (err) => {
-        console.error("Erro ao carregar processadores:", err)
-        this.errorMessage = "Não foi possível carregar os processadores. Tente novamente mais tarde."
-        this.isLoading = false
+        console.error('Erro ao carregar processadores:', err);
+        this.errorMessage =
+          'Não foi possível carregar os processadores. Tente novamente mais tarde.';
+        this.isLoading = false;
       },
-    })
+    });
   }
 
   filterCardsByQuery(): void {
-    console.log("Filtrando cards com a query:", this.query)
+    console.log('Filtrando cards com a query:', this.query);
     this.cards = this.cards.filter((card) => {
+      const srcProcessador =
+        card.nome.toLowerCase() +
+        card.fabricante?.nome.toLowerCase() +
+        card.nucleos +
+        card.threads +
+        card.frequencia +
+        card.socket +
+        card.preco;
 
-      const srcProcessador = card.nome.toLowerCase() + 
-                            card.fabricante?.nome.toLowerCase() +
-                            card.nucleos +
-                            card.threads +
-                            card.frequencia +
-                            card.socket +
-                            card.preco 
-
-      const queryLower = this.query.toLowerCase()
-      return srcProcessador.includes(queryLower)
-    })
+      const queryLower = this.query.toLowerCase();
+      return srcProcessador.includes(queryLower);
+    });
   }
 
   loadProcessadoresIbm(): void {
-    console.log(this.cards[0].fabricante?.nome)
-    this.cardsAMD = this.cards.filter((card) => card.fabricante?.nome === "AMD")
+    console.log(this.cards[0].fabricante?.nome);
+    this.cardsAMD = this.cards.filter(
+      (card) => card.fabricante?.nome === 'AMD'
+    );
   }
 
   loadProcessadoresIntel(): void {
-    this.cardsIntel = this.cards.filter((card) => card.fabricante?.nome === "Intel");
+    this.cardsIntel = this.cards.filter(
+      (card) => card.fabricante?.nome === 'Intel'
+    );
   }
 
   private carregarCardsProcessadores(): void {
@@ -133,7 +149,7 @@ export class HomeComponent implements OnInit {
       const primaryImageUrl =
         processador.imagens && processador.imagens.length > 0
           ? this.processadorService.getImageUrl(processador.imagens[0])
-          : "assets/images/processor-placeholder.png"
+          : 'assets/images/processor-placeholder.png';
 
       const card: ProcessadorCard = {
         id: processador.id,
@@ -146,35 +162,38 @@ export class HomeComponent implements OnInit {
         nucleos: processador.nucleos,
         threads: processador.threads,
         primaryImageUrl,
-        safeImageUrl: this.sanitizer.bypassSecurityTrustResourceUrl(primaryImageUrl),
+        safeImageUrl:
+          this.sanitizer.bypassSecurityTrustResourceUrl(primaryImageUrl),
         desconto: processador.desconto,
-      }
-      return card
-    })
+      };
+      return card;
+    });
   }
 
   private getUrlsImagens(imagens: string[]): string[] {
-    return imagens.map((imagem) => this.processadorService.getImageUrl(imagem))
+    return imagens.map((imagem) => this.processadorService.getImageUrl(imagem));
   }
 
   comprar(processador: ProcessadorCard): void {
-    console.log(`Comprando processador: ${processador.nome}`)
-    
+    console.log(`Comprando processador: ${processador.nome}`);
+
     // Redirecionar para a página do carrinho
     this.carrinhoService.adicionarProduto({
       id: processador.id,
       nome: processador.nome,
       preco: processador.preco,
       quantidade: 1,
-      desconto: processador.desconto
-    })
+      desconto: processador.desconto,
+    });
 
-    window.location.href = "/carrinho";
+    window.location.href = '/carrinho';
   }
 
   // Método para lidar com erros de carregamento de imagem
   handleImageError(card: ProcessadorCard): void {
-    card.safeImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl("assets/images/processor-placeholder.png")
+    card.safeImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      'assets/images/processor-placeholder.png'
+    );
   }
 
   startCountdown(targetDate: Date): void {
@@ -193,11 +212,15 @@ export class HomeComponent implements OnInit {
       }
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      const formatted = `${this.pad(days)}D ${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
+      const formatted = `${this.pad(days)}D ${this.pad(hours)}:${this.pad(
+        minutes
+      )}:${this.pad(seconds)}`;
       this._countdown.next(formatted);
     });
   }
@@ -219,6 +242,16 @@ export class HomeComponent implements OnInit {
       this.currentIndex++;
     } else {
       this.currentIndex = 0;
+    }
+  }
+  startAutoSlide(): void {
+    this.autoSlideInterval = setInterval(() => {
+      this.nextSlide();
+    }, 5000); // Troca de slide a cada 5 segundos
+  }
+  stopAutoSlide(): void {
+    if (this.autoSlideInterval) {
+      clearInterval(this.autoSlideInterval);
     }
   }
 }

@@ -42,6 +42,7 @@ export const routes: Routes = [
     component: TemplateComponent,
     title: 'Telas de Usuário',
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
       {
         path: 'login',
         component: LoginComponent,
@@ -77,6 +78,11 @@ export const routes: Routes = [
         path: 'pagamento/adicionar_cartao',
         component: AdicionarCartaoComponent
       },
+      {
+        path: 'perfil',
+        component: UsuarioFormComponent,
+        title: 'Perfil do Usuário',
+      }
     ]
   },
   {

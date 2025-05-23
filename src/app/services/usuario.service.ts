@@ -38,6 +38,8 @@ export class UsuarioService {
     return this.httpClient.get<number>(`${this.baseUrl}/count`);
   }
 
+ 
+
   findById(id: string): Observable<Usuario> {
     return this.httpClient.get<Usuario>(`${this.baseUrl}/${id}`);
   }
