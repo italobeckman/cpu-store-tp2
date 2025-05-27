@@ -10,10 +10,11 @@ export class CarrinhoService {
   private produtosSubject = new BehaviorSubject<Produto[]>(this.produtos);
 
   constructor() {
+    // Tenta carregar carrinho genérico do sessionStorage ao iniciar
     const carrinhoSalvo = sessionStorage.getItem('carrinho');
     if (carrinhoSalvo) {
       this.produtos = JSON.parse(carrinhoSalvo);
-      this.produtosSubject.next(this.produtos); 
+      this.produtosSubject.next(this.produtos);
     }
   }
 
@@ -23,6 +24,8 @@ export class CarrinhoService {
 
   adicionarProduto(produto: Produto) {
     const index = this.produtos.findIndex(p => p.id === produto.id);
+
+    console.log("Adicionando produto:", produto);
 
     if (index > -1) {
       const produtoExistente = { ...this.produtos[index] };
@@ -39,7 +42,10 @@ export class CarrinhoService {
     this.atualizarStorage();
   }
 
-  limparCarrinho(){}
+  limparCarrinho() {
+    this.produtos = [];
+    this.atualizarStorage();
+  }
   
   removerProduto(produtoId: number) {
     this.produtos = this.produtos.filter(p => p.id !== produtoId);
@@ -72,7 +78,6 @@ export class CarrinhoService {
           ...this.produtos.slice(index + 1)
         ];
       } else {
-        // Se a quantidade for 1 e diminuir, remove o produto
         this.produtos = this.produtos.filter(p => p.id !== produtoId);
       }
       this.atualizarStorage();

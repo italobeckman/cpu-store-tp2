@@ -7,28 +7,40 @@
           <p class="header-subtitle">Itens no carrinho</p>
         </div>
         <div class="cart-icon">
-          <mat-icon>shopping_cart</mat-icon>
+          <a class="carrinho-link" href="/carrinho">
+            <mat-icon>shopping_cart</mat-icon>
+          </a>
         </div>
       </div>
   
       <!-- Lista de Itens -->
       <div class="pagamento-content">
         <div class="items-list">
-          <div class="item" *ngFor="let produto of produtosNome; let i = index">
+          <div class="item" *ngFor="let produto of produtos; let i = index">
             <div class="item-number">{{ i + 1 }}</div>
             <div class="item-details">
-              <div class="item-name">{{ produto }}</div>
+              <div class="item-name">{{ produto.nome }}</div>
               <div class="item-price">R$ {{ valorParaPagar }}</div>
             </div>
             <div class="item-quantity">
-              <button class="quantity-btn decrease" aria-label="Diminuir quantidade">
+              <button
+                class="quantity-btn decrease"
+                aria-label="Diminuir quantidade"
+                (click)="diminuirQuantidade(produto.id)"
+              >
                 <mat-icon>remove</mat-icon>
               </button>
-              <span class="quantity-value">1</span>
-              <button class="quantity-btn increase" aria-label="Aumentar quantidade">
+            
+              <span class="quantity-value">{{ produto.quantidade }}</span>
+            
+              <button
+                class="quantity-btn increase"
+                aria-label="Aumentar quantidade"
+                (click)="aumentarQuantidade(produto.id)"
+              >
                 <mat-icon>add</mat-icon>
               </button>
-            </div>
+            </div>            
             <button class="remove-btn" aria-label="Remover item">
               <mat-icon>close</mat-icon>
             </button>
@@ -38,10 +50,17 @@
         <!-- Cupom de Desconto -->
         <div class="coupon-section">
           <div class="coupon-input">
-            <input type="text" placeholder="Código promocional" aria-label="Código promocional">
-            <button class="apply-btn">Aplicar</button>
+            <input 
+              type="text"
+              placeholder="Código promocional"
+              aria-label="Código promocional"
+              [(ngModel)]="codigoPromocional"
+              name="codigoPromocional"
+            >
+            <button class="apply-btn" (click)="aplicarCupom()">Aplicar</button>
           </div>
         </div>
+        
   
         <!-- Resumo de Valores -->
         <div class="summary-section">
@@ -87,13 +106,29 @@
                   [ngClass]="{ 'selected': cartaoSelecionado === cartao }"
                   (click)="selecionarCartao(cartao)"
                 >
-                  <div class="card-content">
-                    <mat-icon class="card-icon">credit_card</mat-icon>
-                    <div class="card-details">
-                      <span class="card-apelido">{{ cartao.apelido }}</span>
-                      <span class="card-digitos">**** **** **** {{ cartao.ultimoDigito }}</span>
+                <div class="card-content">
+                  <mat-icon class="card-icon" aria-hidden="true">credit_card</mat-icon>
+                
+                  <div class="card-details">
+                    <div class="card-header">
+                      <strong class="card-titular" aria-label="Nome do titular">
+                        {{ cartao.nomeTitular }}
+                      </strong>
+                      <span class="card-tipo mat-caption" aria-label="Tipo do cartão">
+                        {{ cartao.tipo.label }}
+                      </span>
+                    </div>
+                
+                    <div class="card-numero mat-body-1" aria-label="Número do cartão">
+                      **** **** **** {{ cartao.numero?.slice(-4) }}
+                    </div>
+                
+                    <div class="card-validade mat-body-2" aria-label="Validade do cartão">
+                      Válido até: {{ cartao.validade | date:'MM/yy' }}
                     </div>
                   </div>
+                </div>
+                
                 </mat-card>
               </div>
             
@@ -126,14 +161,29 @@
             
           </div>
         </form>
-  
+
+        <button mat-stroked-button color="primary" (click)="adicionarEndereco()" class="add-card-button">
+          <mat-icon>add</mat-icon>
+          Adicionar endereço
+        </button>
+        <form [formGroup]="formEndereco">
+          <div class="payment-method-wrapper">
+            <label for="enderecoSelecionado" class="payment-label">Endereços Cadastrados</label>
+            <select id="enderecoSelecionado" formControlName="selecionarEndereco" class="payment-select">
+              <option *ngFor="let endereco of enderecos" [value]="endereco.id">
+                {{ endereco.logradouro }}, {{ endereco.numero }} - {{ endereco.cidade.nome }}
+              </option>
+            </select>
+          </div> 
+        </form>
+        
         <!-- Botões de Ação -->
         <div class="action-buttons">
-          <button class="continue-btn">
+          <button class="continue-btn" (click)="continuarComprando()">
             <mat-icon>arrow_back</mat-icon>
             <span>Continuar comprando</span>
           </button>
-          <button class="checkout-btn" (click)="finalizarCompra()" [disabled]="formaPagamentoSelecionada === 'cartao' && !cartaoSelecionado" [ngClass]="{ 'disabled-button': !cartaoSelecionado }">
+          <button class="checkout-btn" (click)="finalizarCompra()" [disabled]="formaPagamentoSelecionada === 'cartao' && !cartaoSelecionado" [ngClass]="{ 'disabled-button': !cartaoSelecionado || !parcelaSelecionada }">
 
             <span>Finalizar Compra</span>
             <mat-icon>arrow_forward</mat-icon>
@@ -175,7 +225,7 @@
           <span>Total:</span>
           <span class="mobile-price">R$ {{ valorParaPagar }}</span>
         </div>
-        <button mat-raised-button color="accent" [disabled]="formaPagamentoSelecionada === 'cartao' && (!cartaoSelecionado || true)" (click)="finalizarCompra()">
+        <button mat-raised-button color="accent" [disabled]="formaPagamentoSelecionada === 'cartao' && !cartaoSelecionado || !parcelaSelecionada" (click)="finalizarCompra()">
           Finalizar Compra
         </button>     
       </div>

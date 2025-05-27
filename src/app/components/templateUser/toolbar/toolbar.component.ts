@@ -47,7 +47,7 @@ import { Usuario } from '../../../models/usuario.model';
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
   searchQuery = '';
-  cartItemCount = 3;
+  cartItemCount: any = '';
   isMobileMenuOpen = false;
   usuarioLogado: Usuario | null = null;
   username: string | null = '';

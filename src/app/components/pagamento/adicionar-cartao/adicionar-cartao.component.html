@@ -1,66 +1,65 @@
 <div class="cartao-container">
-    <h2>Adicione um novo cartão</h2>
-  
-    <mat-card class="cartao-box">
-      <div class="cartao-header">
-        <mat-icon>credit_card</mat-icon>
-        <span>Novo cartão de crédito</span>
-      </div>
-  
-      <form [formGroup]="formCartao" class="cartao-form">
-  
-        <!-- Número do Cartão -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Número do cartão</mat-label>
-          <input matInput formControlName="numero" placeholder="1234 1234 1234 1234" maxlength="19">
-          <mat-icon matSuffix>credit_card</mat-icon>
+  <h2>Adicione um novo cartão</h2>
+
+  <mat-card class="cartao-box">
+    <div class="cartao-header">
+      <mat-icon>credit_card</mat-icon>
+      <span>Novo cartão</span>
+    </div>
+
+    <form [formGroup]="formCartao" class="cartao-form">
+
+      <!-- Nome do Titular -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome do titular</mat-label>
+        <input matInput formControlName="nomeTitular" placeholder="Ex.: Maria Lopes">
+      </mat-form-field>
+
+      <!-- Número do Cartão -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Número do cartão</mat-label>
+        <input matInput formControlName="numero" placeholder="Somente números (16 dígitos)" maxlength="16">
+      </mat-form-field>
+
+      <!-- CPF -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>CPF</mat-label>
+        <input matInput formControlName="cpf" placeholder="Somente números (11 dígitos)" maxlength="11">
+      </mat-form-field>
+
+      <div class="form-row">
+        <!-- Validade -->
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Validade</mat-label>
+          <input matInput type="date" formControlName="validade">
         </mat-form-field>
-  
-        <!-- Nome do Titular -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nome do titular</mat-label>
-          <input matInput formControlName="nome" placeholder="Ex.: Maria Lopes">
-          <mat-hint>Conforme aparece no cartão.</mat-hint>
-        </mat-form-field>
-  
-        <div class="form-row">
-          <!-- Vencimento -->
-          <mat-form-field appearance="outline" class="half-width">
-            <mat-label>Vencimento</mat-label>
-            <input matInput formControlName="vencimento" placeholder="MM/AA" maxlength="5">
-          </mat-form-field>
-  
-          <!-- Código de segurança -->
-          <mat-form-field appearance="outline" class="half-width">
-            <mat-label>Código de segurança</mat-label>
-            <input matInput formControlName="codigoSeguranca" placeholder="Ex.: 123" maxlength="4">
-            <button mat-icon-button matSuffix matTooltip="Código de 3 ou 4 dígitos no verso do cartão" tabindex="-1">
-              <mat-icon>help_outline</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-  
-        <!-- Documento -->
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="doc-select">
-            <mat-label>Documento do titular</mat-label>
-            <mat-select formControlName="tipoDocumento">
-              <mat-option value="cpf">CPF</mat-option>
-              <mat-option value="cnpj">CNPJ</mat-option>
-            </mat-select>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" class="doc-input">
-            <input matInput formControlName="documento" placeholder="999.999.999-99">
-          </mat-form-field>
-        </div>
-  
-        <!-- Botão -->
-        <div class="button-row">
-          <button mat-flat-button color="primary" (click)="continuar()">
-            Continuar
+
+        <!-- CVC -->
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Código de segurança</mat-label>
+          <input matInput formControlName="cvc" placeholder="Ex.: 123" maxlength="4">
+          <button mat-icon-button matSuffix matTooltip="Código de 3 ou 4 dígitos no verso do cartão" tabindex="-1">
+            <mat-icon>help_outline</mat-icon>
           </button>
-        </div>
-      </form>
-    </mat-card>
+        </mat-form-field>
+      </div>
+
+      <!-- Tipo do Cartão -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo do cartão</mat-label>
+        <mat-select formControlName="tipoCartao">
+          <mat-option *ngFor="let tipo of tiposCartao" [value]="tipo">
+            {{ tipo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Botão -->
+      <div class="button-row">
+        <button mat-flat-button color="primary" (click)="continuar()">
+          Continuar
+        </button>
+      </div>
+    </form>
+  </mat-card>
 </div>

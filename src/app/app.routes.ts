@@ -35,6 +35,7 @@ import { CarinhoProcessadorComponent } from './components/home/carinho-processad
 import { TemplateComponent } from './components/templateUser/template/template.component';
 import { ResumoPagamentoComponent } from './components/pagamento/pagamento.component';
 import { AdicionarCartaoComponent } from './components/pagamento/adicionar-cartao/adicionar-cartao.component';
+import { AdicionarEnderecoComponent } from './components/pagamento/adicionar-endereco/adicionar-endereco.component';
 
 export const routes: Routes = [
   {
@@ -82,6 +83,11 @@ export const routes: Routes = [
         path: 'perfil',
         component: UsuarioFormComponent,
         title: 'Perfil do Usuário',
+      },
+      {
+        path: 'enderecos/adicionar',
+        component: AdicionarEnderecoComponent,
+        title: 'Tela de enderecos'
       }
     ]
   },

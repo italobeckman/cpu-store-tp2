@@ -9,10 +9,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TipoCartao } from '../../../models/cartao.model';
+import { CartaoService } from '../../../services/cartao.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adicionar-cartao',
-  standalone: true, // necessário para usar "imports"
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -29,22 +32,40 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class AdicionarCartaoComponent {
   formCartao: FormGroup;
+  tiposCartao = Object.values(TipoCartao);
 
-  constructor(private fb: FormBuilder) {
+  // 👇 Correto: dentro da classe
+  tipoCartaoMap: Record<string, number> = {
+    CREDITO: 1,
+    DEBITO: 2
+  };
+
+  constructor(private fb: FormBuilder, private cartaoService: CartaoService,private router: Router ) {
     this.formCartao = this.fb.group({
-      numero: ['', [Validators.required, Validators.pattern(/^\d{4} \d{4} \d{4} \d{4}$/)]],
-      nome: ['', Validators.required],
-      vencimento: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
-      codigoSeguranca: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(4)]],
-      tipoDocumento: ['cpf', Validators.required],
-      documento: ['', Validators.required]
+      nomeTitular: ['', Validators.required],
+      numero: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      cpf: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
+      validade: ['', Validators.required],
+      cvc: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]],
+      tipoCartao: ['', Validators.required]
     });
   }
 
   continuar() {
     if (this.formCartao.valid) {
-      console.log('Cartão adicionado:', this.formCartao.value);
-      // lógica para enviar ao backend ou próximo passo
+      // 👇 Corrigido: criando uma cópia do form para modificar
+      const formValue = { ...this.formCartao.value };
+
+      // 👇 Converte string para número
+      formValue.tipoCartao = this.tipoCartaoMap[formValue.tipoCartao];
+
+      this.cartaoService.create(formValue).subscribe({
+        next: (res) => {
+          console.log('Cartão criado com sucesso:', res)
+          this.router.navigate(['/pagamento']);  
+        },
+        error: (err) => console.error('Erro ao criar cartão:', err)
+      });
     } else {
       this.formCartao.markAllAsTouched();
     }

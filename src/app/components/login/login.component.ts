@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CarrinhoService } from '../../services/carrinho.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,8 @@ hidePassword: any;
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private carrinhoService: CarrinhoService,
   ) { }
 
   ngOnInit(): void {
@@ -51,24 +53,26 @@ hidePassword: any;
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      console.log(this.loginForm.get('username')!.value);
-
-      
       const username = this.loginForm.get('username')!.value;
       const password = this.loginForm.get('password')!.value;
-      
-      this.authService.loginADM(username, password).subscribe({
+  
+      this.carrinhoService.limparCarrinho()
+      this.authService.login(username, password).subscribe({
         next: () => {
-          this.router.navigate(['/admin']);
+          if(this.authService.hasRole("Admin") || this.authService.hasRole("SUPER")){
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/home']);
+          }
         },
-       
+        error: (err) => {
+          this.showSnackbarTopPosition("Erro no login: " + err.message, 'Fechar', 3000);
+        }
       });
     } else {
-      this.showSnackbarTopPosition("Dados inválidos", 'Fechar', 2000);
+      this.showSnackbarTopPosition("Dados inválidos", 'Fechar', 2000)
     }
   }
-  
 
   onRegister() {
     // criar usuário

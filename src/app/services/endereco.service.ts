@@ -21,7 +21,7 @@ export class EnderecoService {
       };
     }
 
-    return this.httpClient.get<Endereco[]>(this.baseUrl, { params })
+    return this.httpClient.get<Endereco[]>(`${this.baseUrl}/usuarios`, { params })
       .pipe(
         tap(data => console.log('Endereços retornados da API:', data))
       );

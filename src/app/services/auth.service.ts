@@ -45,7 +45,7 @@ export class AuthService {
     }
   }
 
-  loginADM(username: string, senha: string): Observable<any> {
+  login(username: string, senha: string): Observable<any> {
     const params = {
       username: username,
       senha: senha,
@@ -70,6 +70,30 @@ export class AuthService {
       );
   }
 
+  hasRole(role: string): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+  
+    try {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const resourceAccess = decodedToken?.resource_access;
+      
+      if (resourceAccess) {
+        // Verifica roles do client `backend-service`
+        const backendRoles: string[] = resourceAccess['backend-service']?.roles || [];
+  
+        return backendRoles.includes(role);
+      }
+  
+      return false;
+    } catch (error) {
+      console.error('Erro ao verificar role no token', error);
+      return false;
+    }
+  }  
+  
   setToken(token: string): void {
     this.localStorageService.setItem(this.tokenKey, token);
   }

@@ -1,0 +1,76 @@
+/* Estilização geral do formulário */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+  }
+  
+  /* Organização das linhas com espaçamento uniforme */
+  .form-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  /* Cada campo ocupa metade da largura em telas médias/grandes */
+  .form-field {
+    flex: 1 1 calc(50% - 12px);
+    min-width: 260px;
+  }
+  
+  /* Aparência do cartão */
+  mat-card {
+    margin: 32px auto;
+    padding: 32px 24px;
+    max-width: 1000px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    background-color: #fff;
+  }
+  
+  /* Botões alinhados à direita e com espaçamento */
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  
+  button {
+    color:white;
+  }
+  /* Barra de título com aparência destacada */
+  mat-toolbar.toolbar-title {
+    font-size: 22px;
+    font-weight: 600;
+    background-color: #3f51b5;
+    color: white;
+    border-radius: 0 0 8px 8px;
+    padding: 12px;
+    justify-content: center;
+  }
+  
+  /* Melhor aparência dos mat-form-field */
+  mat-form-field {
+    width: 100%;
+  }
+  
+  /* Responsividade para telas menores */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+    }
+  
+    .form-field {
+      flex: 1 1 100%;
+    }
+  
+    mat-card {
+      margin: 16px;
+      padding: 24px 16px;
+    }
+  }
+
+  
