@@ -35,6 +35,8 @@ import { CarinhoProcessadorComponent } from './components/home/carinho-processad
 import { TemplateComponent } from './components/templateUser/template/template.component';
 import { ResumoPagamentoComponent } from './components/pagamento/pagamento.component';
 import { AdicionarCartaoComponent } from './components/pagamento/adicionar-cartao/adicionar-cartao.component';
+import { PerfilComponent } from './components/usuario/perfil/perfil.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
 
 export const routes: Routes = [
   {
@@ -43,6 +45,16 @@ export const routes: Routes = [
     title: 'Telas de Usuário',
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home' },
+      {
+        path: 'perfil',
+        component: PerfilComponent,
+        title: 'Perfil do Usuário', 
+      },
+      {
+        path: 'pedidos',
+        component: PedidosComponent,
+        title: 'Meus Pedidos',
+      },
       {
         path: 'login',
         component: LoginComponent,
