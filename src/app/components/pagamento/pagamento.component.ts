@@ -28,6 +28,7 @@ import { Cartao, CartaoRetorno } from "../../models/cartao.model"
 import { Produto } from "../../models/Produto.model"
 import { CupomService } from "../../services/cupom.service"
 import { Cupom } from "../../models/cupom.model"
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 
 @Component({
   selector: "app-pagamento",
@@ -52,6 +53,7 @@ import { Cupom } from "../../models/cupom.model"
     MatFormField,
     MatLabel,
     MatOption,
+    MatProgressSpinnerModule,
   ],
   templateUrl: "./pagamento.component.html",
   styleUrls: ["./pagamento.component.css"],
@@ -72,6 +74,8 @@ export class ResumoPagamentoComponent implements OnInit {
   installmentOptions: { text: string; value: string }[] = []
   parcelaSelecionada: { text: string; value: string } | null = null;
 
+  isProcessing = false;
+
   get formaPagamentoSelecionada(): string {
     return this.formPagamento.get('formaPagamento')?.value;
   }
@@ -80,7 +84,20 @@ export class ResumoPagamentoComponent implements OnInit {
     return this.formEndereco.get('selecionarEndereco')?.value;
   }
 
+  get podeFinalizarCompra(): boolean {
+    const enderecoSelecionado = this.formEndereco.get('selecionarEndereco')?.value;
+    const formaPagamento = this.formPagamento.get('formaPagamento')?.value;
+  
+    if (!enderecoSelecionado) return false;
+  
+    if (formaPagamento === 'cartao') {
+      return !!this.cartaoSelecionado && !!this.parcelaSelecionada;
+    }
+  
+    return true;
+  }
 
+  
   selecionarParcela(option: { text: string; value: string }) {
     this.parcelaSelecionada = option;
   }  
@@ -269,9 +286,23 @@ export class ResumoPagamentoComponent implements OnInit {
     }
   
     if (this.formaPagamentoSelecionada === 'cartao') {
-      
+      this.isProcessing = true;
+    
+      // Simulando processamento com spinner
+      setTimeout(() => {
+        this.isProcessing = false;
+    
+        this.snackBar.open("Compra com cartão finalizada com sucesso!", "Fechar", {
+          duration: 5000,
+          panelClass: ["success-snackbar"],
+        });
+    
+        this.produtos = [];
+        this.router.navigate(["/confirmacao-pedido"]);
+      }, 3000); // Simulando tempo de processamento
       return;
     }
+    
   
     this.snackBar.open("Processando pagamento...", "", {
       duration: 2000,

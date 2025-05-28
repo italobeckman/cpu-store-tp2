@@ -183,12 +183,14 @@
             <mat-icon>arrow_back</mat-icon>
             <span>Continuar comprando</span>
           </button>
-          <button class="checkout-btn" (click)="finalizarCompra()" [disabled]="formaPagamentoSelecionada === 'cartao' && !cartaoSelecionado" [ngClass]="{ 'disabled-button': !cartaoSelecionado || !parcelaSelecionada }">
+          <button class="checkout-btn" (click)="finalizarCompra()" [disabled]="formaPagamentoSelecionada === 'cartao' && !cartaoSelecionado || !selecionarEndereco" [ngClass]="{ 'disabled-button': !cartaoSelecionado || !parcelaSelecionada }">
 
             <span>Finalizar Compra</span>
             <mat-icon>arrow_forward</mat-icon>
           </button>
         </div>
+        <mat-spinner *ngIf="isProcessing" diameter="50" style="margin: 20px auto; display: block;"></mat-spinner>
+
   
         <!-- Segurança e Métodos de Pagamento -->
         <div class="security-section">
@@ -225,10 +227,15 @@
           <span>Total:</span>
           <span class="mobile-price">R$ {{ valorParaPagar }}</span>
         </div>
-        <button mat-raised-button color="accent" [disabled]="formaPagamentoSelecionada === 'cartao' && !cartaoSelecionado || !parcelaSelecionada" (click)="finalizarCompra()">
-          Finalizar Compra
-        </button>     
+        <button mat-raised-button color="accent"
+            [disabled]="!podeFinalizarCompra"
+            (click)="finalizarCompra()">
+      Finalizar Compra
+        </button>
+
       </div>
     </div>
   </div>
+  
+
   

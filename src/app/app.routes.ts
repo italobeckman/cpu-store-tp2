@@ -36,6 +36,8 @@ import { TemplateComponent } from './components/templateUser/template/template.c
 import { ResumoPagamentoComponent } from './components/pagamento/pagamento.component';
 import { AdicionarCartaoComponent } from './components/pagamento/adicionar-cartao/adicionar-cartao.component';
 import { AdicionarEnderecoComponent } from './components/pagamento/adicionar-endereco/adicionar-endereco.component';
+import { PerfilComponent } from './components/usuario/perfil/perfil.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +46,16 @@ export const routes: Routes = [
     title: 'Telas de Usuário',
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home' },
+      {
+        path: 'perfil',
+        component: PerfilComponent,
+        title: 'Perfil do Usuário', 
+      },
+      {
+        path: 'pedidos',
+        component: PedidosComponent,
+        title: 'Meus Pedidos',
+      },
       {
         path: 'login',
         component: LoginComponent,
