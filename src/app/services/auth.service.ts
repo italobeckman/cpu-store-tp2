@@ -53,7 +53,7 @@ export class AuthService {
     return this.http
       .post(`${this.baseURL}`, params, {
         observe: 'response',
-        responseType: 'json', // agora espera JSON
+        responseType: 'json', 
       })
       .pipe(
         tap((res: any) => {
