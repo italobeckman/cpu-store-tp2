@@ -59,8 +59,12 @@ export class HomeComponent implements OnInit {
   autoSlideInterval: any;
 
   images = [
+    '/img/banner/banner3.png',
+    '/img/banner/banner2.png',
+    '/img/banner/banner1.png',
     '/img/promocao.jpeg',
     '/img/ChatGPT Image 15 de mai. de 2025, 11_34_28.png',
+    
   ];
 
   constructor(
@@ -194,6 +198,10 @@ export class HomeComponent implements OnInit {
     card.safeImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       'assets/images/processor-placeholder.png'
     );
+  }
+
+  onImageError(event: any): void {
+    event.target.src = '/img/processor-placeholder.png';
   }
 
   startCountdown(targetDate: Date): void {

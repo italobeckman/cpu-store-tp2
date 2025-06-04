@@ -9,7 +9,6 @@ export class LocalStorageService {
 
   getItem(key: string): any {
     const value = localStorage.getItem(key);
-    // Só faz JSON.parse se for um objeto (opcional: use um prefixo ou tente/catch)
     try {
       return JSON.parse(value as string);
     } catch {

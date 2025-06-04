@@ -10,7 +10,7 @@
         <!-- Campo de Usuário -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome de Usuário*</mat-label>
-          <input matInput formControlName="username" placeholder="Digite seu username">
+          <input matInput formControlName="username" placeholder="Digite seu username" >
           <mat-icon matSuffix>person</mat-icon>
           <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
             <mat-icon>error</mat-icon> Nome de usuário é obrigatório

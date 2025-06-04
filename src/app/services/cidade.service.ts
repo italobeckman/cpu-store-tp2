@@ -38,4 +38,9 @@ export class CidadeService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  findByEstado(estadoId: number): Observable<Cidade[]> {
+    return this.http.get<Cidade[]>(`${this.baseUrl}/search/estado/${estadoId}`);
+  }
+
 }

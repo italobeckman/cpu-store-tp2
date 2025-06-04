@@ -38,6 +38,7 @@ import { AdicionarCartaoComponent } from './components/pagamento/adicionar-carta
 import { AdicionarEnderecoComponent } from './components/pagamento/adicionar-endereco/adicionar-endereco.component';
 import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -49,12 +50,14 @@ export const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
-        title: 'Perfil do Usuário', 
+        title: 'Perfil do Usuário',
+        canActivate: [authGuard]
       },
       {
         path: 'pedidos',
         component: PedidosComponent,
         title: 'Meus Pedidos',
+        canActivate: [authGuard]
       },
       {
         path: 'login',
@@ -90,16 +93,6 @@ export const routes: Routes = [
       {
         path: 'pagamento/adicionar_cartao',
         component: AdicionarCartaoComponent
-      },
-      {
-        path: 'perfil',
-        component: UsuarioFormComponent,
-        title: 'Perfil do Usuário',
-      },
-      {
-        path: 'enderecos/adicionar',
-        component: AdicionarEnderecoComponent,
-        title: 'Tela de enderecos'
       }
     ]
   },

@@ -56,7 +56,10 @@
             </div>
             <!-- Product Image -->
             <div class="product-image-container">
-              <img [src]="proc.primaryImageUrl" class="product-image">
+              <img [src]="proc.primaryImageUrl || '/img/processor-placeholder.png'" 
+                   class="product-image"
+                   (error)="onImageError($event)"
+                   [alt]="proc.nome">
             </div>
             <!-- Product Actions -->
             <div class="product-actions">
@@ -91,7 +94,10 @@
             </div>
             <!-- Product Image -->
             <div class="product-image-container">
-              <img [src]="proc.primaryImageUrl" class="product-image">
+              <img [src]="proc.primaryImageUrl || '/img/processor-placeholder.png'" 
+                   class="product-image"
+                   (error)="onImageError($event)"
+                   [alt]="proc.nome">
             </div>
             <!-- Product Actions -->
             <div class="product-actions">
@@ -126,7 +132,10 @@
             </div>
             <!-- Product Image -->
             <div class="product-image-container">
-              <img [src]="proc.primaryImageUrl" class="product-image">
+              <img [src]="proc.primaryImageUrl || '/img/processor-placeholder.png'" 
+                   class="product-image"
+                   (error)="onImageError($event)"
+                   [alt]="proc.nome">
             </div>
             <!-- Product Actions -->
             <div class="product-actions">

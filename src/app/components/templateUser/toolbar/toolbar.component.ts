@@ -22,6 +22,8 @@ import { SearchService } from '../../../services/search.service';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { Usuario } from '../../../models/usuario.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-toolbar',
@@ -52,7 +54,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   usuarioLogado: Usuario | null = null;
   username: string | null = '';
   isloogedIn: boolean = false;
-  
+
   private subscription = new Subscription();
 
   // Example navigation items
@@ -67,18 +69,19 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   constructor(
     private searchService: SearchService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private jwtHelperService: JwtHelperService
   ) {}
-isLoggedIn(): boolean {
-  return !!localStorage.getItem('jwt_token');
-}
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('jwt_token');
+  }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  
+
   ngOnInit(): void {
 
-    this.username = this.authService.getUsername();
+    this.username = this.getUsernameFromToken();
     this.obterUsuarioLogado();
   }
 
@@ -99,7 +102,7 @@ isLoggedIn(): boolean {
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
   }
-  
+
   obterUsuarioLogado() {
     this.subscription.add(
       this.authService.getUsuarioLogado().subscribe((usuario) => {
@@ -111,7 +114,34 @@ isLoggedIn(): boolean {
   deslogar() {
     this.authService.removeToken();
     this.authService.removeUsuarioLogado();
-    
+
     location.reload();
   }
+
+   public getTokenPayload(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch (error) {
+      console.error('Erro ao decodificar o token:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Retorna um dado específico do token
+   */
+  public getClaimFromToken(token: string, claim: string): any {
+    const payload: any = this.getTokenPayload(token);
+    console.log(payload);
+    return payload ? payload[claim] : null;
+
+  }
+
+  public getUsernameFromToken(): string | null {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) return null;
+    return this.getClaimFromToken(token, 'given_name');
+
+  }
 }
+

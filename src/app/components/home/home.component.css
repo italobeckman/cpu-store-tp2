@@ -90,9 +90,9 @@ body {
   height: 28vw; /* Altura relativa à largura da tela */
   max-height: 400px; /* Limite para telas grandes (ex: 4K) */
   overflow: hidden;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   border: none;
-  border-radius: 18px;
+  border-radius: 10px;
   box-shadow: 0 8px 32px rgba(255,0,0,0.10), 0 1.5px 8px rgba(255,0,0,0.08);
   background: linear-gradient(90deg, #1a0000 60%, #500000 100%);
   display: flex;

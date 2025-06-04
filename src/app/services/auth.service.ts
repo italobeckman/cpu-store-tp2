@@ -57,13 +57,10 @@ export class AuthService {
       })
       .pipe(
         tap((res: any) => {
-          // O corpo da resposta agora é um objeto JSON
           const body = res.body;
           if (body && body.token) {
             this.setToken(body.token);
-            // Salva o username no localStorage
             this.localStorageService.setItem('username', body.username);
-            // Atualize o usuário logado se necessário
             this.usuarioLogadoSubject.next(null);
           }
         })
@@ -81,7 +78,6 @@ export class AuthService {
       const resourceAccess = decodedToken?.resource_access;
       
       if (resourceAccess) {
-        // Verifica roles do client `backend-service`
         const backendRoles: string[] = resourceAccess['backend-service']?.roles || [];
   
         return backendRoles.includes(role);
