@@ -38,8 +38,9 @@ import { AdicionarCartaoComponent } from './components/pagamento/adicionar-carta
 import { AdicionarEnderecoComponent } from './components/pagamento/adicionar-endereco/adicionar-endereco.component';
 import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
-import { authGuard } from './guards/auth.guard';
-
+import { AuthGuard } from './guards/auth.guard';
+import { SobreComponent } from './components/sobre/sobre.component';
+import { ProdutosComponent } from './components/produtos/produtos.component';
 export const routes: Routes = [
   {
     path: '',
@@ -51,13 +52,13 @@ export const routes: Routes = [
         path: 'perfil',
         component: PerfilComponent,
         title: 'Perfil do Usuário',
-        canActivate: [authGuard]
+        canActivate: [AuthGuard],
       },
       {
         path: 'pedidos',
         component: PedidosComponent,
         title: 'Meus Pedidos',
-        canActivate: [authGuard]
+        canActivate: [AuthGuard],
       },
       {
         path: 'login',
@@ -92,57 +93,171 @@ export const routes: Routes = [
       },
       {
         path: 'pagamento/adicionar_cartao',
-        component: AdicionarCartaoComponent
-      }
-    ]
+        component: AdicionarCartaoComponent,
+      },
+      {
+        path: 'sobre',
+        component: SobreComponent,
+      },
+      {
+        path: 'produtos',
+        component: ProdutosComponent,
+      },
+    ],
   },
   {
     path: 'admin',
     component: AdminTemplateComponent,
     title: 'Administrativo',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    data: { roles: ['Super', 'Admin'] },
+
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home' },
       { path: 'home', component: AdminHomeComponent, title: 'Home' },
 
       // Estados
-      { path: 'estados', component: EstadoListComponent, title: 'Lista de Estados' },
-      { path: 'estados/new', component: EstadoFormComponent, title: 'Novo Estado' },
-      { path: 'estados/edit/:id', component: EstadoFormComponent, resolve: { estado: estadoResolver }, title: 'Edição de Estado' },
+      {
+        path: 'estados',
+        component: EstadoListComponent,
+        title: 'Lista de Estados',
+      },
+      {
+        path: 'estados/new',
+        component: EstadoFormComponent,
+        title: 'Novo Estado',
+      },
+      {
+        path: 'estados/edit/:id',
+        component: EstadoFormComponent,
+        resolve: { estado: estadoResolver },
+        title: 'Edição de Estado',
+      },
 
       // Cidades
-      { path: 'cidades', component: CidadeListComponent, title: 'Lista de Cidades' },
-      { path: 'cidades/new', component: CidadeFormComponent, title: 'Nova Cidade' },
-      { path: 'cidades/edit/:id', component: CidadeFormComponent, resolve: { cidade: cidadeResolver }, title: 'Edição de Cidade' },
+      {
+        path: 'cidades',
+        component: CidadeListComponent,
+        title: 'Lista de Cidades',
+      },
+      {
+        path: 'cidades/new',
+        component: CidadeFormComponent,
+        title: 'Nova Cidade',
+      },
+      {
+        path: 'cidades/edit/:id',
+        component: CidadeFormComponent,
+        resolve: { cidade: cidadeResolver },
+        title: 'Edição de Cidade',
+      },
 
       // Usuários
-      { path: 'usuarios', component: UsuarioListComponent, title: 'Listagem de Usuário' },
-      { path: 'usuarios/new', component: UsuarioFormComponent, title: 'Cadastro de Usuário' },
-      { path: 'usuarios/edit/:id', component: UsuarioFormComponent, resolve: { usuario: UsuarioResolver }, title: 'Edição de Usuário' },
+      {
+        path: 'usuarios',
+        component: UsuarioListComponent,
+        title: 'Listagem de Usuário',
+      },
+      {
+        path: 'usuarios/new',
+        component: UsuarioFormComponent,
+        title: 'Cadastro de Usuário',
+      },
+      {
+        path: 'usuarios/edit/:id',
+        component: UsuarioFormComponent,
+        resolve: { usuario: UsuarioResolver },
+        title: 'Edição de Usuário',
+      },
 
       // Fabricantes
-      { path: 'fabricantes', component: FabricanteListComponent, title: 'Listagem de Fabricantes' },
-      { path: 'fabricantes/new', component: FabrocanteFormComponent, title: 'Cadastro de Fabricante' },
-      { path: 'fabricantes/edit/:id', component: FabrocanteFormComponent, resolve: { fabricante: fabricanteResolver }, title: 'Edição de Fabricante' },
+      {
+        path: 'fabricantes',
+        component: FabricanteListComponent,
+        title: 'Listagem de Fabricantes',
+      },
+      {
+        path: 'fabricantes/new',
+        component: FabrocanteFormComponent,
+        title: 'Cadastro de Fabricante',
+      },
+      {
+        path: 'fabricantes/edit/:id',
+        component: FabrocanteFormComponent,
+        resolve: { fabricante: fabricanteResolver },
+        title: 'Edição de Fabricante',
+      },
 
       // Fornecedores
-      { path: 'fornecedores', component: FornecedorListComponent, title: 'Listagem de Fornecedores' },
-      { path: 'fornecedores/new', component: FornecedorFormComponent, title: 'Novo Fornecedor' },
-      { path: 'fornecedores/edit/:id', component: FornecedorFormComponent, resolve: { fornecedor: fornecedorResolver }, title: 'Edição de Fornecedor' },
+      {
+        path: 'fornecedores',
+        component: FornecedorListComponent,
+        title: 'Listagem de Fornecedores',
+      },
+      {
+        path: 'fornecedores/new',
+        component: FornecedorFormComponent,
+        title: 'Novo Fornecedor',
+      },
+      {
+        path: 'fornecedores/edit/:id',
+        component: FornecedorFormComponent,
+        resolve: { fornecedor: fornecedorResolver },
+        title: 'Edição de Fornecedor',
+      },
 
       // Endereços
-      { path: 'enderecos', component: EnderecoListComponent, title: 'Listagem de Endereços' },
-      { path: 'enderecos/new', component: EnderecoFormComponent, title: 'Cadastro de Endereços' },
+      {
+        path: 'enderecos',
+        component: EnderecoListComponent,
+        title: 'Listagem de Endereços',
+      },
+      {
+        path: 'enderecos/new',
+        component: EnderecoFormComponent,
+        title: 'Cadastro de Endereços',
+      },
 
       // Placas Integradas
-      { path: 'placasintegradas', component: PlacaIntegradaListComponent, title: 'Listagem de Placas Integradas' },
-      { path: 'placasintegradas/new', component: PlacaIntegradaFormComponent, title: 'Cadastro de Placas Integradas' },
-      { path: 'placasintegradas/edit/:id', component: PlacaIntegradaFormComponent, title: 'Edição de Placas Integradas' },
+      {
+        path: 'placasintegradas',
+        component: PlacaIntegradaListComponent,
+        title: 'Listagem de Placas Integradas',
+      },
+      {
+        path: 'placasintegradas/new',
+        component: PlacaIntegradaFormComponent,
+        title: 'Cadastro de Placas Integradas',
+      },
+      {
+        path: 'placasintegradas/edit/:id',
+        component: PlacaIntegradaFormComponent,
+        title: 'Edição de Placas Integradas',
+      },
 
       // Processadores
-      { path: 'processadores', component: ProcessadorListComponent, title: 'Listagem de Processadores' },
-      { path: 'processadores/new', component: ProcessadorFormComponent, title: 'Cadastro de Processadores' },
-      { path: 'processadores/edit/:id', component: ProcessadorFormComponent, resolve: { processador: ProcessadorResolver }, title: 'Edição de Processadores' },
-    ]
+      {
+        path: 'processadores',
+        component: ProcessadorListComponent,
+        title: 'Listagem de Processadores',
+      },
+      {
+        path: 'processadores/new',
+        component: ProcessadorFormComponent,
+        title: 'Cadastro de Processadores',
+      },
+      {
+        path: 'processadores/edit/:id',
+        component: ProcessadorFormComponent,
+        resolve: { processador: ProcessadorResolver },
+        title: 'Edição de Processadores',
+      },
+    ],
   },
-  { path: '**', component: NotFound404Component, title: 'Página não encontrada' }
+  {
+    path: '**',
+    component: NotFound404Component,
+    title: 'Página não encontrada',
+  },
 ];

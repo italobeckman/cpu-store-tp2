@@ -153,7 +153,7 @@ export class HomeComponent implements OnInit {
       const primaryImageUrl =
         processador.imagens && processador.imagens.length > 0
           ? this.processadorService.getImageUrl(processador.imagens[0])
-          : 'assets/images/processor-placeholder.png';
+          : 'img/processor-placeholder.png';
 
       const card: ProcessadorCard = {
         id: processador.id,

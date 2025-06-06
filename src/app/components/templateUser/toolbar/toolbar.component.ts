@@ -30,8 +30,8 @@ import { jwtDecode } from 'jwt-decode';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     RouterLink,
+    FormsModule,
     RouterModule,
     MatToolbarModule,
     MatButtonModule,
@@ -60,10 +60,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   // Example navigation items
   navItems = [
     { label: 'Início', link: '/home', icon: 'home' },
-    { label: 'Produtos', link: '/products', icon: 'category' },
-    { label: 'Ofertas', link: '/deals', icon: 'local_offer' },
-    { label: 'Sobre', link: '/about', icon: 'info' },
-    { label: 'Contato', link: '/contact', icon: 'contact_support' },
+    { label: 'Produtos', link: '/produtos', icon: 'category' },
+    { label: 'Sobre', link: '/sobre', icon: 'info' },
   ];
 
   constructor(
@@ -80,9 +78,20 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.username = this.getUsernameFromToken();
     this.obterUsuarioLogado();
+
+    this.subscription.add(
+      this.authService.getUsuarioLogado().subscribe((usuario) => {
+        this.usuarioLogado = usuario;
+        this.isloogedIn = !!usuario;
+        if (usuario) {
+          this.username = this.getUsernameFromToken();
+        } else {
+          this.username = null;
+        }
+      })
+    );
   }
 
   onSearch(): void {
@@ -140,7 +149,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   public getUsernameFromToken(): string | null {
     const token = localStorage.getItem('jwt_token');
     if (!token) return null;
-    return this.getClaimFromToken(token, 'given_name');
+    return this.getClaimFromToken(token, 'preferred_username');
 
   }
 }

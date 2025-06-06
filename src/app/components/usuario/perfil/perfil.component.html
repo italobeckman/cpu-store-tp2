@@ -4,382 +4,138 @@
 />
 <title>Meu Perfil</title>
 <body>
-  <!-- Main Content -->
-  <main class="main-content">
-    <div class="container">
-      <div class="profile-header">
-        <h1>Meu Perfil</h1>
-        <p>Gerencie suas informações pessoais e preferências</p>
-      </div>
+  <div class="content-container">
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="profile-header">
+          <h1>Meu Perfil</h1>
+          <p>Gerencie suas informações pessoais e preferências</p>
+        </div>
 
-      <div class="profile-container" *ngIf="!loading">
-        <!-- Sidebar -->
-        <aside class="profile-sidebar">
-          <div class="profile-avatar-section">
-            <div class="avatar-container">
-              <img
-                [src]="loadImageUrl(perfilUsuario?.nomeImagem || '')"
-                alt="Foto do perfil"
-                class="avatar-img"
-                id="avatarImg"
-              />
-              <div class="avatar-overlay" (click)="fileInput.click()">
-                <i class="fas fa-camera"></i>
+        <div class="profile-container" *ngIf="!loading">
+          <!-- Sidebar -->
+          <aside class="profile-sidebar">
+            <div class="profile-avatar-section">
+              <div class="avatar-container">
+                <img
+                  [src]="loadImageUrl(perfilUsuario?.nomeImagem || '')"
+                  alt="Foto do perfil"
+                  class="avatar-img"
+                  id="avatarImg"
+                />
+                <div class="avatar-overlay" (click)="fileInput.click()">
+                  <i class="fas fa-camera"></i>
+                </div>
+                <input
+                  type="file"
+                  id="avatarInput"
+                  accept="image/*"
+                  (change)="onAvatarSelected($event)"
+                  style="display: none"
+                  #fileInput
+                />
               </div>
-              <input
-                type="file"
-                id="avatarInput"
-                accept="image/*"
-                (change)="onAvatarSelected($event)"
-                style="display: none"
-                #fileInput
-              />
+              <h3>{{ perfilUsuario?.username || "Usuário" }}</h3>
+              <p>{{ perfilUsuario?.email || "email@exemplo.com" }}</p>
             </div>
-            <h3>{{ perfilUsuario?.username || "Usuário" }}</h3>
-            <p>{{ perfilUsuario?.email || "email@exemplo.com" }}</p>
-          </div>
 
-          <nav class="profile-nav">
-            <button
-              type="button"
-              class="profile-nav-item"
+            <nav class="profile-nav">
+              <button
+                type="button"
+                class="profile-nav-item"
+                [class.active]="activeSection === 'personal'"
+                (click)="changeSection('personal')"
+              >
+                <i class="fas fa-user"></i>
+                Informações Pessoais
+              </button>
+              <button
+                type="button"
+                class="profile-nav-item"
+                [class.active]="activeSection === 'address'"
+                (click)="changeSection('address')"
+              >
+                <i class="fas fa-map-marker-alt"></i>
+                Endereços
+              </button>
+              <button
+                type="button"
+                class="profile-nav-item"
+                [class.active]="activeSection === 'payment'"
+                (click)="changeSection('payment')"
+              >
+                <i class="fas fa-credit-card"></i>
+                Cartões de Crédito
+              </button>
+            </nav>
+          </aside>
+
+          <!-- Content Area -->
+          <div class="profile-content">
+            <!-- Personal Information Section -->
+            <section
+              class="profile-section"
               [class.active]="activeSection === 'personal'"
-              (click)="changeSection('personal')"
             >
-              <i class="fas fa-user"></i>
-              Informações Pessoais
-            </button>
-            <button
-              type="button"
-              class="profile-nav-item"
-              [class.active]="activeSection === 'address'"
-              (click)="changeSection('address')"
-            >
-              <i class="fas fa-map-marker-alt"></i>
-              Endereços
-            </button>
-            <button
-              type="button"
-              class="profile-nav-item"
-              [class.active]="activeSection === 'payment'"
-              (click)="changeSection('payment')"
-            >
-              <i class="fas fa-credit-card"></i>
-              Cartões de Crédito
-            </button>
-       </nav>
-    </aside>
-         
-
-
-        <!-- Content Area -->
-        <div class="profile-content">
-          <!-- Personal Information Section -->
-          <section
-            class="profile-section"
-            [class.active]="activeSection === 'personal'"
-          >
-            <div class="section-header">
-              <h2>Informações Pessoais</h2>
-              <p>Atualize suas informações básicas</p>
-            </div>
-
-            <form
-              class="profile-form"
-              [formGroup]="personalForm"
-              (ngSubmit)="onPersonalFormSubmit()"
-            >
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="username">Nome de Usuário</label>
-                  <input
-                    type="text"
-                    id="username"
-                    formControlName="username"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="email">E-mail</label>
-                  <input
-                    type="email"
-                    id="email"
-                    formControlName="email"
-                    required
-                  />
-                </div>
+              <div class="section-header">
+                <h2>Informações Pessoais</h2>
+                <p>Atualize suas informações básicas</p>
               </div>
 
-              <div class="form-row" formGroupName="telefone">
-                <div class="form-group">
-                  <label for="codigoArea">Código de Área</label>
-                  <input
-                    type="text"
-                    id="codigoArea"
-                    formControlName="codigoArea"
-                    placeholder="11"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="numeroTelefone">Telefone</label>
-                  <input
-                    type="tel"
-                    id="numeroTelefone"
-                    formControlName="numero"
-                    placeholder="99999-9999"
-                  />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="dataNascimento">Data de Nascimento</label>
-                  <input
-                    type="date"
-                    id="dataNascimento"
-                    formControlName="dataNascimento"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="cpf">CPF</label>
-                  <input
-                    type="text"
-                    id="cpf"
-                    formControlName="cpf"
-                    placeholder="000.000.000-00"
-                  />
-                </div>
-              </div>
-
-              <div class="form-actions">
-                <button type="button" class="btn btn-secondary">
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  [disabled]="!personalForm.valid"
-                >
-                  Salvar Alterações
-                </button>
-              </div>
-            </form>
-          </section>
-
-          <!-- Address Section -->
-          <section
-            class="profile-section"
-            [class.active]="activeSection === 'address'"
-          >
-            <div class="section-header">
-              <h2>Endereços</h2>
-              <p>Gerencie seus endereços de entrega</p>
-              <button class="btn btn-primary btn-sm" (click)="addAddress()">
-                <i class="fas fa-plus"></i>
-                Adicionar Endereço
-              </button>
-            </div>
-
-            <div class="address-list">
-              <div
-                class="address-card"
-                *ngFor="let endereco of enderecos; let i = index"
-              >
-                <div class="address-header">
-                  <h3>Endereço {{ i + 1 }}</h3>
-                  <div class="address-actions">
-                    <button
-                      class="btn-icon"
-                      (click)="deleteAddress(endereco.id)"
-                      title="Excluir"
-                    >
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="address-info">
-                  <p>
-                    <strong>{{ perfilUsuario?.username }}</strong>
-                  </p>
-                  <p>{{ endereco.logradouro }}, {{ endereco.numero }}</p>
-                  <p *ngIf="endereco.complemento">{{ endereco.complemento }}</p>
-                  <p>
-                    {{ endereco.bairro }} - {{ endereco.cidade.nome }},
-                    {{ endereco.cidade.estado.sigla }}
-                  </p>
-                  <p>CEP: {{ endereco.cep }}</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Address Form -->
-            <div *ngIf="showAddressForm" class="address-form-container">
               <form
-                [formGroup]="enderecoForm"
-                (ngSubmit)="onEnderecoFormSubmit()"
+                class="profile-form"
+                [formGroup]="personalForm"
+                (ngSubmit)="onPersonalFormSubmit()"
               >
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="logradouro">Logradouro</label>
+                    <label for="username">Nome de Usuário</label>
                     <input
                       type="text"
-                      id="logradouro"
-                      formControlName="logradouro"
-                      required
+                      id="username"
+                      formControlName="username"
                     />
                   </div>
                   <div class="form-group">
-                    <label for="numero">Número</label>
+                    <label for="email">E-mail</label>
                     <input
-                      type="text"
-                      id="numero"
-                      formControlName="numero"
+                      type="email"
+                      id="email"
+                      formControlName="email"
                       required
                     />
                   </div>
                 </div>
+
+                <div class="form-row" formGroupName="telefone">
+                  <div class="form-group">
+                    <label for="codigoArea">Código de Área</label>
+                    <input
+                      type="text"
+                      id="codigoArea"
+                      formControlName="codigoArea"
+                      placeholder="11"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="numeroTelefone">Telefone</label>
+                    <input
+                      type="tel"
+                      id="numeroTelefone"
+                      formControlName="numero"
+                      placeholder="99999-9999"
+                    />
+                  </div>
+                </div>
+
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="complemento">Complemento</label>
+                    <label for="dataNascimento">Data de Nascimento</label>
                     <input
-                      type="text"
-                      id="complemento"
-                      formControlName="complemento"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="bairro">Bairro</label>
-                    <input
-                      type="text"
-                      id="bairro"
-                      formControlName="bairro"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <select
-                      id="estado"
-                      formControlName="estado"
-                      (change)="onEstadoChange($any($event.target).value)"
-                      required
-                    >
-                      <option value="">Selecione o estado</option>
-                      <option
-                        *ngFor="let estado of estados"
-                        [value]="estado.id"
-                      >
-                        {{ estado.nome }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="cidade">Cidade</label>
-                    <select id="cidade" formControlName="cidade" required>
-                      <option value="">Selecione a cidade</option>
-                      <option
-                        *ngFor="let cidade of cidades"
-                        [value]="cidade.id"
-                      >
-                        {{ cidade.nome }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="cep">CEP</label>
-                    <input
-                      type="text"
-                      id="cep"
-                      formControlName="cep"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="form-actions">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    (click)="closeAddressForm()"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    class="btn btn-primary"
-                    [disabled]="!enderecoForm.valid"
-                  >
-                    Salvar Endereço
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-
-          <!-- Payment Section -->
-          <section
-            class="profile-section"
-            [class.active]="activeSection === 'payment'"
-          >
-            <div class="section-header">
-              <h2>Cartões de Crédito</h2>
-              <p>Gerencie seus métodos de pagamento</p>
-              <button class="btn btn-primary btn-sm" (click)="addCard()">
-                <i class="fas fa-plus"></i>
-                Adicionar Cartão
-              </button>
-            </div>
-
-            <div class="payment-list">
-              <div
-                class="payment-card"
-                *ngFor="let cartao of cartoes; let i = index"
-              >
-                <div class="card-visual">
-                  <div class="card-brand">
-                    <i [class]="getCardBrandIcon(+cartao.tipoCartao)"></i>
-                  </div>
-                  <div class="card-number">
-                    {{ formatCardNumber(cartao.numero) }}
-                  </div>
-                  <div class="card-info">
-                    <span>{{ cartao.nomeTitular }}</span>
-                    <span>{{ cartao.validade }}</span>
-                  </div>
-                </div>
-                <div class="card-actions">
-                  <button
-                    class="btn-icon"
-                    (click)="deleteCard(cartao.id)"
-                    title="Excluir"
-                  >
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-                <span class="card-badge" *ngIf="i === 0">Principal</span>
-              </div>
-            </div>
-
-            <!-- New Card Form -->
-            <div *ngIf="mostrarFormularioCartao" class="new-card-form">
-              <div class="cartao-box">
-                <form *ngIf="cartaoForm" [formGroup]="cartaoForm" class="cartao-form">
-                  <div class="form-group">
-                    <label for="nomeTitular">Nome do Titular</label>
-                    <input
-                      type="text"
-                      id="nomeTitular"
-                      formControlName="nomeTitular"
-                      required
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="numero">Número</label>
-                    <input
-                      type="text"
-                      id="numero"
-                      formControlName="numero"
-                      required
+                      type="date"
+                      id="dataNascimento"
+                      formControlName="dataNascimento"
                     />
                   </div>
                   <div class="form-group">
@@ -388,69 +144,317 @@
                       type="text"
                       id="cpf"
                       formControlName="cpf"
-                      required
+                      placeholder="000.000.000-00"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="validade">Validade</label>
-                    <input
-                      type="month"
-                      id="validade"
-                      formControlName="validade"
-                      required
-                    />
+                </div>
+
+                <div class="form-actions">
+                  <button type="button" class="btn btn-secondary">
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="!personalForm.valid"
+                  >
+                    Salvar Alterações
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            <!-- Address Section -->
+            <section
+              class="profile-section"
+              [class.active]="activeSection === 'address'"
+            >
+              <div class="section-header">
+                <h2>Endereços</h2>
+                <p>Gerencie seus endereços de entrega</p>
+                <button class="btn btn-primary btn-sm" (click)="addAddress()">
+                  <i class="fas fa-plus"></i>
+                  Adicionar Endereço
+                </button>
+              </div>
+
+              <div class="address-list">
+                <div
+                  class="address-card"
+                  *ngFor="let endereco of enderecos; let i = index"
+                >
+                  <div class="address-header">
+                    <h3>Endereço {{ i + 1 }}</h3>
+                    <div class="address-actions">
+                      <button
+                        class="btn-icon"
+                        (click)="deleteAddress(endereco.id)"
+                        title="Excluir"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="cvc">CVC</label>
-                    <input
-                      type="number"
-                      id="cvc"
-                      formControlName="cvc"
-                      required
-                    />
+                  <div class="address-info">
+                    <p>
+                      <strong>{{ perfilUsuario?.username }}</strong>
+                    </p>
+                    <p>{{ endereco.logradouro }}, {{ endereco.numero }}</p>
+                    <p *ngIf="endereco.complemento">
+                      {{ endereco.complemento }}
+                    </p>
+                    <p>
+                      {{ endereco.bairro }} - {{ endereco.cidade.nome }},
+                      {{ endereco.cidade.estado.sigla }}
+                    </p>
+                    <p>CEP: {{ endereco.cep }}</p>
                   </div>
-                  <div class="form-group">
-                    <label for="tipoCartao">Tipo do Cartão</label>
-                    <select
-                      id="tipoCartao"
-                      formControlName="tipoCartao"
-                      required
-                    >
-                      <option value="">Selecione</option>
-                      <option value="1">Crédito</option>
-                      <option value="2">Débito</option>
-                    </select>
+                </div>
+              </div>
+
+              <!-- Address Form -->
+              <div *ngIf="showAddressForm" class="address-form-container">
+                <form
+                  [formGroup]="enderecoForm"
+                  (ngSubmit)="onEnderecoFormSubmit()"
+                >
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="logradouro">Logradouro</label>
+                      <input
+                        type="text"
+                        id="logradouro"
+                        formControlName="logradouro"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="numero">Número</label>
+                      <input
+                        type="text"
+                        id="numero"
+                        formControlName="numero"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="complemento">Complemento</label>
+                      <input
+                        type="text"
+                        id="complemento"
+                        formControlName="complemento"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="bairro">Bairro</label>
+                      <input
+                        type="text"
+                        id="bairro"
+                        formControlName="bairro"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="estado">Estado</label>
+                      <select
+                        id="estado"
+                        formControlName="estado"
+                        (change)="onEstadoChange($any($event.target).value)"
+                        required
+                      >
+                        <option value="">Selecione o estado</option>
+                        <option
+                          *ngFor="let estado of estados"
+                          [value]="estado.id"
+                        >
+                          {{ estado.nome }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="cidade">Cidade</label>
+                      <select id="cidade" formControlName="cidade" required>
+                        <option value="">Selecione a cidade</option>
+                        <option
+                          *ngFor="let cidade of cidades"
+                          [value]="cidade.id"
+                        >
+                          {{ cidade.nome }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="cep">CEP</label>
+                      <input
+                        type="text"
+                        id="cep"
+                        formControlName="cep"
+                        required
+                      />
+                    </div>
                   </div>
                   <div class="form-actions">
                     <button
                       type="button"
                       class="btn btn-secondary"
-                      (click)="fecharFormularioCartao()"
+                      (click)="closeAddressForm()"
                     >
                       Cancelar
                     </button>
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       class="btn btn-primary"
-                      [disabled]="!cartaoForm.valid"
-                      (click)="onCartaoFormSubmit()"
+                      [disabled]="!enderecoForm.valid"
                     >
-                      Salvar
+                      Salvar Endereço
                     </button>
                   </div>
                 </form>
               </div>
-            </div>
-          </section>
+            </section>
 
-            
+            <!-- Payment Section -->
+            <section
+              class="profile-section"
+              [class.active]="activeSection === 'payment'"
+            >
+              <div class="section-header">
+                <h2>Cartões de Crédito</h2>
+                <p>Gerencie seus métodos de pagamento</p>
+                <button class="btn btn-primary btn-sm" (click)="addCard()">
+                  <i class="fas fa-plus"></i>
+                  Adicionar Cartão
+                </button>
+              </div>
+
+              <div class="payment-list">
+                <div
+                  class="payment-card"
+                  *ngFor="let cartao of cartoes; let i = index"
+                >
+                  <div class="card-visual">
+                    <div class="card-brand">
+                      <i [class]="getCardBrandIcon(+cartao.tipoCartao)"></i>
+                    </div>
+                    <div class="card-number">
+                      {{ formatCardNumber(cartao.numero) }}
+                    </div>
+                    <div class="card-info">
+                      <span>{{ cartao.nomeTitular }}</span>
+                      <span>{{ cartao.validade }}</span>
+                    </div>
+                  </div>
+                  <div class="card-actions">
+                    <button
+                      class="btn-icon"
+                      (click)="deleteCard(cartao.id)"
+                      title="Excluir"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                  <span class="card-badge" *ngIf="i === 0">Principal</span>
+                </div>
+              </div>
+
+              <!-- New Card Form -->
+              <div *ngIf="mostrarFormularioCartao" class="new-card-form">
+                <div class="cartao-box">
+                  <form
+                    *ngIf="cartaoForm"
+                    [formGroup]="cartaoForm"
+                    class="cartao-form"
+                  >
+                    <div class="form-group">
+                      <label for="nomeTitular">Nome do Titular</label>
+                      <input
+                        type="text"
+                        id="nomeTitular"
+                        formControlName="nomeTitular"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="numero">Número</label>
+                      <input
+                        type="text"
+                        id="numero"
+                        formControlName="numero"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="cpf">CPF</label>
+                      <input
+                        type="text"
+                        id="cpf"
+                        formControlName="cpf"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="validade">Validade</label>
+                      <input
+                        type="month"
+                        id="validade"
+                        formControlName="validade"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="cvc">CVC</label>
+                      <input
+                        type="number"
+                        id="cvc"
+                        formControlName="cvc"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="tipoCartao">Tipo do Cartão</label>
+                      <select
+                        id="tipoCartao"
+                        formControlName="tipoCartao"
+                        required
+                      >
+                        <option value="">Selecione</option>
+                        <option value="1">Crédito</option>
+                        <option value="2">Débito</option>
+                      </select>
+                    </div>
+                    <div class="form-actions">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        (click)="fecharFormularioCartao()"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        [disabled]="!cartaoForm.valid"
+                        (click)="onCartaoFormSubmit()"
+                      >
+                        Salvar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- Loading state -->
+        <div *ngIf="loading" class="loading-container">
+          <p>Carregando...</p>
         </div>
       </div>
-
-      <!-- Loading state -->
-      <div *ngIf="loading" class="loading-container">
-        <p>Carregando...</p>
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </body>

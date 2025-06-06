@@ -4,7 +4,7 @@ import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations'; // Substitua provideNoopAnimations
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
-import { AuthInterceptor } from './auth.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interpector';
 
 export const appConfig: ApplicationConfig = {
   providers: [

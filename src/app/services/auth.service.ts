@@ -9,6 +9,7 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root',
 })
 export class AuthService {
+  
   private baseURL: string = 'http://localhost:8080/auth';
   private tokenKey = 'jwt_token';
   private usuarioLogadoKey = 'usuario_logado';
@@ -58,10 +59,11 @@ export class AuthService {
       .pipe(
         tap((res: any) => {
           const body = res.body;
+          console.log('Resposta do login:', body);
           if (body && body.token) {
             this.setToken(body.token);
             this.localStorageService.setItem('username', body.username);
-            this.usuarioLogadoSubject.next(null);
+            this.usuarioLogadoSubject.next(body);
           }
         })
       );
@@ -72,18 +74,13 @@ export class AuthService {
     if (!token) {
       return false;
     }
-  
+
     try {
       const decodedToken = this.jwtHelper.decodeToken(token);
-      const resourceAccess = decodedToken?.resource_access;
-      
-      if (resourceAccess) {
-        const backendRoles: string[] = resourceAccess['backend-service']?.roles || [];
-  
-        return backendRoles.includes(role);
-      }
-  
-      return false;
+      const realmRoles: string[] = decodedToken?.realm_access?.roles || [];
+      console.log('Roles do realm:', realmRoles);
+      // Comparação case-insensitive
+      return realmRoles.some(r => r.toLowerCase() === role.toLowerCase());
     } catch (error) {
       console.error('Erro ao verificar role no token', error);
       return false;
@@ -96,6 +93,9 @@ export class AuthService {
 
   getUsuarioLogado() {
     return this.usuarioLogadoSubject.asObservable();
+  }
+  getUsuarioLogadoValue(): Usuario | null {
+    return this.usuarioLogadoSubject.getValue(); 
   }
 
   getToken(): string | null {

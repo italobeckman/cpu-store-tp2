@@ -41,7 +41,6 @@ export class FooterComponent {
         { label: "Todos os Produtos", url: "/produtos" },
         { label: "Novidades", url: "/produtos/novidades" },
         { label: "Mais Vendidos", url: "/produtos/mais-vendidos" },
-        { label: "Ofertas e Promoções", url: "/ofertas" },
         { label: "Cartões de Presente", url: "/cartoes-presente" },
       ],
     },

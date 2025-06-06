@@ -136,7 +136,7 @@ mat-checkbox {
 
 .submit-button {
   width: 100%;
-  background: var(--primary-color);
+  background: rgb(248, 120, 0);
   color: #fff;
   font-weight: 600;
   font-size: 1.1rem;

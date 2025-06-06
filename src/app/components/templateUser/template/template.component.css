@@ -1,0 +1,24 @@
+:host { /* Aplica ao elemento host do app-template */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; 
+}
+
+app-toolbar {
+  flex-shrink: 0;
+}
+
+.content-area { 
+  flex-grow: 1;
+  overflow-y: auto; 
+}
+
+app-footer {
+  flex-shrink: 0; 
+}

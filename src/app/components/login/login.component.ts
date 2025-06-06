@@ -19,6 +19,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CarrinhoService } from '../../services/carrinho.service';
+import { ToolbarComponent } from '../templateUser/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-login',
@@ -70,11 +71,12 @@ export class LoginComponent implements OnInit {
           console.log(username, password);
           if (
             this.authService.hasRole('Admin') ||
-            this.authService.hasRole('SUPER')
+            this.authService.hasRole('Super')
           ) {
             this.router.navigate(['/admin']);
           } else {
             this.router.navigate(['/home']);
+            
           }
         },
         error: (err) => {
@@ -88,6 +90,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.showSnackbarTopPosition('Dados inválidos', 'Fechar', 2000);
     }
+
   }
 
   onRegister() {
@@ -97,8 +100,8 @@ export class LoginComponent implements OnInit {
   showSnackbarTopPosition(content: any, action: any, duration: any) {
     this.snackBar.open(content, action, {
       duration: 2000,
-      verticalPosition: 'top', // Allowed values are  'top' | 'bottom'
-      horizontalPosition: 'center', // Allowed values are 'start' | 'center' | 'end' | 'left' | 'right'
+      verticalPosition: 'top', 
+      horizontalPosition: 'center', 
     });
   }
 }

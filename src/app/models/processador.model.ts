@@ -30,6 +30,7 @@ export class Processador {
   export class Frequencia {
     base!: number;
     turbo?: number;
+    clockBoost: any;
   }
   
   export class ConsumoEnergetico {

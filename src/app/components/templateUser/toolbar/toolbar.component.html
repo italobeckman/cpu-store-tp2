@@ -10,16 +10,18 @@
   </button>
 
   <!-- Área do Logo -->
-  <div class="logo-container">
+  <div class="logo-container" >
     <a href="/home">
+
       <img
-        src="/img/salamandra-chips-logo2.png"
-        alt="Logo da Marca"
-        class="logo-image"
-        style="height: auto; width: 21%; max-height: none !important;"
+      src="/img/salamandra-chips-logo2.png"
+      alt="Logo da Marca"
+      class="logo-image"
+      routerLink="/home"
+      style="height: auto; width: 21%; max-height: none !important;"
       />
     </a>
-  </div>
+    </div>
 
   <!-- Links de Navegação (Desktop) -->
   <nav class="nav-links">
@@ -35,7 +37,6 @@
   </nav>
 
   <!-- Espaçador -->
-  <span class="toolbar-spacer"></span>
 
   <!-- Campo de Busca -->
   <div class="search-container">
@@ -64,7 +65,7 @@
   <!-- Botões de Ação -->
   <div class="action-buttons">
     <!-- Conta do Usuário -->
-    <span>{{ username }}</span>
+    <span *ngIf="getUsernameFromToken() !== null">{{ username }}</span>
 
     <button
       mat-icon-button
@@ -163,6 +164,7 @@
     <a mat-list-item routerLink="/perfil" (click)="closeMobileMenu()">
       <mat-icon matListItemIcon>person</mat-icon>
       <span matListItemTitle>Perfil</span>
+      
     </a>
     <a mat-list-item routerLink="/favorites" (click)="closeMobileMenu()">
       <mat-icon matListItemIcon>favorite_border</mat-icon>
