@@ -53,7 +53,7 @@ export class DetalhesProcessadorComponent implements OnInit {
       preco: [this.processador?.preco || 0],
       fabricante: [this.processador?.fabricante || ""],
       socket: [this.processador?.socket || ""],
-      frequencia: [this.processador?.frequencia || 0],
+      frequencia: [this.processador?.frequencia.base || 2.1],
       nucleos: [this.processador?.nucleos || 0],
       threads: [this.processador?.threads || 0],
     })

@@ -634,6 +634,12 @@ body {
   margin-top: 8px;
 }
 
+.installment{
+  color: rgb(204, 204, 204);
+  position: relative;
+  left: 0;
+  padding-bottom: 5%;
+}
 /* WhatsApp Float Button */
 .whatsapp-float {
   position: fixed;
@@ -664,7 +670,7 @@ body {
 
 /* Adicionar informações de parcelamento */
 .product-header::after {
-  content: "Ou R$ 1.019,70 em até 10x de R$ 101,97 sem juros";
+  
   display: block;
   font-size: 12px;
   color: #999;

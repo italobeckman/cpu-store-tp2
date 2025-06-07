@@ -23,7 +23,7 @@
   </div>
 
   <div class="mega-maio-banner">
-    <h3>MEGA MAIO</h3>
+    <h3>MEGA JUNHO</h3>
     <div class="termina-em">
       <span>TERMINA EM:</span>
       <span class="timer">⏱  {{ countdown }}</span>
@@ -42,6 +42,10 @@
             <!-- Product Header -->
             <div class="product-header">
               <h2 class="product-title">{{ proc.nome }}</h2>
+              <div class="product-purchase">
+              <div class="installment">
+                Em até 10x de R$ {{ (proc.preco / 10) | number:'1.2-2' }} sem juros
+              </div>
               <p class="product-subtitle">{{ proc.socket }}</p>
               <p class="product-price" *ngIf="proc.desconto > 0.0; else semDesconto">
                 <span class="original-price">R$ {{ proc.preco | number:'1.2-2' }}</span>
@@ -80,6 +84,9 @@
             <!-- Product Header -->
             <div class="product-header">
               <h2 class="product-title">{{ proc.nome }}</h2>
+              <div class="installment">
+                Em até 10x de R$ {{ (proc.preco / 10) | number:'1.2-2' }} sem juros
+              </div>
               <p class="product-subtitle">{{ proc.socket }}</p>
               <p class="product-price" *ngIf="proc.desconto > 0.0; else semDescontoIntel">
                 <span class="original-price">R$ {{ proc.preco | number:'1.2-2' }}</span>
@@ -118,6 +125,10 @@
             <!-- Product Header -->
             <div class="product-header">
               <h2 class="product-title">{{ proc.nome }}</h2>
+             
+              <div class="installment">
+                Em até 10x de R$ {{ (proc.preco / 10) | number:'1.2-2' }} sem juros
+              </div>
               <p class="product-subtitle">{{ proc.socket }}</p>
               <p class="product-price" *ngIf="proc.desconto > 0.0; else semDescontoAMD">
                 <span class="original-price">R$ {{ proc.preco | number:'1.2-2' }}</span>

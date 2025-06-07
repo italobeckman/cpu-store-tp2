@@ -183,7 +183,7 @@
             <mat-icon>arrow_back</mat-icon>
             <span>Continuar comprando</span>
           </button>
-          <button class="checkout-btn" (click)="finalizarCompra()" [disabled]="formaPagamentoSelecionada === 'cartao' && !cartaoSelecionado || !selecionarEndereco" [ngClass]="{ 'disabled-button': !cartaoSelecionado || !parcelaSelecionada }">
+          <button class="checkout-btn" (click)="finalizarCompra()">
 
             <span>Finalizar Compra</span>
             <mat-icon>arrow_forward</mat-icon>
@@ -228,7 +228,6 @@
           <span class="mobile-price">R$ {{ valorParaPagar }}</span>
         </div>
         <button mat-raised-button color="accent"
-            [disabled]="!podeFinalizarCompra"
             (click)="finalizarCompra()">
       Finalizar Compra
         </button>

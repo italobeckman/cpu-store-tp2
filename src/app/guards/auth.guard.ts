@@ -10,25 +10,21 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private authService: AuthService, private router: Router) {
-    console.log('AuthGuard initialized');
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    const token = this.authService.getToken();
-    if (!token || this.authService.isTokenExpired()) {
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
       return false;
     }
 
-    const roles = route.data['roles'] as Array<string>;
-    if (roles && roles.length > 0) {
-      const hasRole = roles.some((role) => this.authService.hasRole(role));
-      if (!hasRole) {
-        this.router.navigate(['/']);
+    const requiredRoles = route.data['roles'] as Array<string>;
+    if (requiredRoles && requiredRoles.length > 0) {
+      if (!this.authService.hasAnyRole(requiredRoles)) {
+        this.router.navigate(['/home']);
         return false;
       }
     }

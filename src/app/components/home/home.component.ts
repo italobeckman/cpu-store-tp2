@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
       this.loadProcessadores();
     });
 
-    const endDate = new Date('2025-06-01T23:59:59');
+    const endDate = new Date('2025-07-01T23:59:59');
     this.startCountdown(endDate);
 
     this.countdown$.subscribe((countdown) => {

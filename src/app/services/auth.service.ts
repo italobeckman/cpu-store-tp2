@@ -9,7 +9,6 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root',
 })
 export class AuthService {
-  
   private baseURL: string = 'http://localhost:8080/auth';
   private tokenKey = 'jwt_token';
   private usuarioLogadoKey = 'usuario_logado';
@@ -79,13 +78,18 @@ export class AuthService {
       const decodedToken = this.jwtHelper.decodeToken(token);
       const realmRoles: string[] = decodedToken?.realm_access?.roles || [];
       console.log('Roles do realm:', realmRoles);
-      // Comparação case-insensitive
       return realmRoles.some(r => r.toLowerCase() === role.toLowerCase());
     } catch (error) {
       console.error('Erro ao verificar role no token', error);
       return false;
     }
-  }  
+  }
+
+  // NOVO MÉTODO ADICIONADO (única mudança significativa)
+  hasAnyRole(roles: string[]): boolean {
+    if (!roles || roles.length === 0) return true;
+    return roles.some(role => this.hasRole(role));
+  }
   
   setToken(token: string): void {
     this.localStorageService.setItem(this.tokenKey, token);
@@ -94,6 +98,7 @@ export class AuthService {
   getUsuarioLogado() {
     return this.usuarioLogadoSubject.asObservable();
   }
+
   getUsuarioLogadoValue(): Usuario | null {
     return this.usuarioLogadoSubject.getValue(); 
   }
@@ -127,5 +132,10 @@ export class AuthService {
       console.error('Token inválido ou expirado', error);
       return true;
     }
+  }
+
+  // NOVO MÉTODO ADICIONADO (pequena melhoria)
+  isAuthenticated(): boolean {
+    return !!this.getToken() && !this.isTokenExpired();
   }
 }
