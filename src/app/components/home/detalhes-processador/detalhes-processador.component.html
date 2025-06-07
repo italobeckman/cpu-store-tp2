@@ -12,8 +12,8 @@
         <div class="product-gallery">
           <div class="product-image-container">
             <img 
-              [src] = "primaryImgUrl"
-              [alt]="processador.nome" 
+              [src]="primaryImgUrl"
+              [alt]="processador ? 'Imagem do Processador' : 'Imagem não disponível'"
               class="product-image"
             />
           </div>
@@ -144,4 +144,3 @@
       </div>
     </div>
   </div>
-  
