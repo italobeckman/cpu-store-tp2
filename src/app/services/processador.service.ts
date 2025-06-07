@@ -5,7 +5,6 @@ import { Processador } from '../models/processador.model';
 
 import { catchError } from 'rxjs/operators';
 
-
 interface PageResponse<T> {
   page: number;
   pageSize: number;

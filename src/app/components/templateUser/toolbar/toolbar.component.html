@@ -79,14 +79,11 @@
         <mat-icon>person</mat-icon>
         <span>Perfil</span>
       </button>
-      <button mat-menu-item routerLink="/account/orders">
+      <button mat-menu-item routerLink="/pedidos">
         <mat-icon>receipt_long</mat-icon>
         <span>Pedidos</span>
       </button>
-      <button mat-menu-item routerLink="/account/settings">
-        <mat-icon>settings</mat-icon>
-        <span>Configurações</span>
-      </button>
+
       <mat-divider></mat-divider>
       <button *ngIf="isLoggedIn()" mat-menu-item (click)="deslogar()">
         <mat-icon>exit_to_app</mat-icon>
@@ -170,7 +167,7 @@
       <mat-icon matListItemIcon>favorite_border</mat-icon>
       <span matListItemTitle>Favoritos</span>
     </a>
-    <a mat-list-item routerLink="/cart" (click)="closeMobileMenu()">
+    <a mat-list-item routerLink="/carrinho" (click)="closeMobileMenu()">
       <mat-icon matListItemIcon>shopping_cart</mat-icon>
       <span matListItemTitle>Carrinho ({{ cartItemCount }})</span>
     </a>

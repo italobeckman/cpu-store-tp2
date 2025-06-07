@@ -85,8 +85,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       this.authService.getUsuarioLogado().subscribe((usuario) => {
         this.usuarioLogado = usuario;
         this.isloogedIn = !!usuario;
-        if (usuario) {
+        const token = localStorage.getItem('jwt_token');
+        if (token) {
           this.username = this.getUsernameFromToken();
+          console.log('Usuário logado:', this.username);
         } else {
           this.username = null;
         }
@@ -96,7 +98,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   onSearch(): void {
     if (this.searchQuery.trim()) {
-      console.log('Searching for:', this.searchQuery);
       this.searchService.updateQuery(this.searchQuery);
       this.router.navigate(['/home'], {
         queryParams: { search: this.searchQuery },
@@ -116,7 +117,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.authService.getUsuarioLogado().subscribe((usuario) => {
         this.usuarioLogado = usuario;
-        console.log(this.usuarioLogado); // Agora mostra o valor correto
       })
     );
   }
@@ -141,7 +141,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
    */
   public getClaimFromToken(token: string, claim: string): any {
     const payload: any = this.getTokenPayload(token);
-    console.log(payload);
     return payload ? payload[claim] : null;
 
   }
@@ -149,6 +148,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   public getUsernameFromToken(): string | null {
     const token = localStorage.getItem('jwt_token');
     if (!token) return null;
+
     return this.getClaimFromToken(token, 'preferred_username');
 
   }

@@ -23,9 +23,14 @@ interface ProcessadorCard {
   primaryImageUrl: string;
   safeImageUrl?: SafeResourceUrl;
   socket: string;
-  frequencia: number;
+  frequencia: any; // Ajuste para o tipo correto se necessário
   nucleos: number;
   threads: number;
+  desbloqueado?: boolean;
+  placaIntegrada?: any;
+  memoriaCache?: any;
+  consumoEnergetico?: any;
+  conectividade?: any;
   desconto: number;
 }
 
@@ -60,10 +65,9 @@ export class HomeComponent implements OnInit {
 
   images = [
     '/img/banner/banner3.png',
-    '/img/banner/banner2.png',
-    '/img/banner/banner1.png',
+    // '/img/banner/banner2.png',
+    // '/img/banner/banner1.png',
     '/img/promocao.jpeg',
-    '/img/ChatGPT Image 15 de mai. de 2025, 11_34_28.png',
     
   ];
 
@@ -149,7 +153,6 @@ export class HomeComponent implements OnInit {
 
   private carregarCardsProcessadores(): void {
     this.cards = this.processadores.map((processador) => {
-      // Verificar se o processador tem imagens antes de acessar o índice 0
       const primaryImageUrl =
         processador.imagens && processador.imagens.length > 0
           ? this.processadorService.getImageUrl(processador.imagens[0])
@@ -162,12 +165,16 @@ export class HomeComponent implements OnInit {
         fabricante: processador.fabricante,
         imagensUrl: this.getUrlsImagens(processador.imagens || []),
         socket: processador.socket,
-        frequencia: Number(processador.frequencia),
+        frequencia: processador.frequencia?.clockBoost, // Ajustado conforme solicitado
         nucleos: processador.nucleos,
         threads: processador.threads,
+        desbloqueado: processador.desbloqueado,
+        placaIntegrada: processador.placaIntegrada,
+        memoriaCache: processador.memoriaCache,
+        consumoEnergetico: processador.consumoEnergetico,
+        conectividade: processador.conectividade,
         primaryImageUrl,
-        safeImageUrl:
-          this.sanitizer.bypassSecurityTrustResourceUrl(primaryImageUrl),
+        safeImageUrl: this.sanitizer.bypassSecurityTrustResourceUrl(primaryImageUrl),
         desconto: processador.desconto,
       };
       return card;

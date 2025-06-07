@@ -18,9 +18,7 @@ export class Processador {
     imagens!: string[];
     desconto!: number;
   }
-  
-  // Interfaces auxiliares (você pode ajustar conforme a estrutura real dessas classes em Java)
-  
+    
   export class MemoriaCache {
     l1?: number;
     l2?: number;
