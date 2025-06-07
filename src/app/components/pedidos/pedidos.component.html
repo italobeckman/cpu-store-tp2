@@ -1,47 +1,31 @@
-<div class="page-container">
-  <!-- Loading Spinner -->
-  <div *ngIf="isLoading" class="loading-container">
-    <mat-progress-spinner diameter="50" color="accent"></mat-progress-spinner>
-    <p class="loading-text">Carregando pedidos...</p>
-  </div>
-
-  <!-- Error Message -->
-  <div *ngIf="!isLoading && errorMessage" class="error-container">
-    <mat-icon class="error-icon">error_outline</mat-icon>
-    <p class="error-message">{{ errorMessage }}</p>
-    <button mat-raised-button color="accent" (click)="loadPedidos()">Tentar Novamente</button>
-  </div>
-
-  <!-- Empty State -->
-  <div *ngIf="!isLoading && !errorMessage && pedidos.length === 0" class="empty-state">
-    <mat-icon class="empty-icon">shopping_cart</mat-icon>
-    <h2 class="empty-title">Nenhum pedido encontrado</h2>
-    <p class="empty-message">Você ainda não fez nenhum pedido. Que tal dar uma olhada em nossos produtos?</p>
-    <button mat-raised-button color="accent" routerLink="/">Ver Produtos</button>
-  </div>
-
-  <!-- Content -->
-  <div *ngIf="!isLoading && !errorMessage && pedidos.length > 0" class="content-container">
-    <!-- Header -->
-    <div class="pedidos-header">
-      <h1 class="section-title">Meus Pedidos</h1>
-      <div class="pedidos-stats">
-        <span class="stat-item">
-          <mat-icon>shopping_bag</mat-icon>
-          {{ pedidos.length }} pedido(s)
-        </span>
-        <span class="stat-item">
-          <mat-icon>attach_money</mat-icon>
-          R$ {{ getTotalGasto() | number:'1.2-2' }} total
-        </span>
+<div class="pedidos-container">
+  <!-- Cabeçalho da página -->
+  <div class="page-header">
+    <h1>Meus Pedidos</h1>
+    <div class="stats-card">
+      <div class="stat">
+        <span class="stat-value">{{ pedidos.length }}</span>
+        <span class="stat-label">Total de Pedidos</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">{{ getTotalGasto() | currency:'BRL' }}</span>
+        <span class="stat-label">Valor Total</span>
       </div>
     </div>
+  </div>
 
-    <!-- Filters -->
-    <div class="filters-container">
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Filtrar por status</mat-label>
-        <mat-select [(value)]="filtroStatus" (selectionChange)="filtrarPedidos()">
+  <!-- Filtros -->
+  <div class="filtros-container">
+    <div class="filtros-wrapper">
+      <mat-form-field appearance="outline" class="filtro-texto">
+        <mat-label>Buscar pedido</mat-label>
+        <input matInput [(ngModel)]="filtroTexto" (keyup)="filtrarPedidos()" placeholder="Número do pedido ou produto">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filtro-status">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="filtroStatus" (selectionChange)="filtrarPedidos()">
           <mat-option value="">Todos</mat-option>
           <mat-option value="pendente">Pendente</mat-option>
           <mat-option value="processando">Processando</mat-option>
@@ -50,107 +34,133 @@
           <mat-option value="cancelado">Cancelado</mat-option>
         </mat-select>
       </mat-form-field>
-
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Buscar pedido</mat-label>
-        <input matInput [(ngModel)]="filtroTexto" (input)="filtrarPedidos()" placeholder="ID do pedido ou produto">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
     </div>
+  </div>
 
-    <!-- Orders List -->
-    <div class="pedidos-grid">
-      <div class="pedido-card" *ngFor="let pedido of pedidosFiltrados">
-        <!-- Order Header -->
-        <div class="pedido-header">
-          <div class="pedido-info">
-            <h3 class="pedido-id">Pedido #{{ pedido.id }}</h3>
-            <p class="pedido-data">{{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</p>
-          </div>
-          <div class="pedido-status">
-            <span class="status-badge" [ngClass]="'status-' + pedido.status">
-              {{ getStatusLabel(pedido.status) }}
-            </span>
-          </div>
+  <!-- Estado de carregamento -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="50" color="accent"></mat-spinner>
+    <p>Carregando seus pedidos...</p>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div *ngIf="!isLoading && errorMessage" class="error-container">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <p>{{ errorMessage }}</p>
+    <button mat-raised-button color="accent" (click)="loadPedidos()">Tentar novamente</button>
+  </div>
+
+  <!-- Lista vazia -->
+  <div *ngIf="!isLoading && !errorMessage && pedidosFiltrados.length === 0" class="empty-container">
+    <mat-icon class="empty-icon">shopping_bag</mat-icon>
+    <h2>Nenhum pedido encontrado</h2>
+    <p *ngIf="filtroStatus || filtroTexto">Tente ajustar seus filtros para ver mais resultados.</p>
+    <p *ngIf="!filtroStatus && !filtroTexto">Você ainda não realizou nenhum pedido.</p>
+    <button mat-raised-button color="accent" routerLink="/produtos">Explorar produtos</button>
+  </div>
+
+  <!-- Lista de pedidos -->
+  <div *ngIf="!isLoading && !errorMessage && pedidosFiltrados.length > 0" class="pedidos-list">
+    <div *ngFor="let pedido of pedidosFiltrados" class="pedido-card">
+      <!-- Cabeçalho do card -->
+      <div class="pedido-header">
+        <div class="pedido-info">
+          <span class="pedido-number">Pedido #{{ pedido.id }}</span>
+          <span class="pedido-date">{{ pedido.dataPedido | date:'dd/MM/yyyy' }}</span>
         </div>
+        <div class="pedido-status" [ngClass]="pedido.status">
+          {{ getStatusLabel(pedido.status) }}
+        </div>
+      </div>
 
-        <!-- Order Items -->
+      <!-- Conteúdo do pedido -->
+      <div class="pedido-content">
+        <!-- Itens do pedido (limitado a 3) -->
         <div class="pedido-items">
-          <div class="item-card" *ngFor="let item of pedido.itens">
+          <div *ngIf="pedido.itens.length === 0" class="no-items">
+            <p>Detalhes dos itens não disponíveis</p>
+          </div>
+          <div *ngFor="let item of pedido.itens.slice(0, 3)" class="pedido-item">
             <div class="item-image">
               <img [src]="item.imagemUrl || '/placeholder.svg?height=80&width=80'" 
-                   [alt]="item.nome" 
+                   [alt]="item.nome"
                    (error)="handleImageError($event)">
             </div>
             <div class="item-details">
-              <h4 class="item-nome">{{ item.nome }}</h4>
-              <p class="item-specs">{{ item.especificacoes }}</p>
-              <div class="item-pricing">
-                <span class="item-quantidade">Qtd: {{ item.quantidade }}</span>
-                <span class="item-preco">R$ {{ item.precoUnitario | number:'1.2-2' }}</span>
+              <span class="item-name">{{ item.nome }}</span>
+              <span class="item-specs">{{ item.especificacoes }}</span>
+              <div class="item-price-qty">
+                <span class="item-price">{{ item.precoUnitario | currency:'BRL' }}</span>
+                <span class="item-qty">x{{ item.quantidade }}</span>
               </div>
             </div>
           </div>
+          <div *ngIf="pedido.itens.length > 3" class="more-items">
+            + {{ pedido.itens.length - 3 }} itens adicionais
+          </div>
         </div>
 
-        <!-- Order Summary -->
+        <!-- Resumo do pedido -->
         <div class="pedido-summary">
           <div class="summary-row">
             <span>Subtotal:</span>
-            <span>R$ {{ pedido.subtotal | number:'1.2-2' }}</span>
+            <span>{{ pedido.subtotal | currency:'BRL' }}</span>
           </div>
           <div class="summary-row" *ngIf="pedido.desconto > 0">
             <span>Desconto:</span>
-            <span class="desconto-valor">-R$ {{ pedido.desconto | number:'1.2-2' }}</span>
+            <span class="discount">-{{ pedido.desconto | currency:'BRL' }}</span>
           </div>
           <div class="summary-row">
             <span>Frete:</span>
-            <span>{{ pedido.frete === 0 ? 'Grátis' : 'R$ ' + (pedido.frete | number:'1.2-2') }}</span>
+            <span>{{ pedido.frete | currency:'BRL' }}</span>
           </div>
           <div class="summary-row total">
             <span>Total:</span>
-            <span>R$ {{ pedido.total | number:'1.2-2' }}</span>
+            <span>{{ pedido.total | currency:'BRL' }}</span>
           </div>
         </div>
+      </div>
 
-        <!-- Order Actions -->
-        <div class="pedido-actions">
-          <button mat-stroked-button class="action-btn" (click)="verDetalhes(pedido)">
-            <mat-icon>visibility</mat-icon>
-            Ver Detalhes
-          </button>
-          <button mat-stroked-button class="action-btn" (click)="rastrearPedido(pedido)" 
-                  *ngIf="pedido.status === 'enviado'">
-            <mat-icon>local_shipping</mat-icon>
-            Rastrear
-          </button>
-          <button mat-stroked-button class="action-btn cancel-btn" (click)="cancelarPedido(pedido)" 
-                  *ngIf="pedido.status === 'pendente' || pedido.status === 'processando'">
-            <mat-icon>cancel</mat-icon>
-            Cancelar
-          </button>
-          <button mat-raised-button color="accent" (click)="comprarNovamente(pedido)">
-            <mat-icon>refresh</mat-icon>
-            Comprar Novamente
-          </button>
+      <!-- Informações adicionais -->
+      <div class="pedido-details">
+        <div class="detail-row">
+          <mat-icon>local_shipping</mat-icon>
+          <span>{{ pedido.enderecoEntrega || 'Endereço não disponível' }}</span>
         </div>
-
-        <!-- Tracking Info -->
-        <div class="tracking-info" *ngIf="pedido.codigoRastreamento && pedido.status === 'enviado'">
+        <div class="detail-row">
+          <mat-icon>payment</mat-icon>
+          <span>{{ pedido.formaPagamento || 'Forma de pagamento não disponível' }}</span>
+        </div>
+        <div class="detail-row" *ngIf="pedido.codigoRastreamento">
           <mat-icon>local_shipping</mat-icon>
           <span>Código de rastreamento: {{ pedido.codigoRastreamento }}</span>
         </div>
       </div>
+
+      <!-- Ações do pedido -->
+      <div class="pedido-actions">
+        <button mat-button color="primary" (click)="verDetalhes(pedido)">
+          <mat-icon>visibility</mat-icon>
+          Ver detalhes
+        </button>
+        
+        <button mat-button color="accent" (click)="comprarNovamente(pedido)">
+          <mat-icon>replay</mat-icon>
+          Comprar novamente
+        </button>
+        
+        <button mat-button *ngIf="pedido.codigoRastreamento && pedido.status !== 'entregue' && pedido.status !== 'cancelado'" 
+                (click)="rastrearPedido(pedido)">
+          <mat-icon>location_on</mat-icon>
+          Rastrear
+        </button>
+        
+        <button mat-button color="warn" *ngIf="pedido.status === 'pendente' || pedido.status === 'processando'" 
+                (click)="cancelarPedido(pedido)">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </div>
     </div>
   </div>
-
-  <!-- WhatsApp Float Button -->
-  <a 
-    href="https://wa.me/5563992674515" 
-    target="_blank" 
-    class="whatsapp-float" 
-    aria-label="Converse no WhatsApp"
-  >
-    <img src="/img/logoZapZap.svg" alt="WhatsApp" class="whatsapp-icon">
-  </a>
 </div>
