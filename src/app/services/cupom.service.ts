@@ -38,4 +38,22 @@ export class CupomService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  // FUNÇÕES ADICIONAIS ÚTEIS
+
+  /**
+   * Valida se um cupom pode ser aplicado, por exemplo, checando validade e uso.
+   * Retorna o cupom se válido ou erro se inválido.
+   */
+  validarCupom(codigo: string): Observable<Cupom> {
+    return this.http.get<Cupom>(`${this.baseUrl}/validar/${codigo}`);
+  }
+
+  /**
+   * Aplica o cupom ao pedido - caso seu backend tenha essa lógica.
+   * Recebe id do pedido e id do cupom, e faz a aplicação.
+   */
+  aplicarCupomPedido(pedidoId: number, cupomId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/aplicar/${pedidoId}/${cupomId}`, null);
+  }
 }

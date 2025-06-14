@@ -85,14 +85,11 @@
       
         <form [formGroup]="formPagamento">
           
-          <div class="payment-method-wrapper">
-            <label for="paymentMethod" class="payment-label">Forma de pagamento</label>
-            <select id="paymentMethod" formControlName="formaPagamento" class="payment-select">
-              <option value="dinheiro">Pix</option>
-              <option value="boleto">Boleto</option>
-              <option value="cartao">Cartão de crédito</option>
-            </select>
-          </div>                
+          <select id="paymentMethod" formControlName="formaPagamento" class="payment-select">
+  <option value="pix">Pix</option> <!-- Corrigido de "dinheiro" para "pix" -->
+  <option value="boleto">Boleto</option>
+  <option value="cartao">Cartão de crédito</option>
+</select>                
         
           <!-- Exibe o componente de parcelamento somente se a forma for "cartao" -->
           <div *ngIf="formaPagamentoSelecionada === 'cartao'">

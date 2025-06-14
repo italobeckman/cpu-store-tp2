@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,15 +7,24 @@ import { Observable } from 'rxjs';
 })
 export class PagamentoService {
 
-  private readonly baseUrl = 'http://localhost:8080/pagamentos';
+  private baseUrl = 'http://localhost:8080/pagamentos';
 
   constructor(private http: HttpClient) {}
 
-  findById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  pagarComPix(pedidoId: number, idPix: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/pix/${pedidoId}/${idPix}`, null);
+  }
+
+  pagarComBoleto(pedidoId: number, idBoleto: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/boleto/${pedidoId}/${idBoleto}`, null);
+  }
+
+  pagarComCartao(idCartao: number, pedidoId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/cartao/${idCartao}/${pedidoId}`, null);
   }
 
   generatePix(pedidoId: number): Observable<any> {
+    console.log("pix")
     return this.http.post(`${this.baseUrl}/pix/${pedidoId}`, null);
   }
 
@@ -23,15 +32,7 @@ export class PagamentoService {
     return this.http.post(`${this.baseUrl}/boleto/${pedidoId}`, null);
   }
 
-  pagarComCartao(cartaoId: number, pedidoId: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/cartao/${cartaoId}/${pedidoId}`, null);
-  }
-
-  pagarComBoleto(pedidoId: number, boletoId: number): Observable<void> {
-    return this.http.patch<void>(`${this.baseUrl}/${pedidoId}/boleto/${boletoId}`, null);
-  }
-
-  pagarComPix(pedidoId: number, pixId: number): Observable<void> {
-    return this.http.patch<void>(`${this.baseUrl}/${pedidoId}/pix/${pixId}`, null);
+  criarSessaoStripe(pedidoId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/stripe/${pedidoId}`, null);
   }
 }
