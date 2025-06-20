@@ -19,7 +19,7 @@ export class PagamentoService {
     return this.http.post(`${this.baseUrl}/boleto/${pedidoId}/${idBoleto}`, null);
   }
 
-  pagarComCartao(idCartao: number, pedidoId: number): Observable<any> {
+  pagarComCartao(idCartao?: number, pedidoId?: number): Observable<any> {
     return this.http.post(`${this.baseUrl}/cartao/${idCartao}/${pedidoId}`, null);
   }
 

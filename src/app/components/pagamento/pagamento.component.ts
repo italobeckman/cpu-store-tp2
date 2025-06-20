@@ -25,9 +25,8 @@ import { AuthService } from "../../services/auth.service";
 import { EnderecoService } from "../../services/endereco.service";
 import { CartaoService } from "../../services/cartao.service";
 import { CupomService } from "../../services/cupom.service";
-import { PedidosService } from "../../services/pedidos.service";
+
 import { PagamentoService } from "../../services/pagamento.service";
-import { StripeService, StripeElementsDirective, StripeCardComponent } from 'ngx-stripe';
 
 import { Produto } from "../../models/Produto.model";
 import { Endereco } from "../../models/endereco.model";
@@ -46,6 +45,10 @@ interface PedidoRequest {
     quantidade: number;
   }[];
 }
+import { PedidoService } from "../../services/pedido.service"
+import { PedidosService } from "../../services/pedidos.service";
+import { ConfirmarPagamentoDialogComponent } from "./ComfirmarPagamentoDialogComponent";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-pagamento",
@@ -71,8 +74,6 @@ interface PedidoRequest {
     MatLabel,
     MatOption,
     MatProgressSpinnerModule,
-    StripeElementsDirective,
-    StripeCardComponent
   ],
   // Remove the Stripe providers from here
   templateUrl: "./pagamento.component.html",
@@ -122,7 +123,7 @@ export class ResumoPagamentoComponent implements OnInit, OnDestroy {
     private cupomService: CupomService,
     private pedidoService: PedidosService,
     private pagamentoService: PagamentoService,
-    private stripeService: StripeService
+    private dialog: MatDialog, 
   ) {}
 
   ngOnInit(): void {
@@ -154,6 +155,8 @@ export class ResumoPagamentoComponent implements OnInit, OnDestroy {
   get formaPagamentoSelecionada(): string {
     return this.formPagamento.get('formaPagamento')?.value;
   }
+
+  
 
   ngOnDestroy(): void {
     window.removeEventListener("resize", this.checkScreenSize.bind(this));
@@ -244,21 +247,35 @@ export class ResumoPagamentoComponent implements OnInit, OnDestroy {
         const pedidoId = pedidoCriado.id;
 
         switch (this.formaPagamentoSelecionada) {
-          case 'stripe':
+          case 'cartao':
             if (!this.cartaoSelecionado) {
               this.snackBar.open("Selecione um cartão para pagamento", "Fechar", { duration: 3000 });
               this.isProcessing = false;
               return;
             }
-            console.log("bosta")
-            this.pagamentoService.pagarComCartao(this.cartaoSelecionado.id, pedidoId).subscribe({
+
+            const dialogRef = this.dialog.open(ConfirmarPagamentoDialogComponent, {
+              data: {
+                cartao: this.cartaoSelecionado,
+                valor: this.valorParaPagar,
+                parcela: this.parcelaSelecionada
+              }
+            });
+            dialogRef.afterClosed().subscribe(confirmado => {
+            if (!confirmado) {
+              this.isProcessing = false;
+              return;
+            }
+
+            // Código original mantido exatamente igual:
+            this.pagamentoService.pagarComCartao(this.cartaoSelecionado?.id, pedidoId).subscribe({
               next: () => this.finalizarSucesso(),
               error: this.finalizarErro.bind(this)
             });
-            break;
+          });
+          break;
 
           case 'pix':
-            console.log("aquiii")
             this.pagamentoService.generatePix(pedidoId).subscribe({
               next: pixResponse => {
                 this.pagamentoService.pagarComPix(pedidoId, pixResponse.id).subscribe({
@@ -275,23 +292,6 @@ export class ResumoPagamentoComponent implements OnInit, OnDestroy {
               next: boletoResponse => {
                 this.pagamentoService.pagarComBoleto(pedidoId, boletoResponse.id).subscribe({
                   next: () => this.finalizarSucesso(),
-                  error: this.finalizarErro.bind(this)
-                });
-              },
-              error: this.finalizarErro.bind(this)
-            });
-            break;
-
-          case 'cartao':
-            this.pagamentoService.criarSessaoStripe(pedidoId).subscribe({
-              next: session => {
-                this.stripeService.redirectToCheckout({ sessionId: session.id }).subscribe({
-                  next: result => {
-                    if (result.error) {
-                      this.snackBar.open(result.error.message || "", "Fechar", { duration: 3000 });
-                      this.isProcessing = false;
-                    }
-                  },
                   error: this.finalizarErro.bind(this)
                 });
               },
