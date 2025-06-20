@@ -1,6 +1,6 @@
 <div class="admin-home-container">
   <div class="welcome-section">
-    <h1>Bem-vindo ao Painel Administrativo</h1>
+    <h1>Bem-vindo ao Painel Administrativo - SALAMANDRA CHIPS</h1>
     <p>Selecione uma das opções abaixo para gerenciar os recursos da loja:</p>
     <span class="easter-egg" (click)="showSecretMessage()">🤫</span>
   </div>
@@ -130,21 +130,19 @@
           <button mat-button disabled color="primary">ACESSAR</button>
         </mat-card-actions>
       </mat-card>
-      <mat-card class="menu-card disabled-card">
+      <mat-card class="menu-card" (click)="navigate('/admin/lotes')">
         <mat-card-header>
-          <mat-icon mat-card-avatar class="disabled-icon">inventory</mat-icon>
+          <mat-icon mat-card-avatar>inventory</mat-icon>
           <mat-card-title>Lote de Produtos</mat-card-title>
           <mat-card-subtitle>Gerenciar lotes e estoque</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p>Gerencie a entrada de lotes de produtos e controle o estoque da loja.</p>
-          <div class="coming-soon-badge">Em breve</div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button disabled color="primary">ACESSAR</button>
+          <button mat-button color="primary">ACESSAR</button>
         </mat-card-actions>
       </mat-card>
-      
 
 
 

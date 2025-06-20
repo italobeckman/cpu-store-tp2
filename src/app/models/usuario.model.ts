@@ -11,6 +11,6 @@ export class Usuario {
     dataNascimento!: Date;
     cargo!: string;
     salario!: number;
-    isFuncionario!: boolean;
+    isFuncionario?: boolean | null;
     funcionario!: Funcionario;
 }

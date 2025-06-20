@@ -4,143 +4,254 @@
       <span class="material-icons">arrow_back</span>
     </button>
   </div>
-    <div class="product-details-container">
-      <h1 class="product-title">Detalhes do Processador</h1>
-      
-      <div class="product-layout">
-        <!-- Left side - Product Image -->
-        <div class="product-gallery">
-          <div class="product-image-container">
-            <img 
-              [src]="primaryImgUrl"
-              [alt]="processador ? 'Imagem do Processador' : 'Imagem não disponível'"
-              class="product-image"
-            />
-          </div>
+  <div class="product-details-container">
+    <h1 class="product-title">Detalhes do Processador</h1>
+
+    <div class="product-layout">
+      <!-- Left side - Product Image -->
+      <div class="product-gallery">
+        <div class="product-image-container">
+          <img
+            [src]="imagemSelecionada"
+            [alt]="
+              processador ? 'Imagem do Processador' : 'Imagem não disponível'
+            "
+            class="product-image"
+          />
         </div>
-        
-        <!-- Right side - Product Info -->
-        <div class="product-info">
-          <div class="product-header">
-            <h2 class="model-name">{{ formGroup.get('nome')?.value }}</h2>
-            <div class="manufacturer">
-              <span class="manufacturer-label">Fabricante:</span>
-              <span class="manufacturer-name">{{ processador.fabricante?.nome }}</span>
-            </div>
-          </div>
-          
-          <div class="product-specs">
-            <h3 class="specs-title">Especificações Técnicas</h3>
-            <div class="specs-grid">
-              <div class="spec-item">
-                <div class="spec-icon">
-                  <span class="material-icons">memory</span>
-                </div>
-                <div class="spec-details">
-                  <span class="spec-label">Socket</span>
-                  <span class="spec-value">{{ formGroup.get('socket')?.value }}</span>
-                </div>
-              </div>
-              
-              <div class="spec-item">
-                <div class="spec-icon">
-                  <span class="material-icons">speed</span>
-                </div>
-                <div class="spec-details">
-                  <span class="spec-label">Frequência</span>
-                  <span class="spec-value">{{ formGroup.get('frequencia')?.value }} GHz</span>
-                </div>
-              </div>
-              
-              <div class="spec-item">
-                <div class="spec-icon">
-                  <span class="material-icons">grid_view</span>
-                </div>
-                <div class="spec-details">
-                  <span class="spec-label">Núcleos</span>
-                  <span class="spec-value">{{ formGroup.get('nucleos')?.value }}</span>
-                </div>
-              </div>
-              
-              <div class="spec-item">
-                <div class="spec-icon">
-                  <span class="material-icons">timeline</span>
-                </div>
-                <div class="spec-details">
-                  <span class="spec-label">Threads</span>
-                  <span class="spec-value">{{ formGroup.get('threads')?.value }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="product-purchase">
-            <div class="price-container">
-              <div class="price-tag">
-                <span class="currency">R$</span>
-                <span class="amount">{{ formGroup.get('preco')?.value | number:'1.2-2' }}</span>
-              </div>
-              <div class="installment">
-                ou em até 10x de R$ {{ (formGroup.get('preco')?.value / 10) | number:'1.2-2' }} sem juros
-              </div>
-            </div>
-            
-            <div class="purchase-actions">
-              <button mat-raised-button class="buy-button" (click)="comprar(processador)">
-                <span class="material-icons">shopping_cart</span>
-                Comprar Agora
-              </button>
-            </div>
-          </div>
+        <div class="image-thumbnails" *ngIf="imagens.length > 1">
+          <img
+            *ngFor="let img of imagens"
+            [src]="processadorService.getImageUrl(img)"
+            [class.selected]="
+              processadorService.getImageUrl(img) === imagemSelecionada
+            "
+            (click)="selecionarImagem(img)"
+            class="thumbnail"
+            alt="Miniatura"
+          />
         </div>
       </div>
-      
-      <!-- Additional product details section -->
-      <div class="additional-details">
-        <div class="details-tabs">
-          <div class="tab-header">
-            <div class="tab-item active">Especificações</div>
-            <div class="tab-item">Compatibilidade</div>
-            <div class="tab-item">Avaliações</div>
+
+      <!-- Right side - Product Info -->
+      <div class="product-info">
+        <div class="product-header">
+          <h2 class="model-name">{{ formGroup.get("nome")?.value }}</h2>
+          <div class="manufacturer">
+            <span class="manufacturer-label">Fabricante:</span>
+            <span class="manufacturer-name">{{
+              processador.fabricante.nome
+            }}</span>
           </div>
-          
-          <div class="tab-content">
-            <table class="specs-table">
-              <tr>
-                <th>Característica</th>
-                <th>Especificação</th>
-              </tr>
-              <tr>
-                <td>Modelo</td>
-                <td>{{ formGroup.get('nome')?.value }}</td>
-              </tr>
-              <tr>
-                <td>Fabricante</td>
-                <td>{{ processador.fabricante?.nome }}</td>
-              </tr>
-              <tr>
-                <td>Socket</td>
-                <td>{{ formGroup.get('socket')?.value }}</td>
-              </tr>
-              <tr>
-                <td>Frequência Base</td>
-                <td>{{ formGroup.get('frequencia')?.value }} GHz</td>
-              </tr>
-              <tr>
-                <td>Núcleos</td>
-                <td>{{ formGroup.get('nucleos')?.value }}</td>
-              </tr>
-              <tr>
-                <td>Threads</td>
-                <td>{{ formGroup.get('threads')?.value }}</td>
-              </tr>
-              <tr>
-                <td>ID do Produto</td>
-                <td>{{ formGroup.get('id')?.value }}</td>
-              </tr>
-            </table>
+        </div>
+
+        <div class="product-specs">
+          <h3 class="specs-title">Especificações Técnicas</h3>
+          <div class="specs-grid">
+            <div class="spec-item">
+              <div class="spec-icon">
+                <span class="material-icons">memory</span>
+              </div>
+              <div class="spec-details">
+                <span class="spec-label">Socket</span>
+                <span class="spec-value">{{
+                  formGroup.get("socket")?.value
+                }}</span>
+              </div>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-icon">
+                <span class="material-icons">speed</span>
+              </div>
+              <div class="spec-details">
+                <span class="spec-label">Frequência</span>
+                <span class="spec-value"
+                  >{{
+                    formGroup.get("frequencia.clockBasico")?.value
+                  }}
+                  GHz</span
+                >
+              </div>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-icon">
+                <span class="material-icons">grid_view</span>
+              </div>
+              <div class="spec-details">
+                <span class="spec-label">Núcleos</span>
+                <span class="spec-value">{{
+                  formGroup.get("nucleos")?.value
+                }}</span>
+              </div>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-icon">
+                <span class="material-icons">timeline</span>
+              </div>
+              <div class="spec-details">
+                <span class="spec-label">Threads</span>
+                <span class="spec-value">{{
+                  formGroup.get("threads")?.value
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-purchase">
+          <div class="price-container">
+            <div class="price-tag">
+              <span class="currency">R$</span>
+              <span class="amount">{{
+                formGroup.get("preco")?.value | number : "1.2-2"
+              }}</span>
+            </div>
+            <div class="installment">
+              ou em até 10x de R$
+              {{ formGroup.get("preco")?.value / 10 | number : "1.2-2" }} sem
+              juros
+            </div>
+          </div>
+
+          <div class="purchase-actions">
+            <button
+              mat-raised-button
+              class="buy-button"
+              (click)="comprar(processador)"
+              [disabled]="!formGroup.get('emEstoque')?.value"
+              [ngClass]="{'out-of-stock': !formGroup.get('emEstoque')?.value}"
+            >
+              <span class="material-icons">shopping_cart</span>
+              {{ formGroup.get('emEstoque')?.value ? 'Comprar Agora' : 'Fora de Estoque' }}
+            </button>
+            <!-- Botão de coração estilizado -->
+            <button
+              mat-icon-button
+              color="warn"
+              class="wishlist-icon-btn"
+              matTooltip="{{ estaNaListaDeDesejos(processador.id) ? 'Remover da Lista de Desejos' : 'Adicionar à Lista de Desejos' }}"
+              (click)="
+                estaNaListaDeDesejos(processador.id)
+                  ? removerDaListaDesejos(processador.id)
+                  : adicionarAListaDesejos(processador.id)
+              "
+            >
+              <span class="material-icons">
+                {{ estaNaListaDeDesejos(processador.id) ? 'favorite' : 'favorite_border' }}
+              </span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="!formGroup.get('emEstoque')?.value" class="out-of-stock-warning">
+          <span class="material-icons warning-icon">error_outline</span>
+          Produto fora de estoque no momento.
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional product details section -->
+    <div class="additional-details">
+      <div class="details-tabs">
+        <div class="tab-header">
+          <div
+            class="tab-item"
+            [class.active]="abaAtiva === 'especificacoes'"
+            (click)="abaAtiva = 'especificacoes'"
+          >
+            Especificações
+          </div>
+          <div
+            class="tab-item"
+            [class.active]="abaAtiva === 'compatibilidade'"
+            (click)="abaAtiva = 'compatibilidade'"
+          >
+            Compatibilidade
+          </div>
+          <div
+            class="tab-item"
+            [class.active]="abaAtiva === 'avaliacoes'"
+            (click)="abaAtiva = 'avaliacoes'"
+          >
+            Avaliações
+          </div>
+        </div>
+        <div class="tab-content">
+          <!-- Especificações -->
+          <table class="specs-table" *ngIf="abaAtiva === 'especificacoes'">
+            <tr>
+              <th>Característica</th>
+              <th>Especificação</th>
+            </tr>
+            <tr>
+              <td>Modelo</td>
+              <td>{{ processador.nome }}</td>
+            </tr>
+            <tr>
+              <td>Fabricante</td>
+              <td>{{ processador.fabricante?.nome }}</td>
+            </tr>
+            <tr>
+              <td>Frequência Base</td>
+              <td>{{ processador.frequencia.clockBasico }} GHz</td>
+            </tr>
+            <tr>
+              <td>Frequência Boost</td>
+              <td>{{ processador.frequencia.clockBoost }} GHz</td>
+            </tr>
+            <tr>
+              <td>Núcleos</td>
+              <td>{{ processador.nucleos }}</td>
+            </tr>
+            <tr>
+              <td>Threads</td>
+              <td>{{ processador.threads }}</td>
+            </tr>
+            <tr>
+              <td>Desbloqueado</td>
+              <td>{{ processador.desbloqueado ? "Sim" : "Não" }}</td>
+            </tr>
+            <tr>
+              <td>Cache L2</td>
+              <td>{{ processador.memoriaCache?.cacheL2 }} MB</td>
+            </tr>
+            <tr>
+              <td>Cache L3</td>
+              <td>{{ processador.memoriaCache?.cacheL3 }} MB</td>
+            </tr>
+            <tr>
+              <td>Energia (Base)</td>
+              <td>{{ processador.consumoEnergetico?.energiaBasica }}W</td>
+            </tr>
+            <tr>
+              <td>Energia (Máxima)</td>
+              <td>{{ processador.consumoEnergetico?.energiaMaxima }}W</td>
+            </tr>
+          </table>
+          <!-- Compatibilidade -->
+          <table class="specs-table" *ngIf="abaAtiva === 'compatibilidade'">
+            <tr>
+              <th>Compatibilidade</th>
+              <th>Detalhes</th>
+            </tr>
+            <tr>
+              <td>Socket</td>
+              <td>{{ processador.socket }}</td>
+            </tr>
+            <tr>
+              <td>PCI</td>
+              <td>{{ processador.conectividade?.pci }}</td>
+            </tr>
+            <!-- Adicione mais linhas de compatibilidade se necessário -->
+          </table>
+          <!-- Avaliações (exemplo de placeholder) -->
+          <div *ngIf="abaAtiva === 'avaliacoes'">
+            <p>Avaliações dos usuários em breve...</p>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

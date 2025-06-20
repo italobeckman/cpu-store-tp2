@@ -1,4 +1,10 @@
 /* Estilos para o contêiner principal */
+:host {
+  display: block;
+  width: 100%;
+  min-height: calc(100vh - 64px);
+}
+
 .container {
   display: flex;
   flex-direction: column;

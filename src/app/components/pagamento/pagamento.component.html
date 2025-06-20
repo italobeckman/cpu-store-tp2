@@ -1,237 +1,267 @@
 <div class="pagamento-wrapper">
-    <div class="pagamento-container">
-      <!-- Cabeçalho do Resumo -->
-      <div class="pagamento-header">
-        <div class="header-content">
-          <h2 class="header-title">Resumo do Pagamento</h2>
-          <p class="header-subtitle">Itens no carrinho</p>
-        </div>
-        <div class="cart-icon">
-          <a class="carrinho-link" href="/carrinho">
-            <mat-icon>shopping_cart</mat-icon>
-          </a>
-        </div>
+  <div class="pagamento-container">
+    <!-- Cabeçalho do Resumo -->
+    <div class="pagamento-header">
+      <div class="header-content">
+        <h2 class="header-title">Resumo do Pagamento</h2>
+        <p class="header-subtitle">Itens no carrinho</p>
       </div>
-  
-      <!-- Lista de Itens -->
-      <div class="pagamento-content">
-        <div class="items-list">
-          <div class="item" *ngFor="let produto of produtos; let i = index">
-            <div class="item-number">{{ i + 1 }}</div>
-            <div class="item-details">
-              <div class="item-name">{{ produto.nome }}</div>
-              <div class="item-price">R$ {{ valorParaPagar }}</div>
-            </div>
-            <div class="item-quantity">
-              <button
-                class="quantity-btn decrease"
-                aria-label="Diminuir quantidade"
-                (click)="diminuirQuantidade(produto.id)"
-              >
-                <mat-icon>remove</mat-icon>
-              </button>
-            
-              <span class="quantity-value">{{ produto.quantidade }}</span>
-            
-              <button
-                class="quantity-btn increase"
-                aria-label="Aumentar quantidade"
-                (click)="aumentarQuantidade(produto.id)"
-              >
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>            
-            <button class="remove-btn" aria-label="Remover item">
-              <mat-icon>close</mat-icon>
+      <div class="cart-icon">
+        <a class="carrinho-link" href="/carrinho">
+          <mat-icon>shopping_cart</mat-icon>
+        </a>
+      </div>
+    </div>
+
+    <!-- Lista de Itens -->
+    <div class="pagamento-content">
+      <div class="items-list">
+        <div class="item" *ngFor="let produto of produtos; let i = index">
+          <div class="item-number">{{ i + 1 }}</div>
+          <div class="item-details">
+            <div class="item-name">{{ produto.nome }}</div>
+            <div class="item-price">R$ {{ valorParaPagar }}</div>
+          </div>
+          <div class="item-quantity">
+            <button
+              class="quantity-btn decrease"
+              aria-label="Diminuir quantidade"
+              (click)="diminuirQuantidade(produto.id)"
+            >
+              <mat-icon>remove</mat-icon>
+            </button>
+
+            <span class="quantity-value">{{ produto.quantidade }}</span>
+
+            <button
+              class="quantity-btn increase"
+              aria-label="Aumentar quantidade"
+              (click)="aumentarQuantidade(produto.id)"
+            >
+              <mat-icon>add</mat-icon>
             </button>
           </div>
+          <button class="remove-btn" aria-label="Remover item">
+            <mat-icon>close</mat-icon>
+          </button>
         </div>
-  
-        <!-- Cupom de Desconto -->
-        <div class="coupon-section">
-          <div class="coupon-input">
-            <input 
-              type="text"
-              placeholder="Código promocional"
-              aria-label="Código promocional"
-              [(ngModel)]="codigoPromocional"
-              name="codigoPromocional"
-            >
-            <button class="apply-btn" (click)="aplicarCupom()">Aplicar</button>
-          </div>
+      </div>
+
+      <!-- Cupom de Desconto -->
+      <div class="coupon-section">
+        <div class="coupon-input">
+          <input
+            type="text"
+            placeholder="Código promocional"
+            aria-label="Código promocional"
+            [(ngModel)]="codigoPromocional"
+            name="codigoPromocional"
+          />
+          <button class="apply-btn" (click)="aplicarCupom()">Aplicar</button>
         </div>
-        
-  
-        <!-- Resumo de Valores -->
-        <div class="summary-section">
-          <div class="summary-row">
-            <span>Subtotal</span>
-            <span class="summary-value">R$ {{ valorParaPagar }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Frete</span>
-            <span class="summary-value free">Grátis</span>
-          </div>
-          <div class="summary-row discount" *ngIf="desconto">
-            <span>Desconto</span>
-            <span class="summary-value">-R$ {{ desconto }}</span>
-          </div>
-          <div class="summary-divider"></div>
-          <div class="summary-row total">
-            <span>Total a pagar:</span>
-            <span class="summary-value">R$ {{ valorParaPagar }}</span>
-          </div>
+      </div>
+
+      <!-- Resumo de Valores -->
+      <div class="summary-section">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span class="summary-value">R$ {{ valorParaPagar }}</span>
         </div>
-      
-        <form [formGroup]="formPagamento">
-          
-          <select id="paymentMethod" formControlName="formaPagamento" class="payment-select">
-  <option value="pix">Pix</option> <!-- Corrigido de "dinheiro" para "pix" -->
-  <option value="boleto">Boleto</option>
-  <option value="cartao">Cartão de crédito</option>
-</select>                
-        
-          <!-- Exibe o componente de parcelamento somente se a forma for "cartao" -->
-          <div *ngIf="formaPagamentoSelecionada === 'cartao'">
-            <!-- Cartões Salvos -->
-            <div class="saved-cards">
-              <h3>Cartões Salvos</h3>
-              <div class="card-list">
-                <mat-card
-                  class="card-item"
-                  *ngFor="let cartao of cartoes"
-                  [ngClass]="{ 'selected': cartaoSelecionado === cartao }"
-                  (click)="selecionarCartao(cartao)"
-                >
+        <div class="summary-row">
+          <span>Frete</span>
+          <span class="summary-value free">Grátis</span>
+        </div>
+        <div class="summary-row discount" *ngIf="desconto">
+          <span>Desconto</span>
+          <span class="summary-value">-R$ {{ desconto }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total">
+          <span>Total a pagar:</span>
+          <span class="summary-value">R$ {{ valorParaPagar }}</span>
+        </div>
+      </div>
+
+      <form [formGroup]="formPagamento">
+        <select
+          id="paymentMethod"
+          formControlName="formaPagamento"
+          class="payment-select"
+        >
+          <option value="pix">Pix</option>
+          <!-- Corrigido de "dinheiro" para "pix" -->
+          <option value="boleto">Boleto</option>
+          <option value="cartao">Cartão de crédito</option>
+        </select>
+
+        <!-- Exibe o componente de parcelamento somente se a forma for "cartao" -->
+        <div *ngIf="formaPagamentoSelecionada === 'cartao'">
+          <!-- Cartões Salvos -->
+          <div class="saved-cards">
+            <h3>Cartões Salvos</h3>
+            <div class="card-list">
+              <mat-card
+                class="card-item"
+                *ngFor="let cartao of cartoes"
+                [ngClass]="{ selected: cartaoSelecionado === cartao }"
+                (click)="selecionarCartao(cartao)"
+              >
                 <div class="card-content">
-                  <mat-icon class="card-icon" aria-hidden="true">credit_card</mat-icon>
-                
+                  <mat-icon class="card-icon" aria-hidden="true"
+                    >credit_card</mat-icon
+                  >
+
                   <div class="card-details">
                     <div class="card-header">
                       <strong class="card-titular" aria-label="Nome do titular">
                         {{ cartao.nomeTitular }}
                       </strong>
-                      <span class="card-tipo mat-caption" aria-label="Tipo do cartão">
+                      <span
+                        class="card-tipo mat-caption"
+                        aria-label="Tipo do cartão"
+                      >
                         {{ cartao.tipo.label }}
                       </span>
                     </div>
-                
-                    <div class="card-numero mat-body-1" aria-label="Número do cartão">
+
+                    <div
+                      class="card-numero mat-body-1"
+                      aria-label="Número do cartão"
+                    >
                       **** **** **** {{ cartao.numero?.slice(-4) }}
                     </div>
-                
-                    <div class="card-validade mat-body-2" aria-label="Validade do cartão">
-                      Válido até: {{ cartao.validade | date:'MM/yy' }}
+
+                    <div
+                      class="card-validade mat-body-2"
+                      aria-label="Validade do cartão"
+                    >
+                      Válido até: {{ cartao.validade | date : "MM/yy" }}
                     </div>
                   </div>
                 </div>
-                
-                </mat-card>
-              </div>
-            
-              <button mat-stroked-button color="primary" (click)="adicionarCartao()" class="add-card-button">
-                <mat-icon>add</mat-icon>
-                Adicionar Cartão
-              </button>
+              </mat-card>
             </div>
 
-            <!-- Aqui vai o seu componente de parcelamento -->
-            <!-- Opções de Parcelamento -->
-            <div class="installment-options">
-              <div class="installment-toggle" (click)="toggleInstallments()">
-                <span>Opções de parcelamento</span>
-                <mat-icon>{{ showInstallments ? 'expand_less' : 'expand_more' }}</mat-icon>
-              </div>
-              
-              <div class="installment-list" [class.expanded]="showInstallments">
-                <div
-                  class="installment-option"
-                  *ngFor="let option of installmentOptions"
-                  [ngClass]="{ 'selected': parcelaSelecionada?.text === option.text }"
-                  (click)="selecionarParcela(option)"
-                >
-                  <span>{{ option.text }}</span>
-                  <span>{{ option.value }}</span>
-                </div>
-              </div>
-            </div>
-            
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="adicionarCartao()"
+              class="add-card-button"
+            >
+              <mat-icon>add</mat-icon>
+              Adicionar Cartão
+            </button>
           </div>
-        </form>
 
-        <button mat-stroked-button color="primary" (click)="adicionarEndereco()" class="add-card-button">
-          <mat-icon>add</mat-icon>
-          Adicionar endereço
+          <!-- Aqui vai o seu componente de parcelamento -->
+          <!-- Opções de Parcelamento -->
+          <div class="installment-options">
+            <div class="installment-toggle" (click)="toggleInstallments()">
+              <span>Opções de parcelamento</span>
+              <mat-icon>{{
+                showInstallments ? "expand_less" : "expand_more"
+              }}</mat-icon>
+            </div>
+
+            <div class="installment-list" [class.expanded]="showInstallments">
+              <div
+                class="installment-option"
+                *ngFor="let option of installmentOptions"
+                [ngClass]="{
+                  selected: parcelaSelecionada?.text === option.text
+                }"
+                (click)="selecionarParcela(option)"
+              >
+                <span>{{ option.text }}</span>
+                <span>{{ option.value }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="adicionarEndereco()"
+        class="add-card-button"
+      >
+        <mat-icon>add</mat-icon>
+        Adicionar endereço
+      </button>
+      <form [formGroup]="formEndereco">
+        <div class="payment-method-wrapper">
+          <label for="enderecoSelecionado" class="payment-label"
+            >Endereços Cadastrados</label
+          >
+          <select
+            id="enderecoSelecionado"
+            formControlName="selecionarEndereco"
+            class="payment-select"
+          >
+            <option *ngFor="let endereco of enderecos" [value]="endereco.id">
+              {{ endereco.logradouro }}, {{ endereco.numero }} -
+              {{ endereco.cidade.nome }}
+            </option>
+          </select>
+        </div>
+      </form>
+
+      <!-- Botões de Ação -->
+      <div class="action-buttons">
+        <button class="continue-btn" (click)="continuarComprando()">
+          <mat-icon>arrow_back</mat-icon>
+          <span>Continuar comprando</span>
         </button>
-        <form [formGroup]="formEndereco">
-          <div class="payment-method-wrapper">
-            <label for="enderecoSelecionado" class="payment-label">Endereços Cadastrados</label>
-            <select id="enderecoSelecionado" formControlName="selecionarEndereco" class="payment-select">
-              <option *ngFor="let endereco of enderecos" [value]="endereco.id">
-                {{ endereco.logradouro }}, {{ endereco.numero }} - {{ endereco.cidade.nome }}
-              </option>
-            </select>
-          </div> 
-        </form>
-        
-        <!-- Botões de Ação -->
-        <div class="action-buttons">
-          <button class="continue-btn" (click)="continuarComprando()">
-            <mat-icon>arrow_back</mat-icon>
-            <span>Continuar comprando</span>
-          </button>
-          <button class="checkout-btn" (click)="finalizarCompra()">
-
-            <span>Finalizar Compra</span>
-            <mat-icon>arrow_forward</mat-icon>
-          </button>
-        </div>
-        <mat-spinner *ngIf="isProcessing" diameter="50" style="margin: 20px auto; display: block;"></mat-spinner>
-
-  
-        <!-- Segurança e Métodos de Pagamento -->
-        <div class="security-section">
-          <div class="security-badge">
-            <mat-icon>lock</mat-icon>
-            <span>Pagamento 100% seguro</span>
-          </div>
-          
-          <div class="payment-methods">
-            <p class="payment-title">Formas de Pagamento:</p>
-            <div class="payment-icons">
-              <div class="payment-icon credit-card" title="Cartão de Crédito">
-                <mat-icon>credit_card</mat-icon>
-              </div>
-              <div class="payment-icon bank" title="Transferência Bancária">
-                <mat-icon>account_balance</mat-icon>
-              </div>
-              <div class="payment-icon wallet" title="Carteira Digital">
-                <mat-icon>account_balance_wallet</mat-icon>
-              </div>
-              <div class="payment-icon pix" title="PIX">
-                <span>PIX</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <button class="checkout-btn" (click)="finalizarCompra()">
+          <span>Finalizar Compra</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
       </div>
-    </div>
-  
-    <!-- Resumo Flutuante para Mobile -->
-    <div class="mobile-summary">
-      <div class="mobile-summary-content">
-        <div class="mobile-total">
-          <span>Total:</span>
-          <span class="mobile-price">R$ {{ valorParaPagar }}</span>
-        </div>
-        <button mat-raised-button color="accent"
-            (click)="finalizarCompra()">
-      Finalizar Compra
-        </button>
+      <mat-spinner
+        *ngIf="isProcessing"
+        diameter="50"
+        style="margin: 20px auto; display: block"
+      ></mat-spinner>
 
+      <!-- Segurança e Métodos de Pagamento -->
+      <div class="security-section">
+        <div class="security-badge">
+          <mat-icon>lock</mat-icon>
+          <span>Pagamento 100% seguro</span>
+        </div>
+
+        <div class="payment-methods">
+          <p class="payment-title">Formas de Pagamento:</p>
+          <div class="payment-icons">
+            <div class="payment-icon credit-card" title="Cartão de Crédito">
+              <mat-icon>credit_card</mat-icon>
+            </div>
+            <div class="payment-icon bank" title="Transferência Bancária">
+              <mat-icon>account_balance</mat-icon>
+            </div>
+            <div class="payment-icon wallet" title="Carteira Digital">
+              <mat-icon>account_balance_wallet</mat-icon>
+            </div>
+            <div class="payment-icon pix" title="PIX">
+              <span>PIX</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  
 
-  
+  <!-- Resumo Flutuante para Mobile -->
+  <div class="mobile-summary">
+    <div class="mobile-summary-content">
+      <div class="mobile-total">
+        <span>Total:</span>
+        <span class="mobile-price">R$ {{ valorParaPagar }}</span>
+      </div>
+      <button mat-raised-button color="accent" (click)="finalizarCompra()">
+        Finalizar Compra
+      </button>
+    </div>
+  </div>
+</div>

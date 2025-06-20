@@ -7,6 +7,7 @@ import { SidebarService } from '../../../services/sidebar.service';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
+  standalone: true,
   selector: 'app-sidebar',
   imports: [MatSidenavModule, MatToolbarModule, 
             MatDrawer, MatDrawerContent, MatNavList, 

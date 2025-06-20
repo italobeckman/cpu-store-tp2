@@ -24,6 +24,7 @@ import { Subscription } from 'rxjs';
 import { Usuario } from '../../../models/usuario.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { jwtDecode } from 'jwt-decode';
+import { CarrinhoService } from '../../../services/carrinho.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -49,7 +50,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
   searchQuery = '';
-  cartItemCount: any = '';
+  cartItemCount: number = 0;
   isMobileMenuOpen = false;
   usuarioLogado: Usuario | null = null;
   username: string | null = '';
@@ -68,7 +69,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private searchService: SearchService,
     private router: Router,
     private authService: AuthService,
-    private jwtHelperService: JwtHelperService
+    private jwtHelperService: JwtHelperService,
+    private carrinhoService: CarrinhoService 
   ) {}
   isLoggedIn(): boolean {
     return !!localStorage.getItem('jwt_token');
@@ -80,6 +82,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.username = this.getUsernameFromToken();
     this.obterUsuarioLogado();
+    this.atualizarContadorCarrinho();
+
+    // Atualiza contador do carrinho em tempo real
+    this.subscription.add(
+      this.carrinhoService.obterProdutos().subscribe(produtos => {
+        this.cartItemCount = produtos.reduce((total, item) => total + (item.quantidade || 1), 0);
+      })
+    );
 
     this.subscription.add(
       this.authService.getUsuarioLogado().subscribe((usuario) => {
@@ -151,6 +161,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     return this.getClaimFromToken(token, 'preferred_username');
 
+  }
+
+  atualizarContadorCarrinho() {
+    const carrinho = JSON.parse(sessionStorage.getItem('carrinho') || '[]');
+    this.cartItemCount = carrinho.reduce((total: number, item: any) => total + (item.quantidade || 1), 0);
   }
 }
 

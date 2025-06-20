@@ -89,8 +89,15 @@ export class ProcessadorService {
     const processadorCopy = JSON.parse(JSON.stringify(processador));
     
     // Trata a placa integrada (envia apenas o ID se for um objeto)
-    if (processadorCopy.placaIntegrada && typeof processadorCopy.placaIntegrada === 'object') {
-      processadorCopy.placaIntegrada = processadorCopy.placaIntegrada.id;
+    if (processadorCopy.placaIntegrada) {
+      if (typeof processadorCopy.placaIntegrada === 'object' && processadorCopy.placaIntegrada.id) {
+        processadorCopy.placaIntegrada = processadorCopy.placaIntegrada.id;
+      } else if (typeof processadorCopy.placaIntegrada === 'number') {
+        // já está correto
+      } else {
+        // Se não houver id válido, remove o campo
+        delete processadorCopy.placaIntegrada;
+      }
     }
     
     // Garante que campos numéricos sejam números (não strings)
@@ -142,7 +149,7 @@ export class ProcessadorService {
     // 1. Validação do tipo de arquivo
     const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
     if (!allowedTypes.includes(file.type)) {
-        return throwError(() => new Error('Tipo de arquivo não suportado. Use PNG ou JPEG.'));
+        return throwError(() => new Error('Tipo de arquivo não suportado. Use PNG, JPEG, OU JPG.'));
     }
 
     // 2. Preparar FormData CORRETAMENTE

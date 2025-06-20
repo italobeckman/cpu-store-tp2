@@ -206,6 +206,8 @@
 }
 
 /* Botão de limpar busca */
+
+
 .search-field button[matSuffix] {
   background: transparent !important;
   border: none !important;
@@ -540,4 +542,69 @@ footer{
   color: white !important;
   border: 1px solid rgba(255, 107, 53, 0.3) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Remove o efeito de hover e focus da borda do input */
+.search-container .mat-mdc-form-field.mat-mdc-form-field-appearance-outline .mdc-notched-outline,
+.search-container .mat-mdc-form-field.mat-mdc-form-field-appearance-outline .mdc-notched-outline:hover,
+.search-container .mat-mdc-form-field.mat-mdc-form-field-appearance-outline .mdc-notched-outline.mdc-notched-outline--upgraded,
+.search-container .mat-mdc-form-field.mat-mdc-form-field-appearance-outline .mdc-notched-outline.mdc-notched-outline--focused {
+  border-color: #ccc !important; /* Ou a cor desejada */
+  box-shadow: none !important;
+  transition: none !important;
+}
+::ng-deep .search-container .mat-mdc-form-field-appearance-outline .mdc-notched-outline {
+  border-color: #ccc !important;
+}
+::ng-deep .search-container .mat-mdc-form-field-appearance-outline .mdc-notched-outline.mdc-notched-outline--focused {
+  border-color: #ccc !important;
+}
+
+/* Remove cor da borda no hover e focus do campo de busca */
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline .mdc-notched-outline,
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline .mdc-notched-outline * {
+  border-color: #ccc !important;
+  stroke: #ccc !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/* Remove cor laranja no hover/focus */
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline.mat-primary .mdc-notched-outline,
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline.mat-primary .mdc-notched-outline * {
+  border-color: #ccc !important;
+  stroke: #ccc !important;
+}
+
+/* Remove cor da borda quando focado */
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline .mdc-notched-outline.mdc-notched-outline--focused,
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline .mdc-notched-outline.mdc-notched-outline--upgraded {
+  border-color: #ccc !important;
+  stroke: #ccc !important;
+}
+
+/* Remove cor da borda do input em todos os estados */
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline .mdc-notched-outline path {
+  stroke: #ccc !important;
+}
+:host ::ng-deep .search-container .mdc-notched-outline__leading,
+:host ::ng-deep .search-container .mdc-notched-outline__notch,
+:host ::ng-deep .search-container .mdc-notched-outline__trailing {
+  border-color: #ccc !important;
+  transition: none !important;
+}
+
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline.mat-primary .mdc-notched-outline__leading,
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline.mat-primary .mdc-notched-outline__notch,
+:host ::ng-deep .search-container .mat-mdc-form-field-appearance-outline.mat-primary .mdc-notched-outline__trailing {
+  border-color: #ccc !important;
+}
+
+:host ::ng-deep .search-container .mdc-notched-outline__leading:hover,
+:host ::ng-deep .search-container .mdc-notched-outline__notch:hover,
+:host ::ng-deep .search-container .mdc-notched-outline__trailing:hover,
+:host ::ng-deep .search-container .mdc-notched-outline__leading:focus,
+:host ::ng-deep .search-container .mdc-notched-outline__notch:focus,
+:host ::ng-deep .search-container .mdc-notched-outline__trailing:focus {
+  border-color: #ccc !important;
 }

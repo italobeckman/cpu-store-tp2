@@ -1,142 +1,461 @@
-/* Estilos gerais */
-.toolbar-title {
-    background-color: #3f51b5; /* Cor primária do Material */
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 500;
-    padding: 0 16px;
-    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
-  }
-  
-  mat-card {
-    max-width: 900px;
-    margin: 24px auto;
-    padding: 24px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-  
-  mat-card-content {
+.processor-form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.processor-form {
+  width: 100%;
+}
+
+/* Header Styles */
+.form-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px 16px 0 0;
+  padding: 32px;
+  margin-bottom: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.header-info {
+  flex: 1;
+}
+
+.form-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 8px 0;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: white;
+}
+
+.title-icon {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.form-subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.delete-btn {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.delete-btn:hover {
+  background: rgba(244, 67, 54, 0.8) !important;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+/* Form Content */
+.form-content {
+  background: white;
+  border-radius: 0 0 16px 16px;
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Styles */
+.form-section {
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.form-section:last-child {
+  border-bottom: none;
+  border-radius: 0 0 16px 16px;
+}
+
+.form-section .mat-card-header {
+  background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px 24px;
+  margin: 0 -24px 24px -24px;
+}
+
+.form-section .mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #495057;
+  margin: 0;
+}
+
+.form-section .mat-card-title mat-icon {
+  color: #6c757d;
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.form-section .mat-card-content {
+  padding: 0 24px 32px 24px;
+}
+
+/* Field Grid */
+.field-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.field-full {
+  grid-column: span 12;
+}
+
+.field-half {
+  grid-column: span 6;
+}
+
+.field-third {
+  grid-column: span 4;
+}
+
+.field-quarter {
+  grid-column: span 3;
+}
+
+/* Form Fields */
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-radius: 12px;
+}
+
+.mat-form-field.mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-outline {
+  color: #dee2e6;
+}
+
+.mat-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #667eea;
+}
+
+.mat-form-field-label {
+  color: #6c757d !important;
+  font-weight: 500;
+}
+
+.mat-input-element {
+  color: #495057;
+  font-weight: 400;
+}
+
+.mat-input-element::placeholder {
+  color: #adb5bd !important;
+  opacity: 1;
+}
+
+/* Checkbox */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border: 2px solid #dee2e6;
+}
+
+.unlock-checkbox {
+  width: 100%;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.checkbox-label mat-icon {
+  color: #28a745;
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* Image Upload */
+.image-upload-section {
+  width: 100%;
+}
+
+.upload-area {
+  border: 3px dashed #dee2e6;
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.upload-area:hover {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  transform: translateY(-2px);
+}
+
+.upload-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  color: #6c757d;
+  margin-bottom: 16px;
+}
+
+.upload-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #495057;
+  margin: 0 0 8px 0;
+}
+
+.upload-subtext {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.image-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.image-preview {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.image-preview:hover {
+  transform: scale(1.05);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(244, 67, 54, 0.9) !important;
+  color: white !important;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
+
+.remove-image mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Action Buttons */
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 32px 24px;
+  background: white;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  color: white !important;
+  padding: 12px 32px !important;
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  border-radius: 25px !important;
+  box-shadow: 0 4px 16px rgba(40, 167, 69, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4) !important;
+}
+
+.cancel-btn {
+  padding: 12px 32px !important;
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  border-radius: 25px !important;
+  border: 2px solid #6c757d !important;
+  color: #6c757d !important;
+  transition: all 0.3s ease !important;
+}
+
+.cancel-btn:hover {
+  background: #6c757d !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .processor-form-container {
     padding: 16px;
   }
-  
-  /* Layout dos campos */
-  .row {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
+
+  .form-header {
+    padding: 24px 20px;
   }
-  
-  .full-width-input {
-    width: 100%;
-    margin-bottom: 16px;
+
+  .form-title {
+    font-size: 2rem;
   }
-  
-  .half-width-input {
-    flex: 1;
-    min-width: calc(50% - 8px);
-  }
-  
-  .third-width-input {
-    flex: 1;
-    min-width: calc(33.33% - 11px);
-  }
-  
-  /* Títulos das seções */
-  h3 {
-    color: #3f51b5;
-    margin: 24px 0 16px 0;
-    font-weight: 500;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 8px;
-  }
-  
-  /* Estilos para os campos de formulário */
-  mat-form-field {
-    margin-bottom: 8px;
-  }
-  
-  mat-checkbox {
-    margin-right: 16px;
-  }
-  
-  /* Botões de ação */
-  mat-card-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    padding: 16px 0 0 0;
-  }
-  
-  /* Estilos para upload de imagem */
-  .image-upload-container {
-    display: flex;
+
+  .header-content {
     flex-direction: column;
     gap: 16px;
-    margin-bottom: 16px;
+    text-align: center;
   }
-  
-  .image-preview {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    border: 1px dashed #ccc;
-    border-radius: 4px;
-    overflow: hidden;
+
+  .field-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .preview-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+
+  .field-full,
+  .field-half,
+  .field-third,
+  .field-quarter {
+    grid-column: span 1;
   }
-  
-  .image-preview button {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: rgba(255, 255, 255, 0.8);
+
+  .form-section .mat-card-content {
+    padding: 0 16px 24px 16px;
   }
-  
-  /* Estilos para mensagens de erro */
-  mat-error {
-    font-size: 12px;
-    color: #f44336; /* Vermelho do Material */
-    margin-top: 4px;
+
+  .form-actions {
+    flex-direction: column;
+    padding: 24px 16px;
   }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .row {
-      flex-direction: column;
-      gap: 0;
-    }
-    
-    .half-width-input, 
-    .third-width-input {
-      width: 100%;
-      min-width: 100%;
-    }
-    
-    mat-card {
-      margin: 16px;
-      padding: 16px;
-    }
+
+  .save-btn,
+  .cancel-btn {
+    width: 100% !important;
   }
-  
-  /* Efeitos de hover e focus */
-  mat-form-field.mat-focused .mat-form-field-label {
-    color: #3f51b5;
+}
+
+@media (max-width: 480px) {
+  .form-title {
+    font-size: 1.5rem;
   }
-  
-  .mat-form-field-appearance-fill .mat-form-field-flex {
-    background-color: rgba(0, 0, 0, 0.04);
+
+  .title-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
   }
-  
-  .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
-    background-color: rgba(63, 81, 181, 0.04);
+
+  .upload-area {
+    padding: 32px 16px;
   }
-  
-  /* Estilo para botão de upload */
-  button[mat-raised-button] {
-    align-self: flex-start;
+
+  .upload-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
   }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-section {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.form-section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.form-section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.form-section:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.form-section:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.form-section:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.form-section:nth-child(6) {
+  animation-delay: 0.6s;
+}
+.form-section:nth-child(7) {
+  animation-delay: 0.7s;
+}
+.form-section:nth-child(8) {
+  animation-delay: 0.8s;
+}
+
+/* Material Icons Enhancement */
+.mat-icon {
+  font-family: "Material Icons" !important;
+}
+
+/* Focus States */
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #667eea !important;
+}
+
+.mat-checkbox.mat-accent .mat-checkbox-checked.mat-checkbox-anim-unchecked-checked .mat-checkbox-background,
+.mat-checkbox.mat-accent .mat-checkbox-checked.mat-checkbox-anim-unchecked-indeterminate .mat-checkbox-background {
+  background-color: #667eea !important;
+}
+
+/* Error States */
+.mat-form-field.mat-form-field-invalid .mat-form-field-outline-thick {
+  color: #dc3545 !important;
+}
+
+.mat-error {
+  color: #dc3545 !important;
+  font-size: 0.875rem;
+  font-weight: 400;
+}

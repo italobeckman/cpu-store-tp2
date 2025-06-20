@@ -23,7 +23,7 @@ interface ProcessadorCard {
   primaryImageUrl: string;
   safeImageUrl?: SafeResourceUrl;
   socket: string;
-  frequencia: any; // Ajuste para o tipo correto se necessário
+  frequencia: any; 
   nucleos: number;
   threads: number;
   desbloqueado?: boolean;

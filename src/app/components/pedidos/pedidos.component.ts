@@ -8,15 +8,16 @@ import { MatButtonModule } from "@angular/material/button"
 import { MatSelectModule } from "@angular/material/select"
 import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatInputModule } from "@angular/material/input"
+import { MatDialog } from "@angular/material/dialog"
 import { PedidoService, PedidoBasicResponseDTO } from "../../services/pedido.service" // importe o serviço
+import { PedidoDetalhesDialogComponent } from "./pedido-detalhes-dialog/pedido-detalhes-dialog.component"
+import { ProcessadorService } from "../../services/processador.service"
 
 interface ItemPedido {
   id: number
   nome: string
-  especificacoes: string
   quantidade: number
   precoUnitario: number
-  imagemUrl?: string
 }
 
 interface Pedido {
@@ -57,11 +58,28 @@ export class PedidosComponent implements OnInit {
   errorMessage = ""
   filtroStatus = ""
   filtroTexto = ""
-
-  constructor(private pedidoService: PedidoService) {} // injete o serviço
+  constructor(private pedidoService: PedidoService, private dialog: MatDialog, private processadorService: ProcessadorService) {} // injete o serviço
 
   ngOnInit(): void {
     this.loadPedidos()
+  }
+
+  private mapStatus(status: string): "pendente" | "processando" | "enviado" | "entregue" | "cancelado" {
+    switch (status) {
+      case "PENDENTE":
+        return "pendente"
+      case "PREPARANDO_PRODUTO":
+      case "PROCESSANDO":
+        return "processando"
+      case "ENVIADO":
+        return "enviado"
+      case "ENTREGUE":
+        return "entregue"
+      case "PEDIDO_CANCELADO":
+        return "cancelado"
+      default:
+        return "pendente" 
+    }
   }
 
   loadPedidos(): void {
@@ -70,17 +88,28 @@ export class PedidosComponent implements OnInit {
 
     this.pedidoService.listarPedidos().subscribe({
       next: (dados: PedidoBasicResponseDTO[]) => {
+        console.log("Pedidos recebidos:", dados)
         this.pedidos = dados.map((dto) => ({
           id: dto.id,
           dataPedido: new Date(dto.data),
-          status: "entregue", // Valor padrão, pois o DTO não traz status
-          itens: [], // Vazio, pois o DTO não traz itens
+          status: this.mapStatus(dto.statusPedido), 
+          itens: dto.listaItemPedido.map((item) => ({
+            id: item.idProcessador,
+            nome: item.nome,
+            quantidade: item.quantidade,
+            precoUnitario: item.valor,
+            imageUrl: item.imageUrl && item.imageUrl.length > 0
+              ? this.processadorService.getImageUrl(item.imageUrl[0])
+              : "/img/processor-placeholder.png",
+          })),
           subtotal: dto.valorTotal,
           desconto: 0,
           frete: 0,
           total: dto.valorTotal,
           codigoRastreamento: "",
-          enderecoEntrega: "",
+          enderecoEntrega: dto.enderecoEntrega
+            ? `${"Logradouro " + dto.enderecoEntrega.logradouro}, ${dto.enderecoEntrega.numero}, ${dto.enderecoEntrega.bairro}, ${dto.enderecoEntrega.cidade.nome} - ${dto.enderecoEntrega.cidade.estado.nome}, CEP: ${dto.enderecoEntrega.cep}`
+            : "Endereço não disponível",
           formaPagamento: dto.formaPagamento,
         }))
         this.pedidosFiltrados = [...this.pedidos]
@@ -107,7 +136,15 @@ export class PedidosComponent implements OnInit {
   }
 
   getTotalGasto(): number {
-    return this.pedidos.reduce((total, pedido) => total + pedido.total, 0)
+    return this.pedidos
+    .filter(p => p.status !== 'cancelado')
+    .reduce((total, p) => total + (p.total || 0), 0);
+  }
+
+  getTotalGastoNaoCancelado(): number {
+    return this.pedidos
+      .filter(p => p.status !== 'cancelado')
+      .reduce((total, p) => total + (p.total || 0), 0);
   }
 
   getStatusLabel(status: string): string {
@@ -121,25 +158,23 @@ export class PedidosComponent implements OnInit {
     return labels[status] || status
   }
 
-  verDetalhes(pedido: Pedido): void {
-    console.log("Ver detalhes do pedido:", pedido.id)
-    // Implementar navegação para página de detalhes
-    // this.router.navigate(['/pedidos', pedido.id]);
-  }
 
-  rastrearPedido(pedido: Pedido): void {
-    if (pedido.codigoRastreamento) {
-      console.log("Rastrear pedido:", pedido.codigoRastreamento)
-      // Implementar redirecionamento para página de rastreamento
-      window.open(`https://www.correios.com.br/rastreamento?codigo=${pedido.codigoRastreamento}`, "_blank")
-    }
-  }
 
   cancelarPedido(pedido: Pedido): void {
     if (confirm(`Tem certeza que deseja cancelar o pedido #${pedido.id}?`)) {
       console.log("Cancelar pedido:", pedido.id)
-      // Implementar lógica de cancelamento
-      pedido.status = "cancelado"
+
+      this.pedidoService.cancelarPedido(pedido.id).subscribe({
+        next: () => {
+          console.log("Pedido cancelado com sucesso:", pedido.id)
+          pedido.status = "cancelado"
+        },
+        error: (error) => {
+          console.error("Erro ao cancelar pedido:", error)
+          alert("Não foi possível cancelar o pedido. Tente novamente mais tarde.")
+        }
+      })
+
       this.filtrarPedidos()
     }
   }
@@ -153,5 +188,22 @@ export class PedidosComponent implements OnInit {
 
   handleImageError(event: any): void {
     event.target.src = "/placeholder.svg?height=80&width=80"
+  }
+
+  verDetalhes(pedido: Pedido): void {
+    const dialogRef = this.dialog.open(PedidoDetalhesDialogComponent, {
+      width: "800px",
+      maxWidth: "90vw",
+      maxHeight: "90vh",
+      data: pedido,
+      panelClass: "pedido-detalhes-dialog",
+    })
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === "cancelar") {
+        // Recarregar pedidos se foi cancelado
+        this.loadPedidos()
+      }
+    })
   }
 }

@@ -29,15 +29,15 @@ export class ProcessadorFormComponent {
   formGroup: FormGroup;
   placasIntegradas: PlacaIntegrada[] = [];
   fabricantes = [
-    { id: 1, nome: 'AMD' },
-    { id: 2, nome: 'Intel' }
+    { id: 1, nome: 'Intel' },
+    { id: 2, nome: 'AMD' }
   ];
-  imagemFile: File | null = null;
-  imagemUrl: string | ArrayBuffer | null = null;
+  imagemFiles: File[] = [];
+  imagemUrls: (string | ArrayBuffer | null)[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private processadorService: ProcessadorService,
+    public processadorService: ProcessadorService,
     private placaIntegradaService: PlacaIntegradaService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -57,42 +57,46 @@ export class ProcessadorFormComponent {
       desbloqueado: [(processador && processador.desbloqueado) ? processador.desbloqueado : false],
       preco: [(processador && processador.preco) ? processador.preco : '', 
               Validators.compose([Validators.required, Validators.min(0)])],
-      fabricante: [(processador && processador.fabricante) ? processador.fabricante : '', 
-              Validators.required],
+      desconto: [(processador && processador.desconto) ? processador.desconto : 0, 
+              Validators.compose([Validators.min(0), Validators.max(100)])],
+      fabricante: [(processador && processador.fabricante) ? processador.fabricante : '', Validators.required],
       placaIntegrada: [(processador && processador.placaIntegrada) ? processador.placaIntegrada : null],
-      
-      // Objetos complexos
+
       memoriaCache: this.formBuilder.group({
-        l1: [(processador && processador.memoriaCache && processador.memoriaCache.l1) ? processador.memoriaCache.l1 : ''],
-        l2: [(processador && processador.memoriaCache && processador.memoriaCache.l2) ? processador.memoriaCache.l2 : ''],
-        l3: [(processador && processador.memoriaCache && processador.memoriaCache.l3) ? processador.memoriaCache.l3 : '']
+        cacheL2: [(processador && processador.memoriaCache && processador.memoriaCache.cacheL2) ? processador.memoriaCache.cacheL2 : '', 
+          Validators.compose([Validators.min(0)])],
+        cacheL3: [(processador && processador.memoriaCache && processador.memoriaCache.cacheL3) ? processador.memoriaCache.cacheL3 : '', 
+          Validators.compose([Validators.min(0)])]
       }),
-      
+
       frequencia: this.formBuilder.group({
-        base: [(processador && processador.frequencia && processador.frequencia.base) ? processador.frequencia.base : '', 
-                Validators.compose([Validators.required, Validators.min(0)])],
-        turbo: [(processador && processador.frequencia && processador.frequencia.turbo) ? processador.frequencia.turbo : '']
+        clockBasico: [(processador && processador.frequencia && processador.frequencia.clockBasico) ? processador.frequencia.clockBasico : '', 
+          Validators.compose([Validators.required, Validators.min(0)])],
+        clockBoost: [(processador && processador.frequencia && processador.frequencia.clockBoost) ? processador.frequencia.clockBoost : '']
       }),
-      
+
       consumoEnergetico: this.formBuilder.group({
-        tdp: [(processador && processador.consumoEnergetico && processador.consumoEnergetico.tdp) ? processador.consumoEnergetico.tdp : '', 
-              Validators.compose([Validators.required, Validators.min(0)])],
-        tecnologia: [(processador && processador.consumoEnergetico && processador.consumoEnergetico.tecnologia) ? processador.consumoEnergetico.tecnologia : '', 
-                      Validators.required]
+        energiaBasica: [(processador && processador.consumoEnergetico && processador.consumoEnergetico.energiaBasica) ? processador.consumoEnergetico.energiaBasica : '', 
+          Validators.compose([Validators.min(0)])],
+        energiaMaxima: [(processador && processador.consumoEnergetico && processador.consumoEnergetico.energiaMaxima) ? processador.consumoEnergetico.energiaMaxima : '', 
+          Validators.compose([Validators.required, Validators.min(0)])]
       }),
-      
+
       conectividade: this.formBuilder.group({
-        pciExpress: [(processador && processador.conectividade && processador.conectividade.pciExpress) ? processador.conectividade.pciExpress : '', 
-                      Validators.required],
-        wireless: [(processador && processador.conectividade && processador.conectividade.wireless) ? processador.conectividade.wireless : false],
-        bluetooth: [(processador && processador.conectividade && processador.conectividade.bluetooth) ? processador.conectividade.bluetooth : false]
-      })
+        pci: [(processador && processador.conectividade && processador.conectividade.pci) ? processador.conectividade.pci : '', Validators.required],
+        tipoMemoria: [(processador && processador.conectividade && processador.conectividade.tipoMemoria) ? processador.conectividade.tipoMemoria : '', Validators.required],
+        canaisMemoria: [(processador && processador.conectividade && processador.conectividade.canaisMemoria) ? processador.conectividade.canaisMemoria : '', Validators.compose([Validators.required, Validators.min(1)])]
+      }),
+
+      imagens: [[]]
     });
 
-    // Carregar as placas integradas disponíveis
 
     this.carregarPlacasIntegradas();
+
+    
   }
+
 
   carregarPlacasIntegradas() {
     this.placaIntegradaService.findAll().subscribe({
@@ -106,35 +110,45 @@ export class ProcessadorFormComponent {
   }
 
   onFileSelected(event: any): void {
-  const file: File = event.target.files[0];
-  if (file) {
-    this.imagemFile = file;
-    
-    // Criar URL para pré-visualização
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.imagemUrl = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    const files: FileList = event.target.files;
+    this.imagemFiles = [];
+    this.imagemUrls = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      this.imagemFiles.push(file);
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagemUrls.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
   }
-}
 
   async salvar() {
     this.formGroup.markAllAsTouched();
 
     if (this.formGroup.valid) {
-      const processador = this.formGroup.value;
-      console.log(processador);
+      // Garante que só o ID (ou null) vai para o backend
+      const formValue = this.formGroup.value;
+      const processador = {
+        ...formValue,
+        fabricante: formValue.fabricante, // já é o id
+        placaIntegrada: formValue.placaIntegrada ? formValue.placaIntegrada : null // só id ou null
+      };
 
       const operacao = processador.id == null
         ? this.processadorService.insert(processador)
         : this.processadorService.update(processador.id, processador);
 
-      if (this.imagemFile) {
-        const response = await this.processadorService.uploadImagem(this.imagemFile, processador.id);
-      }
       operacao.subscribe({
-        next: () => {
+        next: async (createdProcessador: any) => {
+          const processadorId = createdProcessador.id || processador.id;
+          if (this.imagemFiles && this.imagemFiles.length > 0 && processadorId) {
+            for (const file of this.imagemFiles) {
+              await this.processadorService.uploadImagem(file, processadorId).toPromise();
+            }
+          }
           this.router.navigateByUrl('/admin/processadores');
         },
         error: (errorResponse) => {
@@ -270,12 +284,12 @@ export class ProcessadorFormComponent {
       }
     },
     frequencia: {
-      base: {
+      clockBasico: {
         required: 'A frequência base deve ser informada.',
         min: 'A frequência base deve ser maior que zero.',
         apiError: ' '
       },
-      turbo: {
+      clockMaximo: {
         min: 'A frequência turbo deve ser maior que zero.',
         apiError: ' '
       }
@@ -298,4 +312,7 @@ export class ProcessadorFormComponent {
       }
     }
   };
+
+
+
 }

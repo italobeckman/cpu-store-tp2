@@ -1,0 +1,108 @@
+<div class="lote-form-container">
+  <form [formGroup]="formGroup" (ngSubmit)="salvar()" class="lote-form">
+    <div class="form-header">
+      <div class="header-content">
+        <div class="header-info">
+          <h1 class="form-title">
+            <mat-icon class="title-icon">inventory</mat-icon>
+            {{ formGroup.get('id')?.value ? 'Editar' : 'Cadastrar' }} Lote
+          </h1>
+          <p class="form-subtitle">Preencha as informações de registro e controle do lote</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-content">
+      <mat-card class="form-section">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>info</mat-icon>
+            Informações do Lote
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="field-grid">
+
+            <mat-form-field appearance="outline" class="field-half">
+              <mat-label>Código do Lote</mat-label>
+              <input matInput formControlName="codigo" maxlength="50" placeholder="Ex: LOTE2024-SP-001">
+              <mat-icon matSuffix>qr_code_scanner</mat-icon>
+              <mat-error *ngIf="formGroup.get('codigo')?.invalid">
+                {{ getErrorMessage('codigo', formGroup.get('codigo')?.errors) }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-half">
+              <mat-label>Data de Recebimento</mat-label>
+              <input matInput type="date" formControlName="data">
+              <mat-icon matSuffix>calendar_today</mat-icon>
+              <mat-error *ngIf="formGroup.get('data')?.invalid">
+                {{ getErrorMessage('data', formGroup.get('data')?.errors) }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-full">
+              <mat-label>Estoque Inicial</mat-label>
+              <input matInput type="number" formControlName="estoque" placeholder="Ex: 100">
+              <mat-icon matSuffix>inventory_2</mat-icon>
+              <mat-error *ngIf="formGroup.get('estoque')?.invalid">
+                {{ getErrorMessage('estoque', formGroup.get('estoque')?.errors) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="form-section">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>link</mat-icon>
+            Associação de Itens
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="field-grid">
+
+            <mat-form-field appearance="outline" class="field-half" *ngIf="processadores.length">
+              <mat-label>Processador</mat-label>
+              <mat-select formControlName="idProcessador">
+                <mat-option *ngFor="let proc of processadores" [value]="proc.id">
+                  {{ proc.nome }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>memory</mat-icon>
+              <mat-error *ngIf="formGroup.get('idProcessador')?.invalid">
+                {{ getErrorMessage('idProcessador', formGroup.get('idProcessador')?.errors) }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="field-half">
+              <mat-label>Fornecedor</mat-label>
+              <mat-select formControlName="idFornecedor">
+                <mat-option *ngFor="let forn of fornecedores" [value]="forn.id">
+                  {{ forn.nome }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>local_shipping</mat-icon>
+              <mat-error *ngIf="formGroup.get('idFornecedor')?.invalid">
+                {{ getErrorMessage('idFornecedor', formGroup.get('idFornecedor')?.errors) }}
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" class="save-btn" [disabled]="formGroup.invalid">
+        <mat-icon>save</mat-icon>
+        Salvar Lote
+      </button>
+      <button mat-stroked-button color="accent" type="button" routerLink="/admin/lotes" class="cancel-btn">
+        <mat-icon>cancel</mat-icon>
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

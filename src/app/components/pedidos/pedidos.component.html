@@ -52,8 +52,7 @@
 
   <!-- Lista vazia -->
   <div *ngIf="!isLoading && !errorMessage && pedidosFiltrados.length === 0" class="empty-container">
-    <mat-icon class="empty-icon">shopping_bag</mat-icon>
-    <h2>Nenhum pedido encontrado</h2>
+    
     <p *ngIf="filtroStatus || filtroTexto">Tente ajustar seus filtros para ver mais resultados.</p>
     <p *ngIf="!filtroStatus && !filtroTexto">Você ainda não realizou nenhum pedido.</p>
     <button mat-raised-button color="accent" routerLink="/produtos">Explorar produtos</button>
@@ -81,14 +80,9 @@
             <p>Detalhes dos itens não disponíveis</p>
           </div>
           <div *ngFor="let item of pedido.itens.slice(0, 3)" class="pedido-item">
-            <div class="item-image">
-              <img [src]="item.imagemUrl || '/placeholder.svg?height=80&width=80'" 
-                   [alt]="item.nome"
-                   (error)="handleImageError($event)">
-            </div>
+
             <div class="item-details">
               <span class="item-name">{{ item.nome }}</span>
-              <span class="item-specs">{{ item.especificacoes }}</span>
               <div class="item-price-qty">
                 <span class="item-price">{{ item.precoUnitario | currency:'BRL' }}</span>
                 <span class="item-qty">x{{ item.quantidade }}</span>
@@ -102,38 +96,11 @@
 
         <!-- Resumo do pedido -->
         <div class="pedido-summary">
-          <div class="summary-row">
-            <span>Subtotal:</span>
-            <span>{{ pedido.subtotal | currency:'BRL' }}</span>
-          </div>
-          <div class="summary-row" *ngIf="pedido.desconto > 0">
-            <span>Desconto:</span>
-            <span class="discount">-{{ pedido.desconto | currency:'BRL' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Frete:</span>
-            <span>{{ pedido.frete | currency:'BRL' }}</span>
-          </div>
+
           <div class="summary-row total">
             <span>Total:</span>
             <span>{{ pedido.total | currency:'BRL' }}</span>
           </div>
-        </div>
-      </div>
-
-      <!-- Informações adicionais -->
-      <div class="pedido-details">
-        <div class="detail-row">
-          <mat-icon>local_shipping</mat-icon>
-          <span>{{ pedido.enderecoEntrega || 'Endereço não disponível' }}</span>
-        </div>
-        <div class="detail-row">
-          <mat-icon>payment</mat-icon>
-          <span>{{ pedido.formaPagamento || 'Forma de pagamento não disponível' }}</span>
-        </div>
-        <div class="detail-row" *ngIf="pedido.codigoRastreamento">
-          <mat-icon>local_shipping</mat-icon>
-          <span>Código de rastreamento: {{ pedido.codigoRastreamento }}</span>
         </div>
       </div>
 
@@ -143,18 +110,7 @@
           <mat-icon>visibility</mat-icon>
           Ver detalhes
         </button>
-        
-        <button mat-button color="accent" (click)="comprarNovamente(pedido)">
-          <mat-icon>replay</mat-icon>
-          Comprar novamente
-        </button>
-        
-        <button mat-button *ngIf="pedido.codigoRastreamento && pedido.status !== 'entregue' && pedido.status !== 'cancelado'" 
-                (click)="rastrearPedido(pedido)">
-          <mat-icon>location_on</mat-icon>
-          Rastrear
-        </button>
-        
+
         <button mat-button color="warn" *ngIf="pedido.status === 'pendente' || pedido.status === 'processando'" 
                 (click)="cancelarPedido(pedido)">
           <mat-icon>cancel</mat-icon>
@@ -163,4 +119,7 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Botão flutuante para adicionar novo pedido -->
 </div>

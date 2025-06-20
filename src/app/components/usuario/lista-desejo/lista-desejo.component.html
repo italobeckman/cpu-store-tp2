@@ -1,0 +1,100 @@
+<div class="lista-desejo-container">
+  <div class="header">
+    <h1 class="titulo">
+      <i class="icon-heart"></i>
+      Lista de Desejos
+    </h1>
+    <p class="subtitulo">Seus processadores favoritos em um só lugar</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Carregando sua lista de desejos...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="erro && !loading" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <p class="error-text">{{ erro }}</p>
+    <button class="retry-btn" (click)="carregarListaDesejos()">
+      Tentar Novamente
+    </button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !erro && listaDesejos.length === 0" class="empty-container">
+    <div class="empty-icon">💔</div>
+    <h3 class="empty-title">Sua lista está vazia</h3>
+    <p class="empty-text">Adicione processadores à sua lista de desejos para vê-los aqui</p>
+  </div>
+
+  <!-- Lista de Processadores -->
+  <div *ngIf="!loading && !erro && listaDesejos.length > 0" class="processadores-grid">
+    <div *ngFor="let processador of listaDesejos" class="processador-card">
+      <div class="card-header">
+        <div class="fabricante-badge">{{ processador.fabricante.nome }}</div>
+        <button class="remove-btn" (click)="removerDaLista(processador.id)" title="Remover da lista">
+          <i class="icon-close">✕</i>
+        </button>
+      </div>
+
+      <div class="card-image">
+        <img [src]="getPrimeiraImagemUrl(processador)" [alt]="processador.nome" />
+        <div *ngIf="processador.desconto > 0" class="desconto-badge">
+          -{{ processador.desconto }}%
+        </div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="processador-nome">{{ processador.nome }}</h3>
+        
+        <div class="specs-grid">
+          <div class="spec-item">
+            <span class="spec-label">Socket</span>
+            <span class="spec-value">{{ processador.socket }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Núcleos</span>
+            <span class="spec-value">{{ processador.nucleos }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Threads</span>
+            <span class="spec-value">{{ processador.threads }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Clock Base</span>
+            <span class="spec-value">{{ processador.frequencia.clockBasico }} GHz</span>
+          </div>
+        </div>
+
+        <div class="features">
+          <span *ngIf="processador.desbloqueado" class="feature-tag unlocked">
+            🔓 Desbloqueado
+          </span>
+          <span *ngIf="processador.placaIntegrada" class="feature-tag integrated">
+            🎮 GPU Integrada
+          </span>
+        </div>
+
+        <div class="price-section">
+          <div class="price-container">
+            <span *ngIf="processador.desconto > 0" class="price-original">
+              R$ {{ (processador.preco / (1 - processador.desconto/100)).toFixed(2) }}
+            </span>
+            <span class="price-atual">R$ {{ processador.preco.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-primary">
+          🛒 Adicionar ao Carrinho
+        </button>
+        <button class="btn-secondary">
+          👁️ Ver Detalhes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,15 @@
 /* Estilos para garantir que o footer fique no fim da página */
 :host {
-  display: block;
+  display: flex;
   margin-top: auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }
+
 
 .footer-container {
   width: 100%;

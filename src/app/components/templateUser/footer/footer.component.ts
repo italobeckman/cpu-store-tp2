@@ -39,53 +39,43 @@ export class FooterComponent {
       category: "Comprar",
       links: [
         { label: "Todos os Produtos", url: "/produtos" },
-        { label: "Novidades", url: "/produtos/novidades" },
-        { label: "Mais Vendidos", url: "/produtos/mais-vendidos" },
-        { label: "Cartões de Presente", url: "/cartoes-presente" },
+        { label: "Mais Vendidos", url: "/home" },
       ],
     },
     {
       category: "Atendimento ao Cliente",
       links: [
-        { label: "Central de Ajuda", url: "/ajuda" },
-        { label: "Status do Pedido", url: "/pedidos/status" },
-        { label: "Frete e Entrega", url: "/frete" },
-        { label: "Trocas e Devoluções", url: "/trocas" },
-        { label: "Fale Conosco", url: "/contato" },
+        { label: "Central de Ajuda", url: "/sobre" },
+        { label: "Fale Conosco", url: "/sobre" },
       ],
     },
     {
       category: "Sobre Nós",
       links: [
         { label: "Nossa História", url: "/sobre" },
-        { label: "Trabalhe Conosco", url: "/carreiras" },
-        { label: "Imprensa", url: "/imprensa" },
-        { label: "Blog", url: "/blog" },
-        { label: "Sustentabilidade", url: "/sustentabilidade" },
+        { label: "Trabalhe Conosco", url: "/sobre" },
+        { label: "Imprensa", url: "/sobre" },
+        { label: "Blog", url: "/sobre" },
+        { label: "Sustentabilidade", url: "/sobre" },
       ],
     },
   ]
 
-  // Links de redes sociais
-  socialLinks = [
-    { icon: "facebook", url: "https://facebook.com", label: "Facebook" },
-    { icon: "twitter", url: "https://twitter.com", label: "Twitter" },
-    { icon: "instagram", url: "https://instagram.com", label: "Instagram" },
-    { icon: "youtube", url: "https://youtube.com", label: "YouTube" },
-    { icon: "pinterest", url: "https://pinterest.com", label: "Pinterest" },
-  ]
-
-  // Métodos de pagamento
   paymentMethods = [
     { icon: "credit_card", label: "Cartão de Crédito" },
     { icon: "account_balance", label: "Transferência Bancária" },
     { icon: "payments", label: "Boleto" },
+    { icon: "pix", label: "PIX" },
+
+    
   ]
 
   inscreverNewsletter() {
     if (this.emailSubscription && this.validateEmail(this.emailSubscription)) {
       console.log("Inscrevendo email:", this.emailSubscription)
-      // Aqui você implementaria a lógica real de inscrição
+
+
+
       alert(`Obrigado por se inscrever com ${this.emailSubscription}!`)
       this.emailSubscription = ""
     } else {

@@ -6,11 +6,7 @@
   </div>
 
   <!-- Error Message -->
-  <div *ngIf="!isLoading && errorMessage" class="error-container">
-    <mat-icon class="error-icon">error_outline</mat-icon>
-    <p class="error-message">{{ errorMessage }}</p>
-    <button mat-raised-button color="accent" (click)="loadProcessadores()">Tentar Novamente</button>
-  </div>
+  
 
   <div class="carousel-container">
     <button class="carousel-prev" (click)="prevSlide()">&#10094;</button>
@@ -28,6 +24,12 @@
       <span>TERMINA EM:</span>
       <span class="timer">⏱  {{ countdown }}</span>
     </div>
+  </div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-container">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <p class="error-message">{{ errorMessage }}</p>
+    <button mat-raised-button color="accent" (click)="loadProcessadores()">Tentar Novamente</button>
   </div>
 
   <!-- Content -->

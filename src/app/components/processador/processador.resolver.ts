@@ -18,12 +18,11 @@ export class ProcessadorResolver {
   ): Observable<Processador | null> {
     const id = route.paramMap.get('id');
     
-    // Se não for uma rota de edição (não tem ID ou é 'new'), retorna null
     if (!id || id === 'new') {
       return of(null);
     }
+    console.log('ProcessadorResolver: ID recebido:', id);
     
-    // Busca o processador pelo ID
     return this.processadorService.findById(+id).pipe(
       catchError(error => {
         console.error('Erro ao carregar processador:', error);

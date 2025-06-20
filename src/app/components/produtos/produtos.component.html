@@ -1,196 +1,311 @@
 <body>
+  <!-- Hero Section -->
+  <section class="products-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>
+          Processadores <span class="highlight">de Alta Performance</span>
+        </h1>
+        <p>
+          Descubra nossa linha completa de processadores para todas as suas
+          necessidades
+        </p>
+      </div>
+    </div>
+  </section>
 
+  <!-- Filtros e Produtos -->
+  <section class="products-section">
+    <div class="container">
+      <div class="products-layout">
+        <!-- Sidebar de Filtros -->
+        <aside class="filters-sidebar">
+          <div class="filter-header">
+            <h3>Filtros</h3>
+            <button class="clear-filters">Limpar</button>
+          </div>
 
-    <!-- Hero Section -->
-    <section class="products-hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Processadores <span class="highlight">de Alta Performance</span></h1>
-                <p>Descubra nossa linha completa de processadores para todas as suas necessidades</p>
+          <div class="filter-group">
+            <h4>Busca</h4>
+            <div class="search-filter">
+              <input
+                type="text"
+                placeholder="Buscar processadores..."
+                [(ngModel)]="filtro.nome"
+                (ngModelChange)="buscarProdutos()"
+              />
+              <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- Filtros e Produtos -->
-    <section class="products-section">
-        <div class="container">
-            <div class="products-layout">
-                <!-- Sidebar de Filtros -->
-                <aside class="filters-sidebar">
-                    <div class="filter-header">
-                        <h3>Filtros</h3>
-                        <button class="clear-filters">Limpar</button>
-                    </div>
+          <div class="filter-group">
+            <h4>Fabricante</h4>
+            <div class="checkbox-group">
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="INTEL"
+                  (change)="onCheckboxChange($event, 'fabricante')"
+                />
+                <span class="checkmark"></span>
+                Intel
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="AMD"
+                  (change)="onCheckboxChange($event, 'fabricante')"
+                />
+                <span class="checkmark"></span>
+                AMD
+              </label>
+            </div>
+          </div>
 
-                    <div class="filter-group">
-                        <h4>Busca</h4>
-                        <div class="search-filter">
-                            <input type="text" placeholder="Buscar processadores..." id="search-input">
-                            <button class="search-btn"><i class="fas fa-search"></i></button>
-                        </div>
-                    </div>
+          <div class="filter-group">
+            <h4>Faixa de Preço</h4>
+            <div class="range-slider">
+              <div class="price-inputs">
+                <input
+                  type="number"
+                  [(ngModel)]="filtro.precoMin"
+                  (change)="buscarProdutos()"
+                  placeholder="Min"
+                  min="0"
+                />
+                <span>até</span>
+                <input
+                  type="number"
+                  [(ngModel)]="filtro.precoMax"
+                  (change)="buscarProdutos()"
+                  placeholder="Max"
+                  min="0"
+                />
+              </div>
+              <button class="apply-price">Aplicar</button>
+            </div>
+          </div>
 
-                    <div class="filter-group">
-                        <h4>Fabricante</h4>
-                        <div class="checkbox-group">
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="INTEL">
-                                <span class="checkmark"></span>
-                                Intel
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="AMD">
-                                <span class="checkmark"></span>
-                                AMD
-                            </label>
-                        </div>
-                    </div>
+          <div class="filter-group">
+            <h4>Socket</h4>
+            <div class="checkbox-group">
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="LGA1700"
+                  (change)="onCheckboxChange($event, 'socket')"
+                />
+                <span class="checkmark"></span>
+                LGA1700
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="AM4"
+                  (change)="onCheckboxChange($event, 'socket')"
+                />
+                <span class="checkmark"></span>
+                AM4
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="AM5"
+                  (change)="onCheckboxChange($event, 'socket')"
+                />
+                <span class="checkmark"></span>
+                AM5
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="LGA1200"
+                  (change)="onCheckboxChange($event, 'socket')"
+                />
+                <span class="checkmark"></span>
+                LGA1200
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="LGA777"
+                  (change)="onCheckboxChange($event, 'socket')"
+                />
+                <span class="checkmark"></span>
+                LGA777
+              </label>
+            </div>
+          </div>
 
-                    <div class="filter-group">
-                        <h4>Faixa de Preço</h4>
-                        <div class="range-slider">
-                            <div class="price-inputs">
-                                <input type="number" id="min-price" placeholder="Min" min="0">
-                                <span>até</span>
-                                <input type="number" id="max-price" placeholder="Max" min="0">
-                            </div>
-                            <button class="apply-price">Aplicar</button>
-                        </div>
-                    </div>
+          <div class="filter-group">
+            <h4>Núcleos</h4>
+            <div class="checkbox-group">
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="4"
+                  (change)="onCheckboxChange($event, 'nucleos')"
+                />
+                <span class="checkmark"></span>
+                4 núcleos
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="6"
+                  (change)="onCheckboxChange($event, 'nucleos')"
+                />
+                <span class="checkmark"></span>
+                6 núcleos
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="8"
+                  (change)="onCheckboxChange($event, 'nucleos')"
+                />
+                <span class="checkmark"></span>
+                8 núcleos
+              </label>
+              <label class="checkbox-container">
+                <input
+                  type="checkbox"
+                  value="12+"
+                  (change)="onCheckboxChange($event, 'nucleos')"
+                />
+                <span class="checkmark"></span>
+                12+ núcleos
+              </label>
+            </div>
+          </div>
 
-                    <div class="filter-group">
-                        <h4>Socket</h4>
-                        <div class="checkbox-group">
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="LGA1700">
-                                <span class="checkmark"></span>
-                                LGA1700
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="AM4">
-                                <span class="checkmark"></span>
-                                AM4
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="AM5">
-                                <span class="checkmark"></span>
-                                AM5
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="LGA1200">
-                                <span class="checkmark"></span>
-                                LGA1200
-                            </label>
-                        </div>
-                    </div>
+          <div class="filter-group">
+            <h4>Frequência</h4>
+            <div class="range-slider">
+              <input
+                type="range"
+                min="1"
+                max="100"
+                step="1"
+                [(ngModel)]="filtro.frequenciaMin"
+                (change)="buscarProdutos()"
+              />
+              <div class="freq-value">
+                <span id="freq-value">{{ filtro.frequenciaMin }}</span> GHz+
+              </div>
+            </div>
+          </div>
 
-                    <div class="filter-group">
-                        <h4>Núcleos</h4>
-                        <div class="checkbox-group">
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="4">
-                                <span class="checkmark"></span>
-                                4 núcleos
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="6">
-                                <span class="checkmark"></span>
-                                6 núcleos
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="8">
-                                <span class="checkmark"></span>
-                                8 núcleos
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" value="12+">
-                                <span class="checkmark"></span>
-                                12+ núcleos
-                            </label>
-                        </div>
-                    </div>
+          <div class="filter-group mobile-only">
+            <button class="apply-filters-mobile">Aplicar Filtros</button>
+          </div>
+        </aside>
 
-                    <div class="filter-group">
-                        <h4>Frequência</h4>
-                        <div class="range-slider">
-                            <input type="range" min="1" max="6" step="0.1" value="1" id="freq-slider">
-                            <div class="freq-value">
-                                <span id="freq-value">1.0</span> GHz+
-                            </div>
-                        </div>
-                    </div>
+        <!-- Conteúdo Principal -->
+        <main class="products-content">
+          <div class="products-header">
+            <div class="products-count">
+              <span>{{ cards.length }} produtos encontrados</span>
+            </div>
+            <div class="products-sort">
+              <label for="sort-select">Ordenar por:</label>
+              <select
+                id="sort-select"
+                [(ngModel)]="sortOption"
+                (change)="ordenarProdutos()"
+              >
+                <option value="newest">Mais recentes</option>
+                <option value="price-asc">Menor preço</option>
+                <option value="price-desc">Maior preço</option>
+                <option value="name-asc">Nome (A-Z)</option>
+                <option value="name-desc">Nome (Z-A)</option>
+              </select>
+            </div>
+            <button class="filter-toggle-mobile">
+              <i class="fas fa-filter"></i> Filtros
+            </button>
+          </div>
 
-                    <div class="filter-group mobile-only">
-                        <button class="apply-filters-mobile">Aplicar Filtros</button>
-                    </div>
-                </aside>
+          <!-- Grid de Produtos -->
+          <div class="products-grid">
+            <ng-container
+              *ngIf="!isLoading && cards.length > 0; else loadingOrEmpty"
+            >
+              <div
+                class="product-card"
+                *ngFor="let card of cards"
+                [routerLink]="['/detalhes', card.id]"
+                [class.out-of-stock]="!card.emEstoque"
+              >
+                <div *ngIf="card.desconto > 0" class="product-badge discount">
+                  -{{ card.desconto }}%
+                </div>
+                <div class="product-image">
+                  <img [src]="card.primaryImageUrl" [alt]="card.nome" />
+                  <div class="product-actions">
+                    <button
+                      class="action-btn add-to-cart"
+                      title="Adicionar ao carrinho"
+                      (click)="card && adicionarAoCarrinho(card, $event)"
+                      [disabled]="!card.emEstoque"
+                    >
+                      <i class="fas fa-shopping-cart"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-brand">{{ card.fabricante.nome }}</div>
+                  <h3 class="product-name">{{ card.nome }}</h3>
+                  <div class="product-specs">
+                    <span class="spec"
+                      ><i class="fas fa-microchip"></i> {{ card.socket }}</span
+                    >
+                    <span class="spec"
+                      ><i class="fas fa-tachometer-alt"></i> TurboClock
+                      {{ card.frequencia }} GHz</span
+                    >
+                    <span class="spec"
+                      ><i class="fas fa-layer-group"></i>
+                      {{ card.nucleos }} núcleos</span
+                    >
+                  </div>
+                  <div class="product-price">
+                    <span *ngIf="card.desconto > 0" class="old-price">
+                      R$
+                      {{
+                        card.preco / (1 - card.desconto / 100)
+                          | number : "1.2-2"
+                      }}
+                    </span>
+                    <span class="current-price">
+                      R$ {{ card.preco | number : "1.2-2" }}
+                    </span>
+                  </div>
+                  <!-- Botão Comprar Agora -->
+                  <button
+                    class="buy-now-btn"
+                    *ngIf="card.emEstoque; else semEstoque"
+                    (click)="comprar(card, $event)"
+                  >
+                    Comprar Agora
+                  </button>
+                  <ng-template #semEstoque>
+                    <button class="buy-now-btn out-stock-btn" disabled>
+                      Fora de estoque
+                    </button>
+                  </ng-template>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #loadingOrEmpty>
+              <div *ngIf="isLoading">Carregando produtos...</div>
+              <div *ngIf="!isLoading && cards.length === 0">
+                Nenhum produto encontrado.
+              </div>
+            </ng-template>
+          </div>
 
-                <!-- Conteúdo Principal -->
-                <main class="products-content">
-                    <div class="products-header">
-                        <div class="products-count">
-                            <span>{{ cards.length }} produtos encontrados</span>
-                        </div>
-                        <div class="products-sort">
-                            <label for="sort-select">Ordenar por:</label>
-                            <select id="sort-select">
-                                <option value="newest">Mais recentes</option>
-                                <option value="price-asc">Menor preço</option>
-                                <option value="price-desc">Maior preço</option>
-                                <option value="name-asc">Nome (A-Z)</option>
-                                <option value="name-desc">Nome (Z-A)</option>
-                            </select>
-                        </div>
-                        <button class="filter-toggle-mobile">
-                            <i class="fas fa-filter"></i> Filtros
-                        </button>
-                    </div>
-
-                    <!-- Grid de Produtos -->
-                    <div class="products-grid">
-                        <ng-container *ngIf="!isLoading && cards.length > 0; else loadingOrEmpty">
-                            <div class="product-card" *ngFor="let card of cards">
-                                <div *ngIf="card.desconto > 0" class="product-badge discount">
-                                    -{{ card.desconto }}%
-                                </div>
-                                <div class="product-image">
-                                    <img [src]="card.primaryImageUrl" [alt]="card.nome">
-                                    <div class="product-actions">
-                                        <button class="action-btn view-details" title="Ver detalhes">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="action-btn add-to-cart" title="Adicionar ao carrinho">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">{{ card.fabricante.nome }}</div>
-                                    <h3 class="product-name">{{ card.nome }}</h3>
-                                    <div class="product-specs">
-                                        <span class="spec"><i class="fas fa-microchip"></i> {{ card.socket }}</span>
-                                        <span class="spec"><i class="fas fa-tachometer-alt"></i> {{ card.frequencia }} GHz</span>
-                                        <span class="spec"><i class="fas fa-layer-group"></i> {{ card.nucleos }} núcleos</span>
-                                    </div>
-                                    <div class="product-price">
-                                        <span *ngIf="card.desconto > 0" class="old-price">
-                                            R$ {{ (card.preco / (1 - card.desconto / 100) ) | number:'1.2-2' }}
-                                        </span>
-                                        <span class="current-price">
-                                            R$ {{ card.preco | number:'1.2-2' }}
-                                        </span>
-                                    </div>
-                                    <button class="buy-now-btn">Comprar Agora</button>
-                                </div>
-                            </div>
-                        </ng-container>
-                        <ng-template #loadingOrEmpty>
-                            <div *ngIf="isLoading">Carregando produtos...</div>
-                            <div *ngIf="!isLoading && cards.length === 0">Nenhum produto encontrado.</div>
-                        </ng-template>
-                    </div>
-
-                    <!-- Paginação -->
+          <!-- Paginação
                     <div class="pagination">
                         <button class="page-btn active">1</button>
                         <button class="page-btn">2</button>
@@ -200,76 +315,25 @@
                         <button class="page-btn next">
                             <i class="fas fa-chevron-right"></i>
                         </button>
-                    </div>
-                </main>
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Modal de Filtros Mobile -->
-    <div class="filters-modal" id="filters-modal">
-        <div class="filters-modal-content">
-            <div class="filters-modal-header">
-                <h3>Filtros</h3>
-                <button class="close-modal"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="filters-modal-body">
-                <!-- O conteúdo será clonado do sidebar de filtros via JavaScript -->
-            </div>
-        </div>
+                    </div> -->
+        </main>
+      </div>
     </div>
+  </section>
 
-    <!-- Overlay para o Modal -->
-    <div class="modal-overlay" id="modal-overlay"></div>
+  <!-- Modal de Filtros Mobile -->
+  <div class="filters-modal" id="filters-modal">
+    <div class="filters-modal-content">
+      <div class="filters-modal-header">
+        <h3>Filtros</h3>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="filters-modal-body">
+        <!-- O conteúdo será clonado do sidebar de filtros via JavaScript -->
+      </div>
+    </div>
+  </div>
 
-    <script>
-        // Script para funcionalidade básica do slider de frequência
-        const freqSlider = document.getElementById('freq-slider');
-        const freqValue = document.getElementById('freq-value');
-        
-        freqSlider.addEventListener('input', function() {
-            freqValue.textContent = this.value;
-        });
-
-        // Script para abrir/fechar o modal de filtros no mobile
-        const filterToggle = document.querySelector('.filter-toggle-mobile');
-        const filtersModal = document.getElementById('filters-modal');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const closeModal = document.querySelector('.close-modal');
-        
-        filterToggle.addEventListener('click', function() {
-            filtersModal.classList.add('active');
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Clone o conteúdo dos filtros para o modal
-            const filterGroups = document.querySelectorAll('.filters-sidebar .filter-group:not(.mobile-only)');
-            const modalBody = document.querySelector('.filters-modal-body');
-            modalBody.innerHTML = '';
-            
-            filterGroups.forEach(group => {
-                modalBody.appendChild(group.cloneNode(true));
-            });
-            
-            // Adicionar botão de aplicar filtros
-            const applyBtn = document.createElement('div');
-            applyBtn.className = 'filter-group';
-            applyBtn.innerHTML = '<button class="apply-filters  -mobile">Aplicar Filtros</button>';
-            modalBody.appendChild(applyBtn);
-        });
-        
-        closeModal.addEventListener('click', function() {
-            filtersModal.classList.remove('active');
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-        
-        modalOverlay.addEventListener('click', function() {
-            filtersModal.classList.remove('active');
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-    </script>
+  <!-- Overlay para o Modal -->
+  <div class="modal-overlay" id="modal-overlay"></div>
 </body>

@@ -67,16 +67,6 @@ export class UsuarioListComponent implements OnInit {
 
     this.usuarioService.findAll(this.pagina, this.pageSize).subscribe(data => {
       this.usuarios = data;
-
-      this.usuarios.forEach(usuario => {
-        this.funcionarioService.findByUserName(usuario.username).subscribe(funcionario => {
-          if(funcionario != null && funcionario != undefined){
-            usuario.funcionario = funcionario
-            usuario.isFuncionario = true
-          }
-        })
-      });
-
     });
 
     console.log(this.usuarios)

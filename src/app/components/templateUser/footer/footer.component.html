@@ -70,11 +70,7 @@
         </div>
       </div>
       
-      <div class="social-links">
-        <a *ngFor="let social of socialLinks" [href]="social.url" target="_blank" [matTooltip]="social.label" class="social-icon">
-          <mat-icon>{{ social.icon }}</mat-icon>
-        </a>
-      </div>
+  
     </div>
     
     <mat-divider></mat-divider>
@@ -86,10 +82,7 @@
         <span *ngFor="let payment of paymentMethods" class="payment-icon" [matTooltip]="payment.label">
           <mat-icon>{{ payment.icon }}</mat-icon>
         </span>
-        <!-- Ícone específico para Pix -->
-        <span class="payment-icon pix-icon" matTooltip="Pix">
-          <div class="pix-logo">PIX</div>
-        </span>
+
       </div>
     </div>
     
@@ -101,12 +94,12 @@
         &copy; {{ currentYear }} Sua Marca. Todos os direitos reservados.
       </div>
       
-      <div class="legal-links">
+      <!-- <div class="legal-links">
         <a routerLink="/politica-de-privacidade">Política de Privacidade</a>
         <a routerLink="/termos-de-servico">Termos de Serviço</a>
         <a routerLink="/acessibilidade">Acessibilidade</a>
         <a routerLink="/mapa-do-site">Mapa do Site</a>
-      </div>
+      </div> -->
     </div>
   </footer>
   

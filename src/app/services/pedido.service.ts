@@ -4,13 +4,34 @@ import { Observable } from 'rxjs';
 
 export interface PedidoBasicResponseDTO {
   id: number;
-  data: string; 
+  data: string;
   valorTotal: number;
+  statusPedido: string;
   formaPagamento: string;
+  listaItemPedido: {
+    idProcessador: number;
+    nome: string;
+    quantidade: number;
+    valor: number;
+    imageUrl?: string[];
+  }[];
+  enderecoEntrega?: {
+    logradouro: string;
+    numero: string;
+    bairro: string;
+    cidade: {
+      nome: string;
+      estado: {
+        nome: string;
+      };
+    };
+    cep: string;
+  };
 }
 
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PedidoService {
   private apiUrl = 'http://localhost:8080/pedidos';
@@ -20,4 +41,10 @@ export class PedidoService {
   listarPedidos(): Observable<PedidoBasicResponseDTO[]> {
     return this.http.get<PedidoBasicResponseDTO[]>(`${this.apiUrl}/lista`);
   }
+
+  cancelarPedido(id: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/cancelar/${id}`, {});
+  }
+
+
 }

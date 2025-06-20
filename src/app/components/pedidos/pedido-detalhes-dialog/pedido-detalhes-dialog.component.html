@@ -1,0 +1,166 @@
+<div class="pedido-detalhes-container">
+  <!-- Header do Dialog -->
+  <div class="dialog-header">
+    <div class="header-info">
+      <h2>Detalhes do Pedido #{{ data.id }}</h2>
+      <span class="pedido-date">{{ data.dataPedido | date:'dd/MM/yyyy HH:mm' }}</span>
+    </div>
+    <div class="header-actions">
+      <div class="pedido-status" [ngClass]="data.status">
+        {{ getStatusLabel(data.status) }}
+      </div>
+      <button mat-icon-button class="close-button" (click)="fechar()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Conteúdo do Dialog -->
+  <div class="dialog-content">
+    
+    <!-- Timeline do Status -->
+    <div class="section-container">
+      <h3><mat-icon>timeline</mat-icon> Status do Pedido</h3>
+      <div class="timeline-container">
+        <div class="timeline">
+          <div class="timeline-item" [class.active]="isStatusActive('pendente')" [class.completed]="isStatusCompleted('pendente')">
+            <div class="timeline-dot">
+              <mat-icon>shopping_cart</mat-icon>
+            </div>
+            <div class="timeline-content">
+              <span class="timeline-title">Pedido Realizado</span>
+              <span class="timeline-date">{{ data.dataPedido | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          </div>
+          
+          <div class="timeline-item" [class.active]="isStatusActive('processando')" [class.completed]="isStatusCompleted('processando')">
+            <div class="timeline-dot">
+              <mat-icon>build</mat-icon>
+            </div>
+            <div class="timeline-content">
+              <span class="timeline-title">Processando</span>
+              <span class="timeline-date" *ngIf="isStatusCompleted('processando')">Em andamento</span>
+            </div>
+          </div>
+          
+          <div class="timeline-item" [class.active]="isStatusActive('enviado')" [class.completed]="isStatusCompleted('enviado')">
+            <div class="timeline-dot">
+              <mat-icon>local_shipping</mat-icon>
+            </div>
+            <div class="timeline-content">
+              <span class="timeline-title">Enviado</span>
+              <span class="timeline-date" *ngIf="isStatusCompleted('enviado')">A caminho</span>
+            </div>
+          </div>
+          
+          <div class="timeline-item" [class.active]="isStatusActive('entregue')" [class.completed]="isStatusCompleted('entregue')">
+            <div class="timeline-dot">
+              <mat-icon>check_circle</mat-icon>
+            </div>
+            <div class="timeline-content">
+              <span class="timeline-title">Entregue</span>
+              <span class="timeline-date" *ngIf="isStatusCompleted('entregue')">Concluído</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Itens do Pedido -->
+    <div class="section-container">
+      <h3><mat-icon>inventory</mat-icon> Itens do Pedido</h3>
+      <div class="items-container">
+        <div *ngFor="let item of data.itens" class="item-card">
+          <div class="item-image">
+            <img [src]="item.imageUrl" [alt]="item.nome">
+          </div>
+          <div class="item-info">
+            <span class="item-name">{{ item.nome }}</span>
+            <div class="item-details-grid">
+              <div class="item-detail">
+                <span class="label">Preço unitário:</span>
+                <span class="value price">{{ item.precoUnitario | currency:'BRL' }}</span>
+              </div>
+              <div class="item-detail">
+                <span class="label">Quantidade:</span>
+                <span class="value">{{ item.quantidade }}</span>
+              </div>
+              <div class="item-detail">
+                <span class="label">Total:</span>
+                <span class="value total">{{ (item.precoUnitario * item.quantidade) | currency:'BRL' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informações de Entrega -->
+    <div class="section-container">
+      <h3><mat-icon>local_shipping</mat-icon> Informações de Entrega</h3>
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-header">
+            <mat-icon>location_on</mat-icon>
+            <span class="info-title">Endereço de Entrega</span>
+          </div>
+          <p class="info-content">{{ data.enderecoEntrega }}</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-header">
+            <mat-icon>payment</mat-icon>
+            <span class="info-title">Forma de Pagamento</span>
+          </div>
+          <p class="info-content">{{ data.formaPagamento }}</p>
+        </div>
+        
+        <div class="info-card" *ngIf="data.codigoRastreamento">
+          <div class="info-header">
+            <mat-icon>local_shipping</mat-icon>
+            <span class="info-title">Código de Rastreamento</span>
+          </div>
+          <p class="info-content tracking-code">{{ data.codigoRastreamento }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumo Financeiro -->
+    <div class="section-container">
+      <h3><mat-icon>receipt</mat-icon> Resumo do Pedido</h3>
+      <div class="summary-card">
+        <div class="summary-row">
+          <span class="summary-label">Subtotal:</span>
+          <span class="summary-value">{{ data.subtotal | currency:'BRL' }}</span>
+        </div>
+        <div class="summary-row" *ngIf="data.desconto > 0">
+          <span class="summary-label">Desconto:</span>
+          <span class="summary-value discount">-{{ data.desconto | currency:'BRL' }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Frete:</span>
+          <span class="summary-value">{{ data.frete | currency:'BRL' }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total">
+          <span class="summary-label">Total:</span>
+          <span class="summary-value">{{ data.total | currency:'BRL' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer do Dialog -->
+  <div class="dialog-footer">
+    <button mat-button (click)="fechar()">
+      <mat-icon>close</mat-icon>
+      Fechar
+    </button>
+
+    <button mat-raised-button color="warn" *ngIf="data.status === 'pendente' || data.status === 'processando'" 
+            (click)="cancelarPedido()">
+      <mat-icon>cancel</mat-icon>
+      Cancelar Pedido
+    </button>
+  </div>
+</div>

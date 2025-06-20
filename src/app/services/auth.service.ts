@@ -53,7 +53,7 @@ export class AuthService {
     return this.http
       .post(`${this.baseURL}`, params, {
         observe: 'response',
-        responseType: 'json', 
+        responseType: 'json',
       })
       .pipe(
         tap((res: any) => {
@@ -78,19 +78,18 @@ export class AuthService {
       const decodedToken = this.jwtHelper.decodeToken(token);
       const realmRoles: string[] = decodedToken?.realm_access?.roles || [];
       console.log('Roles do realm:', realmRoles);
-      return realmRoles.some(r => r.toLowerCase() === role.toLowerCase());
+      return realmRoles.some((r) => r.toLowerCase() === role.toLowerCase());
     } catch (error) {
       console.error('Erro ao verificar role no token', error);
       return false;
     }
   }
 
-  // NOVO MÉTODO ADICIONADO (única mudança significativa)
   hasAnyRole(roles: string[]): boolean {
     if (!roles || roles.length === 0) return true;
-    return roles.some(role => this.hasRole(role));
+    return roles.some((role) => this.hasRole(role));
   }
-  
+
   setToken(token: string): void {
     this.localStorageService.setItem(this.tokenKey, token);
   }
@@ -100,7 +99,7 @@ export class AuthService {
   }
 
   getUsuarioLogadoValue(): Usuario | null {
-    return this.usuarioLogadoSubject.getValue(); 
+    return this.usuarioLogadoSubject.getValue();
   }
 
   getToken(): string | null {
@@ -133,8 +132,9 @@ export class AuthService {
       return true;
     }
   }
-
-  // NOVO MÉTODO ADICIONADO (pequena melhoria)
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
   isAuthenticated(): boolean {
     return !!this.getToken() && !this.isTokenExpired();
   }

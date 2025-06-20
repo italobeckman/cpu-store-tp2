@@ -30,7 +30,7 @@ import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { HomeComponent } from './components/home/home.component';
 import { DetalhesProcessadorComponent } from './components/home/detalhes-processador/detalhes-processador.component';
 import { detalhesProcessadorResolver } from './components/home/detalhes-processador/detalhes-processador.resolver';
-//import { ToolbarComponent } from './components/toolbar/toolbar.component';
+//import { ToolbarComponent } from  './components/toolbar/toolbar.component';
 import { CarinhoProcessadorComponent } from './components/home/carinho-processador/carinho-processador.component';
 import { TemplateComponent } from './components/templateUser/template/template.component';
 import { ResumoPagamentoComponent } from './components/pagamento/pagamento.component';
@@ -41,6 +41,10 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { AuthGuard } from './guards/auth.guard';
 import { SobreComponent } from './components/sobre/sobre.component';
 import { ProdutosComponent } from './components/produtos/produtos.component';
+import { LoteListComponent } from './components/lote/lote-list/lote-list.component';
+import { LoteFormComponent } from './components/lote/lote-form/lote-form.component';
+import { LoteResolver } from './components/lote/lote.resolver';
+import { ListaDesejoComponent } from './components/usuario/lista-desejo/lista-desejo.component';
 export const routes: Routes = [
   {
     path: '',
@@ -103,6 +107,12 @@ export const routes: Routes = [
         path: 'produtos',
         component: ProdutosComponent,
       },
+      {
+        path: 'desejos',
+        component: ListaDesejoComponent,
+        canActivate: [AuthGuard],
+        
+      }
     ],
   },
   {
@@ -112,11 +122,13 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     data: { roles: ['Super', 'Admin'] },
-
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home' },
-      { path: 'home', component: AdminHomeComponent, title: 'Home' },
-
+      {
+        path: 'home',
+        component: AdminHomeComponent,
+        title: 'Home',
+      },
       // Estados
       {
         path: 'estados',
@@ -252,6 +264,24 @@ export const routes: Routes = [
         component: ProcessadorFormComponent,
         resolve: { processador: ProcessadorResolver },
         title: 'Edição de Processadores',
+      },
+
+      {
+        path: 'lotes',
+        component: LoteListComponent,
+        title: 'Listagem de Lotes',
+      },
+
+      {
+        path: 'lotes/new',
+        component: LoteFormComponent,
+        title: 'Cadastro de Lotes',
+      },
+      {
+        path: 'lotes/edit/:id',
+        component: LoteFormComponent,
+        resolve: { lote: LoteResolver },
+        title: 'Edição de Lotes',
       },
     ],
   },
