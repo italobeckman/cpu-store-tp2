@@ -1,63 +1,194 @@
-
 <div class="login-container">
-   <mat-card class="login-card">
-      <div class="header">
-        <h1>Bem-vindo de volta!</h1>
-        <p>Acesse sua conta para continuar</p>
-      </div>
-  
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <!-- Campo de Usuário -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nome de Usuário*</mat-label>
-          <input matInput formControlName="username" placeholder="Digite seu username" >
-          <mat-icon matSuffix>person</mat-icon>
-          <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
-            <mat-icon>error</mat-icon> Nome de usuário é obrigatório
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('username')?.hasError('minlength')">
-            <mat-icon>error</mat-icon> Mínimo de 3 caracteres
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('username')?.hasError('maxlength')">
-            <mat-icon>error</mat-icon> Máximo de 20 caracteres
-          </mat-error>
-        </mat-form-field>
-  
-        <!-- Campo de Senha -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Senha*</mat-label>
-          <input matInput [type]="hidePassword ? 'password' : 'text'" 
-                 formControlName="password" placeholder="Digite sua senha">
-          <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
-            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-            <mat-icon>error</mat-icon> Senha é obrigatória
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
-            <mat-icon>error</mat-icon> Mínimo de 6 caracteres
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('password')?.hasError('maxlength')">
-            <mat-icon>error</mat-icon> Máximo de 30 caracteres
-          </mat-error>
-        </mat-form-field>
-  
-        <div class="options">
-          <mat-checkbox formControlName="rememberMe">Lembrar de mim</mat-checkbox>
-        </div>
-  
-        
-  
-        <div class="actions">
-          <button mat-raised-button color="primary" type="submit" class="submit-button"
-                  [disabled]="loginForm.invalid">
-            <mat-icon>login</mat-icon> Entrar
-          </button>
-        </div>
-      </form>
-  
-      <div class="signup-link">
-        Não tem uma conta? <a mat-button color="primary" routerLink="/cadastro">Cadastre-se</a>
-      </div>
-    </mat-card>
+  <!-- Background Effects -->
+  <div class="background-effects">
+    <div class="glow-effect"></div>
+    <div class="grid-pattern"></div>
+    <div class="floating-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
   </div>
+
+  <!-- Main Login Card -->
+  <div class="login-card">
+    <!-- Header with Gamer Style -->
+    <div class="header">
+      <div class="header-glow"></div>
+      <div class="logo-section">
+        <div class="logo-icon">
+          <svg class="main-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,12.1 16,12.8 16,14V18C16,19.1 15.1,20 14,20H10C8.9,20 8,19.1 8,18V14C8,12.8 8.6,12.1 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
+          </svg>
+        </div>
+        <h1 class="welcome-title">BEM-VINDO DE VOLTA</h1>
+        <p class="welcome-subtitle">ACESSE SUA CONTA PARA CONTINUAR</p>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      
+      <!-- Username Field -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <label for="username" class="input-label">NOME DE USUÁRIO *</label>
+          <div class="input-container">
+            <input 
+              type="text" 
+              id="username"
+              formControlName="username"
+              class="gamer-input"
+              placeholder="Digite seu username"
+              autocomplete="username"
+              required
+            >
+            <div class="input-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Error Messages -->
+          <div class="error-messages" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+            <div class="error-message" *ngIf="loginForm.get('username')?.hasError('required')">
+              <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+              </svg>
+              <span>Nome de usuário é obrigatório</span>
+            </div>
+            <div class="error-message" *ngIf="loginForm.get('username')?.hasError('minlength')">
+              <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+              </svg>
+              <span>Mínimo de 3 caracteres</span>
+            </div>
+            <div class="error-message" *ngIf="loginForm.get('username')?.hasError('maxlength')">
+              <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+              </svg>
+              <span>Máximo de 20 caracteres</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <label for="password" class="input-label">SENHA *</label>
+          <div class="input-container">
+            <input 
+              [type]="hidePassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              class="gamer-input"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              required
+            >
+            <button 
+              type="button" 
+              class="password-toggle" 
+              (click)="hidePassword = !hidePassword"
+              tabindex="-1"
+              aria-label="Mostrar/Ocultar senha"
+            >
+              <svg *ngIf="hidePassword" class="toggle-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.83,9L15,12.16C15,12.11 15,12.05 15,12A3,3 0 0,0 12,9C11.94,9 11.89,9 11.83,9M7.53,9.8L9.08,11.35C9.03,11.56 9,11.77 9,12A3,3 0 0,0 12,15C12.22,15 12.44,14.97 12.65,14.92L14.2,16.47C13.53,16.8 12.79,17 12,17A5,5 0 0,1 7,12C7,11.21 7.2,10.47 7.53,9.8M2,4.27L4.28,6.55L4.73,7C3.08,8.3 1.78,10 1,12C2.73,16.39 7,19.5 12,19.5C13.55,19.5 15.03,19.2 16.38,18.66L16.81,19.09L19.73,22L21,20.73L3.27,3M12,7A5,5 0 0,1 17,12C17,12.64 16.87,13.26 16.64,13.82L19.57,16.75C21.07,15.5 22.27,13.86 23,12C21.27,7.61 17,4.5 12,4.5C10.6,4.5 9.26,4.75 8,5.2L10.17,7.35C10.76,7.13 11.37,7 12,7Z"/>
+              </svg>
+              <svg *ngIf="!hidePassword" class="toggle-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Error Messages -->
+          <div class="error-messages" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <div class="error-message" *ngIf="loginForm.get('password')?.hasError('required')">
+              <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+              </svg>
+              <span>Senha é obrigatória</span>
+            </div>
+            <div class="error-message" *ngIf="loginForm.get('password')?.hasError('minlength')">
+              <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+              </svg>
+              <span>Mínimo de 6 caracteres</span>
+            </div>
+            <div class="error-message" *ngIf="loginForm.get('password')?.hasError('maxlength')">
+              <svg class="error-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+              </svg>
+              <span>Máximo de 30 caracteres</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Options Row -->
+      <div class="options-row">
+        <label class="remember-checkbox">
+          <input type="checkbox" formControlName="rememberMe">
+          <span class="checkmark">
+            <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+            </svg>
+          </span>
+          <span class="checkbox-label">LEMBRAR DE MIM</span>
+        </label>
+        
+        <a href="#" class="forgot-password">
+          <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.07,11.25L14.17,12.17C13.45,12.89 13,13.5 13,15H11V14.5C11,13.39 11.45,12.39 12.17,11.67L13.41,10.41C13.78,10.05 14,9.55 14,9C14,7.89 13.1,7 12,7A2,2 0 0,0 10,9H8A4,4 0 0,1 12,5A4,4 0 0,1 16,9C16,10.1 15.55,11.1 14.83,11.79L15.07,11.25M13,19V17H11V19H13Z"/>
+          </svg>
+          <span>ESQUECI A SENHA</span>
+        </a>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <button type="submit" class="submit-button gamer-button" [disabled]="loginForm.invalid">
+          <div class="button-content">
+            <svg class="button-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10,17V14H3V10H10V7L15,12L10,17Z"/>
+            </svg>
+            <span class="button-text">ENTRAR</span>
+          </div>
+          <div class="button-glow"></div>
+          <div class="button-ripple"></div>
+        </button>
+      </div>
+    </form>
+
+    <!-- Signup Link -->
+    <div class="signup-section">
+      <div class="divider-line">
+        <span class="divider-text">OU</span>
+      </div>
+      <p class="signup-text">
+        NÃO TEM UMA CONTA? 
+        <a routerLink="/cadastro" class="signup-link">
+          <svg class="signup-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z"/>
+          </svg>
+          <span>CADASTRE-SE</span>
+        </a>
+      </p>
+    </div>
+
+    <!-- Security Badge -->
+    <div class="security-badge">
+      <svg class="security-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23,12L20.56,9.22L20.9,5.54L17.29,4.72L15.4,1.54L12,3L8.6,1.54L6.71,4.72L3.1,5.53L3.44,9.21L1,12L3.44,14.78L3.1,18.47L6.71,19.29L8.6,22.47L12,21L15.4,22.46L17.29,19.28L20.9,18.46L20.56,14.78L23,12M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+      </svg>
+      <span class="security-text">CONEXÃO 100% SEGURA</span>
+    </div>
+
+    
+  </div>
+</div>

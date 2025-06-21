@@ -30,7 +30,7 @@ export class CartaoService {
   }
 
   create(cartao: Cartao): Observable<Cartao> {
-    return this.httpClient.post<Cartao>(this.baseUrl, cartao).pipe(
+    return this.httpClient.post<Cartao>(this.baseUrl+"/create", cartao).pipe(
       tap(novo => console.log('Cartão criado:', novo))
     );
   }

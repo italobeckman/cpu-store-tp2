@@ -12,6 +12,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TipoCartao } from '../../../models/cartao.model';
 import { CartaoService } from '../../../services/cartao.service';
 import { Router } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-adicionar-cartao',
@@ -25,7 +27,9 @@ import { Router } from '@angular/router';
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './adicionar-cartao.component.html',
   styleUrl: './adicionar-cartao.component.css'
@@ -33,38 +37,74 @@ import { Router } from '@angular/router';
 export class AdicionarCartaoComponent {
   formCartao: FormGroup;
   tiposCartao = Object.values(TipoCartao);
+  minDate = new Date();
 
-  // 👇 Correto: dentro da classe
   tipoCartaoMap: Record<string, number> = {
-    CREDITO: 1,
-    DEBITO: 2
+    'CREDITO': 1,
+    'DEBITO': 2
   };
 
-  constructor(private fb: FormBuilder, private cartaoService: CartaoService,private router: Router ) {
+  constructor(
+    private fb: FormBuilder, 
+    private cartaoService: CartaoService,
+    private router: Router
+  ) {
     this.formCartao = this.fb.group({
       nomeTitular: ['', Validators.required],
       numero: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
-      cpf: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
-      validade: ['', Validators.required],
+      cpf: ['', [Validators.required, Validators.pattern(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)]],
+      validade: ['', [Validators.required, this.validadeValidator]],
       cvc: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]],
       tipoCartao: ['', Validators.required]
     });
   }
 
+  // Validador personalizado para a data
+  validadeValidator(control: any) {
+    const value = control.value;
+    if (!value) return null;
+    
+    const [year, month] = value.split('-').map(Number);
+    const hoje = new Date();
+    const dataValidade = new Date(year, month - 1);
+    
+    return dataValidade > hoje ? null : { dataInvalida: true };
+  }
+
+  formatarCPF(event: any) {
+    let value = event.target.value.replace(/\D/g, '');
+    if (value.length > 11) {
+      value = value.substring(0, 11);
+    }
+    
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    
+    this.formCartao.get('cpf')?.setValue(value, { emitEvent: false });
+  }
+
   continuar() {
     if (this.formCartao.valid) {
-      // 👇 Corrigido: criando uma cópia do form para modificar
-      const formValue = { ...this.formCartao.value };
+      const formValue = { 
+        ...this.formCartao.value,
+        tipoCartao: this.tipoCartaoMap[this.formCartao.value.tipoCartao]
+      };
 
-      // 👇 Converte string para número
-      formValue.tipoCartao = this.tipoCartaoMap[formValue.tipoCartao];
+      // Garantir que o CPF está no formato correto
+      formValue.cpf = formValue.cpf.replace(/\D/g, '');
+
+      console.log('JSON que será enviado:', JSON.stringify(formValue, null, 2));
 
       this.cartaoService.create(formValue).subscribe({
         next: (res) => {
-          console.log('Cartão criado com sucesso:', res)
+          console.log('Cartão criado com sucesso:', res);
           this.router.navigate(['/pagamento']);  
         },
-        error: (err) => console.error('Erro ao criar cartão:', err)
+        error: (err) => {
+          console.error('Erro ao criar cartão:', err);
+          // Tratar erros específicos aqui
+        }
       });
     } else {
       this.formCartao.markAllAsTouched();

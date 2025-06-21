@@ -45,6 +45,7 @@ import { LoteListComponent } from './components/lote/lote-list/lote-list.compone
 import { LoteFormComponent } from './components/lote/lote-form/lote-form.component';
 import { LoteResolver } from './components/lote/lote.resolver';
 import { ListaDesejoComponent } from './components/usuario/lista-desejo/lista-desejo.component';
+import { Component } from '@angular/core';
 export const routes: Routes = [
   {
     path: '',
@@ -112,6 +113,10 @@ export const routes: Routes = [
         component: ListaDesejoComponent,
         canActivate: [AuthGuard],
         
+      },
+      {
+        path: 'enderecos/adicionar',
+        component: EnderecoFormComponent,
       }
     ],
   },

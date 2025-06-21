@@ -12,35 +12,63 @@
       <!-- Nome do Titular -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Nome do titular</mat-label>
-        <input matInput formControlName="nomeTitular" placeholder="Ex.: Maria Lopes">
+        <input matInput formControlName="nomeTitular" placeholder="Ex.: Maria Oliveira">
+        <mat-error *ngIf="formCartao.get('nomeTitular')?.hasError('required')">
+          Nome do titular é obrigatório
+        </mat-error>
       </mat-form-field>
 
       <!-- Número do Cartão -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Número do cartão</mat-label>
-        <input matInput formControlName="numero" placeholder="Somente números (16 dígitos)" maxlength="16">
+        <input matInput formControlName="numero" placeholder="Ex.: 5555555555554444" maxlength="16">
+        <mat-error *ngIf="formCartao.get('numero')?.hasError('required')">
+          Número do cartão é obrigatório
+        </mat-error>
+        <mat-error *ngIf="formCartao.get('numero')?.hasError('pattern')">
+          Deve conter 16 dígitos
+        </mat-error>
       </mat-form-field>
 
       <!-- CPF -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>CPF</mat-label>
-        <input matInput formControlName="cpf" placeholder="Somente números (11 dígitos)" maxlength="11">
+        <input matInput formControlName="cpf" placeholder="Ex.: 987.654.321-00" 
+               (input)="formatarCPF($event)" maxlength="14">
+        <mat-error *ngIf="formCartao.get('cpf')?.hasError('required')">
+          CPF é obrigatório
+        </mat-error>
+        <mat-error *ngIf="formCartao.get('cpf')?.hasError('pattern')">
+          Formato inválido (use XXX.XXX.XXX-XX)
+        </mat-error>
       </mat-form-field>
 
       <div class="form-row">
         <!-- Validade -->
         <mat-form-field appearance="outline" class="half-width">
           <mat-label>Validade</mat-label>
-          <input matInput type="date" formControlName="validade">
+          <input matInput type="month" formControlName="validade" [min]="minDate | date:'yyyy-MM'">
+          <mat-error *ngIf="formCartao.get('validade')?.hasError('required')">
+            Validade é obrigatória
+          </mat-error>
+          <mat-error *ngIf="formCartao.get('validade')?.hasError('dataInvalida')">
+            Data deve ser futura
+          </mat-error>
         </mat-form-field>
 
         <!-- CVC -->
         <mat-form-field appearance="outline" class="half-width">
           <mat-label>Código de segurança</mat-label>
-          <input matInput formControlName="cvc" placeholder="Ex.: 123" maxlength="4">
+          <input matInput formControlName="cvc" placeholder="Ex.: 456" maxlength="4">
           <button mat-icon-button matSuffix matTooltip="Código de 3 ou 4 dígitos no verso do cartão" tabindex="-1">
             <mat-icon>help_outline</mat-icon>
           </button>
+          <mat-error *ngIf="formCartao.get('cvc')?.hasError('required')">
+            CVC é obrigatório
+          </mat-error>
+          <mat-error *ngIf="formCartao.get('cvc')?.hasError('pattern')">
+            Deve ter 3 ou 4 dígitos
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -52,11 +80,14 @@
             {{ tipo }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="formCartao.get('tipoCartao')?.hasError('required')">
+          Tipo do cartão é obrigatório
+        </mat-error>
       </mat-form-field>
 
       <!-- Botão -->
       <div class="button-row">
-        <button mat-flat-button color="primary" (click)="continuar()">
+        <button mat-flat-button color="primary" (click)="continuar()" [disabled]="formCartao.invalid">
           Continuar
         </button>
       </div>
