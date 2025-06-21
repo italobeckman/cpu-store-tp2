@@ -88,9 +88,15 @@
 
 .form-section .mat-card-header {
   background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 20px 24px;
+  padding: 20px 24px ;
   margin: 0 -24px 24px -24px;
 }
+.mat-mdc-card-header {
+  padding-bottom: 16px;
+}
+
+
+
 
 .form-section .mat-card-title {
   display: flex;
