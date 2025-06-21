@@ -1,105 +1,127 @@
 <div class="registration-container">
-    <mat-card class="registration-card">
-      <div class="header">
-        <h1>Cadastro de Usuário</h1>
-        <p>Preencha os campos abaixo para criar sua conta</p>
-      </div>
-  
-      <form [formGroup]="formCadastro" (ngSubmit)="salvar()">
-        <div class="form-grid">
-          <!-- Nome de Usuário -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nome de Usuário*</mat-label>
-            <input matInput formControlName="username" placeholder="Digite seu nome de usuário">
-            <mat-icon matSuffix>person</mat-icon>
-            <mat-error *ngIf="formCadastro.get('username')?.hasError('required')">
-              <mat-icon>error</mat-icon> Nome de usuário é obrigatório
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- CPF -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>CPF*</mat-label>
-            <input matInput formControlName="cpf" placeholder="000.000.000-00" 
+  <div class="registration-card">
+    <div class="header">
+      <h1>Cadastro de Usuário</h1>
+      <p>Preencha os campos abaixo para criar sua conta</p>
+    </div>
+
+    <form [formGroup]="formCadastro" (ngSubmit)="salvar()" class="registration-form">
+      <div class="form-grid">
+        <!-- Nome de Usuário -->
+        <div class="form-field">
+          <label class="form-label">Nome de Usuário*</label>
+          <div class="input-container">
+            <input type="text" formControlName="username" placeholder="Digite seu nome de usuário">
+            <span class="icon">person</span>
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('username')?.hasError('required') && formCadastro.get('username')?.touched">
+            <span class="error-icon">error</span> Nome de usuário é obrigatório
+          </div>
+        </div>
+
+        <!-- CPF -->
+        <div class="form-field">
+          <label class="form-label">CPF*</label>
+          <div class="input-container">
+            <input type="text" formControlName="cpf" placeholder="000.000.000-00" 
                    (input)="formatarCPF($event)">
-            <mat-icon matSuffix>badge</mat-icon>
-            <mat-error *ngIf="formCadastro.get('cpf')?.hasError('required')">
-              <mat-icon>error</mat-icon> CPF é obrigatório
-            </mat-error>
-            <mat-error *ngIf="formCadastro.get('cpf')?.hasError('pattern')">
-              <mat-icon>error</mat-icon> Formato inválido (use 000.000.000-00)
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Email -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Email*</mat-label>
-            <input matInput type="email" formControlName="email" placeholder="seu@email.com">
-            <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="formCadastro.get('email')?.hasError('required')">
-              <mat-icon>error</mat-icon> Email é obrigatório
-            </mat-error>
-            <mat-error *ngIf="formCadastro.get('email')?.hasError('email')">
-              <mat-icon>error</mat-icon> Email inválido
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Senha -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Senha*</mat-label>
-            <input matInput type="password" formControlName="senha" 
-                   placeholder="Mínimo 6 caracteres">
-            <mat-icon matSuffix>lock</mat-icon>
-            <mat-error *ngIf="formCadastro.get('senha')?.hasError('required')">
-              <mat-icon>error</mat-icon> Senha é obrigatória
-            </mat-error>
-            <mat-error *ngIf="formCadastro.get('senha')?.hasError('minlength')">
-              <mat-icon>error</mat-icon> Mínimo 6 caracteres
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Data de Nascimento -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Data de Nascimento*</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <mat-icon matSuffix>cake</mat-icon>
-            <mat-error *ngIf="formCadastro.get('dataNascimento')?.hasError('required')">
-              <mat-icon>error</mat-icon> Data de nascimento é obrigatória
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Telefone -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Telefone*</mat-label>
-            <input matInput formControlName="telefone" placeholder="(00) 00000-0000"
+            <span class="icon">badge</span>
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('cpf')?.hasError('required') && formCadastro.get('cpf')?.touched">
+            <span class="error-icon">error</span> CPF é obrigatório
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('cpf')?.hasError('pattern') && formCadastro.get('cpf')?.touched">
+            <span class="error-icon">error</span> Formato inválido (use 000.000.000-00)
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-field">
+          <label class="form-label">Email*</label>
+          <div class="input-container">
+            <input type="email" formControlName="email" placeholder="seu@email.com">
+            <span class="icon">email</span>
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('email')?.hasError('required') && formCadastro.get('email')?.touched">
+            <span class="error-icon">error</span> Email é obrigatório
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('email')?.hasError('email') && formCadastro.get('email')?.touched">
+            <span class="error-icon">error</span> Email inválido
+          </div>
+        </div>
+
+        <!-- Senha -->
+        <div class="form-field">
+          <label class="form-label">Senha*</label>
+          <div class="input-container">
+            <input type="password" formControlName="senha" placeholder="Mínimo 6 caracteres">
+            <span class="icon">lock</span>
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('senha')?.hasError('required') && formCadastro.get('senha')?.touched">
+            <span class="error-icon">error</span> Senha é obrigatória
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('senha')?.hasError('minlength') && formCadastro.get('senha')?.touched">
+            <span class="error-icon">error</span> Mínimo 6 caracteres
+          </div>
+        </div>
+
+        <!-- Confirmar Senha -->
+        <div class="form-field">
+          <label class="form-label">Confirmar Senha*</label>
+          <div class="input-container">
+            <input type="password" formControlName="confirmarSenha" placeholder="Confirme sua senha">
+            <span class="icon">lock</span>
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('confirmarSenha')?.hasError('required') && formCadastro.get('confirmarSenha')?.touched">
+            <span class="error-icon">error</span> Confirmação de senha é obrigatória
+          </div>
+          <div class="error-message" *ngIf="formCadastro.hasError('senhasNaoCoincidem') && formCadastro.get('confirmarSenha')?.touched">
+            <span class="error-icon">error</span> As senhas não coincidem
+          </div>
+        </div>
+
+        <!-- Data de Nascimento -->
+        <div class="form-field">
+          <label class="form-label">Data de Nascimento*</label>
+          <div class="input-container">
+            <input type="date" formControlName="dataNascimento">
+            <span class="icon">cake</span>
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('dataNascimento')?.hasError('required') && formCadastro.get('dataNascimento')?.touched">
+            <span class="error-icon">error</span> Data de nascimento é obrigatória
+          </div>
+        </div>
+
+        <!-- Telefone -->
+        <div class="form-field">
+          <label class="form-label">Telefone*</label>
+          <div class="input-container">
+            <input type="tel" formControlName="telefone" placeholder="(00) 00000-0000"
                    (input)="formatarTelefone($event)">
-            <mat-icon matSuffix>phone</mat-icon>
-            <mat-error *ngIf="formCadastro.get('telefone')?.hasError('required')">
-              <mat-icon>error</mat-icon> Telefone é obrigatório
-            </mat-error>
-            <mat-error *ngIf="formCadastro.get('telefone')?.hasError('pattern')">
-              <mat-icon>error</mat-icon> Formato inválido (use (00) 00000-0000)
-            </mat-error>
-          </mat-form-field>
+            <span class="icon">phone</span>
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('telefone')?.hasError('required') && formCadastro.get('telefone')?.touched">
+            <span class="error-icon">error</span> Telefone é obrigatório
+          </div>
+          <div class="error-message" *ngIf="formCadastro.get('telefone')?.hasError('pattern') && formCadastro.get('telefone')?.touched">
+            <span class="error-icon">error</span> Formato inválido (use (00) 00000-0000)
+          </div>
         </div>
-  
-        <div class="actions">
-          <button mat-raised-button color="primary" type="submit" class="submit-button"
-                  [disabled]="formCadastro.invalid">
-            <mat-icon>how_to_reg</mat-icon> Cadastrar
-          </button>
-          
-          <button mat-stroked-button type="button" class="cancel-button" 
-                  (click)="router.navigate(['/login'])">
-            <mat-icon>cancel</mat-icon> Cancelar
-          </button>
-        </div>
-      </form>
-  
-      <div class="login-redirect">
-        Já possui uma conta? <a mat-button color="primary" routerLink="/login">Faça login</a>
       </div>
-    </mat-card>
+
+      <div class="actions">
+        <button type="submit" class="submit-button" [disabled]="formCadastro.invalid">
+          <span class="button-icon">how_to_reg</span> Cadastrar
+        </button>
+        
+        <button type="button" class="cancel-button" (click)="router.navigate(['/login'])">
+          <span class="button-icon">cancel</span> Cancelar
+        </button>
+      </div>
+    </form>
+
+    <div class="login-redirect">
+      Já possui uma conta? <a routerLink="/login">Faça login</a>
+    </div>
   </div>
+</div>
