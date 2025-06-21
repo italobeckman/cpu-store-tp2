@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 import {
   PerfilService,
@@ -43,14 +44,18 @@ export class PerfilComponent implements OnInit {
   showAddressForm = false;
   mostrarFormularioCartao = false;
   selectedEndereco = null;
+  mostrarDialogSenha = false;
 
   // Formulários
   personalForm!: FormGroup;
   enderecoForm!: FormGroup;
   cartaoForm!: FormGroup;
+  senhaForm!: FormGroup;
 
   estados: Estado[] = [];
   cidades: Cidade[] = [];
+
+  erroSenha: string = '';
 
   constructor(
     private perfilService: PerfilService,
@@ -61,6 +66,10 @@ export class PerfilComponent implements OnInit {
     private cidadeService: CidadeService
   ) {
     this.initializeForms();
+    this.senhaForm = this.fb.group({
+      novaSenha: ['', [Validators.required, Validators.minLength(6)]],
+      confirmarSenha: ['', [Validators.required]],
+    });
   }
 
   ngOnInit(): void {
@@ -143,11 +152,7 @@ export class PerfilComponent implements OnInit {
       cpf: ['', [Validators.required]],
       tipoCartao: ['', [Validators.required]], // 1 para crédito, 2 para débito
     });
-
-
   }
-
-
 
   private loadUserProfile(): void {
     this.loading = true;
@@ -179,7 +184,6 @@ export class PerfilComponent implements OnInit {
       },
     });
   }
-
 
   private loadCards(): void {
     this.perfilService.listCartoesByUser().subscribe({
@@ -462,6 +466,35 @@ export class PerfilComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000,
       panelClass: ['error-snackbar'],
+    });
+  }
+
+  abrirDialogSenha() {
+    this.senhaForm.reset();
+    this.erroSenha = '';
+    this.mostrarDialogSenha = true;
+  }
+
+  fecharDialogSenha() {
+    this.mostrarDialogSenha = false;
+    this.erroSenha = '';
+  }
+
+  onTrocarSenha() {
+    if (this.senhaForm.value.novaSenha !== this.senhaForm.value.confirmarSenha) {
+      this.erroSenha = 'As senhas não coincidem.';
+      return;
+    }
+    // Chame o serviço para trocar a senha aqui
+    // Exemplo fictício:
+    this.perfilService.trocarSenha(this.senhaForm.value.novaSenha).subscribe({
+      next: () => {
+        this.showSuccess('Senha alterada com sucesso!');
+        this.fecharDialogSenha();
+      },
+      error: () => {
+        this.erroSenha = 'Erro ao trocar a senha.';
+      }
     });
   }
 }

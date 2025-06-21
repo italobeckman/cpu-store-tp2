@@ -814,115 +814,143 @@ input[type="month"]#validade:focus {
     transform: translateY(-2px);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .profile-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    
-    .header .container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .nav {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .search-input {
-        width: 200px;
-    }
-    
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    
-    .payment-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    
-    .card-actions {
-        align-self: flex-end;
-    }
-    
-    .profile-header h1 {
-        font-size: 2.5rem;
-    }
-    
-    .profile-sidebar,
-    .profile-content {
-        padding: 2rem;
-    }
+/* Dialog Overlay */
+.dialog-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20, 20, 20, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  backdrop-filter: blur(2px);
 }
 
+/* Dialog Box */
+.dialog-box {
+  background: linear-gradient(135deg, #232526 0%, #1c1c1c 100%);
+  padding: 2.5rem 2rem 2rem 2rem;
+  border-radius: 18px;
+  min-width: 340px;
+  max-width: 95vw;
+  box-shadow: 0 8px 32px 0 rgba(255,68,68,0.15), 0 1.5px 8px 0 rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: dialogFadeIn 0.25s;
+  border: 1.5px solid #ff8644;
+}
+
+@keyframes dialogFadeIn {
+  from { transform: translateY(40px) scale(0.98); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.dialog-box h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ff8644;
+  text-align: center;
+  letter-spacing: -1px;
+}
+
+.dialog-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.dialog-box .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dialog-box label {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.01em;
+}
+
+.dialog-box input[type="password"] {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #333;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  background: #232526;
+  color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(255,68,68,0.04);
+}
+
+.dialog-box input[type="password"]:focus {
+  border-color: #ff8644;
+  box-shadow: 0 0 0 2px rgba(255,68,68,0.15);
+  background: #26292b;
+}
+
+.dialog-box .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+}
+
+.dialog-box .btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 7px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(255,68,68,0.07);
+  letter-spacing: 0.01em;
+}
+
+.dialog-box .btn.btn-secondary {
+  background: #232526;
+  color: #ff8644;
+  border: 1.5px solid #ff4444;
+}
+
+.dialog-box .btn.btn-secondary:hover {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.dialog-box .btn.btn-primary {
+  background: linear-gradient(90deg, #ff4444 60%, #ff6b35 100%);
+  color: #fff;
+  border: none;
+}
+
+.dialog-box .btn.btn-primary:disabled {
+  background: #444;
+  color: #bbb;
+  cursor: not-allowed;
+}
+
+.dialog-box .error-message {
+  color: #ff4444;
+  font-size: 1rem;
+  margin-top: 0.2rem;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Responsivo */
 @media (max-width: 480px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    .profile-sidebar,
-    .profile-content {
-        padding: 1.5rem;
-    }
-    
-    .search-input {
-        width: 150px;
-    }
-    
-    .nav {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-    
-    .nav-link {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
-    
-    .profile-header h1 {
-        font-size: 2rem;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #1a1a1a;
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #ff4444, #ff6b35);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #ff6b35, #ffa726);
+  .dialog-box {
+    min-width: 90vw;
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+  }
+  .dialog-box h2 {
+    font-size: 1.2rem;
+  }
 }

@@ -96,6 +96,13 @@ export class PerfilService {
     });
   }
 
+  trocarSenha(novaSenha: string) {
+    return this.http.patch(
+      `${this.baseUrl}/senha`,
+      { senha: novaSenha },
+      { headers: this.getAuthHeaders() }
+    );
+  }
   /**
    * Busca o perfil do usuário logado
    */
@@ -134,9 +141,13 @@ export class PerfilService {
    * Cria um novo cartão
    */
   createCartao(cartao: CartaoRequestDTO): Observable<CartaoResponseDTO> {
-    return this.http.post<CartaoResponseDTO>(`${this.cartaoUrl}/create`, cartao, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.post<CartaoResponseDTO>(
+      `${this.cartaoUrl}/create`,
+      cartao,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 
   /**
