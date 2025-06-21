@@ -49,6 +49,8 @@ import { PedidoService } from "../../services/pedido.service"
 import { PedidosService } from "../../services/pedidos.service";
 import { ConfirmarPagamentoDialogComponent } from "./ComfirmarPagamentoDialogComponent";
 import { MatDialog } from "@angular/material/dialog";
+import { PixDialogComponent } from "./PixDialogComponent";
+import { ConfirmDialogComponent } from "./ConfirmDialogComponent";
 
 @Component({
   selector: "app-pagamento",
@@ -277,10 +279,35 @@ export class ResumoPagamentoComponent implements OnInit, OnDestroy {
 
           case 'pix':
             this.pagamentoService.generatePix(pedidoId).subscribe({
-              next: pixResponse => {
-                this.pagamentoService.pagarComPix(pedidoId, pixResponse.id).subscribe({
-                  next: () => this.finalizarSucesso(),
-                  error: this.finalizarErro.bind(this)
+              next: (pixResponse) => {
+                // Abre o dialog com os dados do PIX
+
+                const dialogRef = this.dialog.open(PixDialogComponent, {
+                  width: '500px',
+                  disableClose: true,
+                  autoFocus: true,          // Garante que o Angular Material jogue o foco pra dentro do Dialog
+                  restoreFocus: true,        // Depois de fechar o Dialog, devolve o foco ao elemento que estava antes
+                  data: {
+                    payload: pixResponse.payload,
+                    chave: pixResponse.chave,
+                    valor: this.valorParaPagar,
+                    descricao: `Pedido #${pedidoId}`
+                  }
+                });
+
+                // Quando o dialog for fechado
+                dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+                  if (confirmed) {
+                    // Se usuário confirmou o pagamento
+                    this.pagamentoService.pagarComPix(pedidoId, pixResponse.id).subscribe({
+                      next: () => this.finalizarSucesso(),
+                      error: this.finalizarErro.bind(this)
+                    });
+                  } else {
+                    // Se usuário cancelou
+                    this.isProcessing = false;
+                    this.snackBar.open("Pagamento PIX cancelado", "Fechar", { duration: 3000 });
+                  }
                 });
               },
               error: this.finalizarErro.bind(this)
@@ -364,6 +391,25 @@ export class ResumoPagamentoComponent implements OnInit, OnDestroy {
         this.snackBar.open("Cupom inválido", "Fechar", { duration: 3000 });
       }
     });
+  }
+
+  public excluirCartao(id: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cartoesService.delete(id).subscribe();
+        this.realizarExclusao(id);
+      }
+    });
+  }
+
+  private realizarExclusao(id: number): void {
+    // Aqui você implementa a lógica real de exclusão
+    console.log('Cartão excluído:', id);
+    // this.cartaoService.excluirCartao(id).subscribe(...);
   }
 
   private checkScreenSize(): void {
