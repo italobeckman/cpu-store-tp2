@@ -1,5 +1,4 @@
 <div class="pedidos-container">
-  <!-- Cabeçalho da página -->
   <div class="page-header">
     <h1>Meus Pedidos</h1>
     <div class="stats-card">
@@ -9,12 +8,11 @@
       </div>
       <div class="stat">
         <span class="stat-value">{{ getTotalGasto() | currency:'BRL' }}</span>
-        <span class="stat-label">Valor Total</span>
+        <span class="stat-label">Valor Gasto</span>
       </div>
     </div>
   </div>
 
-  <!-- Filtros -->
   <div class="filtros-container">
     <div class="filtros-wrapper">
       <mat-form-field appearance="outline" class="filtro-texto">
@@ -27,91 +25,63 @@
         <mat-label>Status</mat-label>
         <mat-select [(ngModel)]="filtroStatus" (selectionChange)="filtrarPedidos()">
           <mat-option value="">Todos</mat-option>
-          <mat-option value="pendente">Pendente</mat-option>
-          <mat-option value="processando">Processando</mat-option>
-          <mat-option value="enviado">Enviado</mat-option>
-          <mat-option value="entregue">Entregue</mat-option>
-          <mat-option value="cancelado">Cancelado</mat-option>
+          <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+            {{ status.label }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
   </div>
 
-  <!-- Estado de carregamento -->
   <div *ngIf="isLoading" class="loading-container">
     <mat-spinner diameter="50" color="accent"></mat-spinner>
     <p>Carregando seus pedidos...</p>
   </div>
 
-  <!-- Mensagem de erro -->
   <div *ngIf="!isLoading && errorMessage" class="error-container">
     <mat-icon class="error-icon">error_outline</mat-icon>
     <p>{{ errorMessage }}</p>
     <button mat-raised-button color="accent" (click)="loadPedidos()">Tentar novamente</button>
   </div>
 
-  <!-- Lista vazia -->
   <div *ngIf="!isLoading && !errorMessage && pedidosFiltrados.length === 0" class="empty-container">
-    
-    <p *ngIf="filtroStatus || filtroTexto">Tente ajustar seus filtros para ver mais resultados.</p>
+    <p *ngIf="filtroStatus || filtroTexto">Nenhum pedido encontrado. Tente ajustar seus filtros.</p>
     <p *ngIf="!filtroStatus && !filtroTexto">Você ainda não realizou nenhum pedido.</p>
     <button mat-raised-button color="accent" routerLink="/produtos">Explorar produtos</button>
   </div>
 
-  <!-- Lista de pedidos -->
   <div *ngIf="!isLoading && !errorMessage && pedidosFiltrados.length > 0" class="pedidos-list">
     <div *ngFor="let pedido of pedidosFiltrados" class="pedido-card">
-      <!-- Cabeçalho do card -->
       <div class="pedido-header">
         <div class="pedido-info">
           <span class="pedido-number">Pedido #{{ pedido.id }}</span>
           <span class="pedido-date">{{ pedido.dataPedido | date:'dd/MM/yyyy' }}</span>
         </div>
-        <div class="pedido-status" [ngClass]="pedido.status">
-          {{ getStatusLabel(pedido.status) }}
+        <div class="pedido-status" [ngClass]="pedido.statusPedido">
+          {{ getStatusLabel(pedido.statusPedido) }}
         </div>
       </div>
 
-      <!-- Conteúdo do pedido -->
       <div class="pedido-content">
-        <!-- Itens do pedido (limitado a 3) -->
         <div class="pedido-items">
-          <div *ngIf="pedido.itens.length === 0" class="no-items">
-            <p>Detalhes dos itens não disponíveis</p>
-          </div>
-          <div *ngFor="let item of pedido.itens.slice(0, 3)" class="pedido-item">
-
-            <div class="item-details">
-              <span class="item-name">{{ item.nome }}</span>
-              <div class="item-price-qty">
-                <span class="item-price">{{ item.precoUnitario | currency:'BRL' }}</span>
-                <span class="item-qty">x{{ item.quantidade }}</span>
-              </div>
             </div>
-          </div>
-          <div *ngIf="pedido.itens.length > 3" class="more-items">
-            + {{ pedido.itens.length - 3 }} itens adicionais
-          </div>
-        </div>
-
-        <!-- Resumo do pedido -->
         <div class="pedido-summary">
-
-          <div class="summary-row total">
-            <span>Total:</span>
-            <span>{{ pedido.total | currency:'BRL' }}</span>
-          </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span>{{ pedido.total | currency:'BRL' }}</span>
+            </div>
         </div>
       </div>
 
-      <!-- Ações do pedido -->
+
       <div class="pedido-actions">
         <button mat-button color="primary" (click)="verDetalhes(pedido)">
           <mat-icon>visibility</mat-icon>
           Ver detalhes
         </button>
 
-        <button mat-button color="warn" *ngIf="pedido.status === 'pendente' || pedido.status === 'processando'" 
+        <button mat-button color="warn" 
+                *ngIf="pedido.statusPedido === 'PAGAMENTO_PENDENTE' || pedido.statusPedido === 'PREPARANDO_PRODUTO'"
                 (click)="cancelarPedido(pedido)">
           <mat-icon>cancel</mat-icon>
           Cancelar
@@ -119,7 +89,4 @@
       </div>
     </div>
   </div>
-
-
-  <!-- Botão flutuante para adicionar novo pedido -->
 </div>

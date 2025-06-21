@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.showSnackbarTopPosition(
-            'Erro no login: ' + err.message,
+            'Erro no login: ' + 'Seu usuário ou senha estão incorretos.',
             'Fechar',
             3000
           );

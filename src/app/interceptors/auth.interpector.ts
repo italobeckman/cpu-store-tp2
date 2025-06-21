@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 || error.status === 403) {
+        if ((error.status === 401 || error.status === 403) && token) {
           this.authService.removeUsuarioLogado();
           this.authService.removeToken();
           this.router.navigate(['/login'], { queryParams: { expired: true } });

@@ -18,12 +18,19 @@
           <aside class="profile-sidebar">
             <div class="profile-avatar-section">
               <div class="avatar-container">
-                <img
-                  [src]="loadImageUrl(perfilUsuario?.nomeImagem || '')"
-                  alt="Foto do perfil"
-                  class="avatar-img"
-                  id="avatarImg"
-                />
+                <ng-container *ngIf="perfilUsuario?.nomeImagem; else noPhoto">
+                  <img
+                    [src]="loadImageUrl(perfilUsuario?.nomeImagem || '')"
+                    alt="Foto do perfil"
+                    class="avatar-img"
+                    id="avatarImg"
+                  />
+                </ng-container>
+                <ng-template #noPhoto>
+                  <div class="avatar-placeholder">
+                    <i class="fas fa-user"></i>
+                  </div>
+                </ng-template>
                 <div class="avatar-overlay" (click)="fileInput.click()">
                   <i class="fas fa-camera"></i>
                 </div>

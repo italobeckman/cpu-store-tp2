@@ -106,12 +106,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSearch(): void {
-    if (this.searchQuery.trim()) {
-      this.searchService.updateQuery(this.searchQuery);
-      this.router.navigate(['/home'], {
-        queryParams: { search: this.searchQuery },
-      });
+  onSearch() {
+    if (this.searchQuery && this.searchQuery.trim().length > 0) {
+      this.router.navigate(['/produtos'], { queryParams: { nome: this.searchQuery } });
     }
   }
 

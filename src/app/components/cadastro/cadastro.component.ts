@@ -62,7 +62,9 @@ export class CadastroComponent implements OnInit {
 
   async salvar(): Promise<void> {
     if (this.formCadastro.valid) {
-      const usuario = this.formCadastro.value;
+      const usuario = { ...this.formCadastro.value };
+      usuario.telefone = usuario.telefone.replace(/\D/g, '');
+
       console.log('Usuário a ser salvo:', usuario);
   
       try {

@@ -35,7 +35,7 @@
       <div class="card-header">
         <div class="fabricante-badge">{{ processador.fabricante.nome }}</div>
         <button class="remove-btn" (click)="removerDaLista(processador.id)" title="Remover da lista">
-          <i class="icon-close">✕</i>
+          <i class="fa-solid fa-trash"></i>
         </button>
       </div>
 
@@ -88,12 +88,13 @@
       </div>
 
       <div class="card-actions">
-        <button class="btn-primary">
+        <button class="btn-primary" (click)="comprar(processador)" title="Adicionar ao carrinho">
           🛒 Adicionar ao Carrinho
+
         </button>
-        <button class="btn-secondary">
-          👁️ Ver Detalhes
-        </button>
+        <a class="btn-secondary" [routerLink]="['/detalhes', processador.id]">
+          Ver Detalhes
+        </a>
       </div>
     </div>
   </div>

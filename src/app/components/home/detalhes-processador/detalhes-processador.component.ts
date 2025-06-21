@@ -17,6 +17,8 @@ import { ProcessadorService } from '../../../services/processador.service';
 import { ListaDesejoService } from '../../../services/lista-desejo.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoteService } from '../../../services/lote.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../../services/auth.service';
 
 interface ProcessadorCard {
   id: number;
@@ -106,7 +108,9 @@ export class DetalhesProcessadorComponent implements OnInit {
     private carrinhoService: CarrinhoService,
     public processadorService: ProcessadorService,
     private listaDesejoService: ListaDesejoService,
-    private loteService: LoteService
+    private loteService: LoteService,
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {
     this.processador = this.activatedRoute.snapshot.data['processador'];
 
@@ -203,6 +207,14 @@ export class DetalhesProcessadorComponent implements OnInit {
   }
 
   adicionarAListaDesejos(processadorId: number): void {
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('Faça login para adicionar aos favoritos!', 'Fechar', {
+        duration: 3000,
+        panelClass: ['snackbar-warning'],
+      });
+      return;
+    }
+
     this.listaDesejoService.addToListaDeDesejos(processadorId).subscribe({
       next: () => {
         this.carregarListaDesejos(); // Atualiza a lista após adicionar
@@ -214,6 +226,14 @@ export class DetalhesProcessadorComponent implements OnInit {
   }
 
   removerDaListaDesejos(processadorId: number): void {
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('Faça login para remover dos favoritos!', 'Fechar', {
+        duration: 3000,
+        panelClass: ['snackbar-warning'],
+      });
+      return;
+    }
+
     this.listaDesejoService.removeFromListaDeDesejos(processadorId).subscribe({
       next: () => {
         this.carregarListaDesejos(); // Atualiza a lista após remover

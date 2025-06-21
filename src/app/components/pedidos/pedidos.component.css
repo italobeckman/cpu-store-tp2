@@ -80,6 +80,11 @@
 ::ng-deep .mat-mdc-select-value-text{
   color: #ffffff !important;
 }
+
+::ng-deep .mat-mdc-input-element {
+  color: #ffffff !important;
+
+}
 /* Customização Angular Material para tema escuro */
 ::ng-deep .mat-form-field {
   color: #ffffff !important;

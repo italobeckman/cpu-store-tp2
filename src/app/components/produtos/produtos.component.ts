@@ -10,7 +10,7 @@ import { ProcessadorService } from '../../services/processador.service';
 import { CarrinhoService } from '../../services/carrinho.service';
 import { SearchService } from '../../services/search.service';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterLink, RouterModule, ActivatedRoute } from '@angular/router';
 import { ProdutoService } from '../../services/produto.service';
 import { FormsModule } from '@angular/forms';
 import { ListaDesejoService } from '../../services/lista-desejo.service';
@@ -82,30 +82,41 @@ export class ProdutosComponent implements OnInit {
     public sanitizer: DomSanitizer,
     private produtoService: ProdutoService,
     public authService: AuthService,
-    private loteService: LoteService
+    private loteService: LoteService,
+    private route: ActivatedRoute 
   ) {}
 
   ngOnInit(): void {
-    this.loadProcessadores();
+    this.route.queryParams.subscribe((params) => {
+      if (params['nome']) {
+        this.filtro.nome = params['nome'];
+        this.buscarProdutos();
+      } else {
+        this.loadProcessadores();
+      }
+    });
   }
-
-
 
   loadProcessadores(): void {
     this.isLoading = true;
     this.processadorService.findAll().subscribe({
-      next: (data) => {
-        this.processadores = data;
-        this.processadores = this.processadores.reverse();
+      next: async (data) => {
+        // Busca o estoque de todos os processadores em paralelo
+        const processadoresComEstoque = await Promise.all(
+          data.map(async (proc) => {
+            const estoque = await this.loteService.findEstoqueById(proc.id).toPromise();
+            return { ...proc, estoque: estoque ?? 0 };
+          })
+        );
+        processadoresComEstoque.sort((a, b) => b.estoque - a.estoque);
+        this.processadores = processadoresComEstoque;
         this.carregarCardsProcessadores();
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Erro ao carregar processadores:', err);
-        this.errorMessage =
-          'Não foi possível carregar os processadores. Tente novamente mais tarde.';
+        this.errorMessage = 'Erro ao carregar processadores.';
         this.isLoading = false;
-      },
+      }
     });
   }
 
@@ -135,13 +146,14 @@ export class ProdutosComponent implements OnInit {
         safeImageUrl:
           this.sanitizer.bypassSecurityTrustResourceUrl(primaryImageUrl),
         desconto: processador.desconto,
-        emEstoque: false, 
+        emEstoque: false,
       };
 
-     
-      this.loteService.findEstoqueById(processador.id).subscribe((estoque: number) => {
-        card.emEstoque = estoque > 0;
-      });
+      this.loteService
+        .findEstoqueById(processador.id)
+        .subscribe((estoque: number) => {
+          card.emEstoque = estoque > 0;
+        });
       console.log('ProcessadorCard:', card);
       return card;
     });
@@ -156,14 +168,13 @@ export class ProdutosComponent implements OnInit {
     this.produtoService
       .buscarPorFiltro(this.filtro)
       .subscribe((res: Object) => {
-        // Mapeia os resultados para ProcessadorCard
         this.cards = (res as Processador[]).map((processador: Processador) => {
           const primaryImageUrl =
             processador.imagens && processador.imagens.length > 0
               ? this.processadorService.getImageUrl(processador.imagens[0])
               : 'img/processor-placeholder.png';
 
-          return {
+          const card: ProcessadorCard = {
             id: processador.id,
             nome: processador.nome,
             preco: processador.preco,
@@ -182,7 +193,16 @@ export class ProdutosComponent implements OnInit {
             safeImageUrl:
               this.sanitizer.bypassSecurityTrustResourceUrl(primaryImageUrl),
             desconto: processador.desconto,
+            emEstoque: false,
           };
+
+          this.loteService
+            .findEstoqueById(processador.id)
+            .subscribe((estoque: number) => {
+              card.emEstoque = estoque > 0;
+            });
+
+          return card;
         });
         this.isLoading = false;
       });
@@ -199,7 +219,7 @@ export class ProdutosComponent implements OnInit {
       socket: [],
       nucleos: [],
     };
-    this.buscarProdutos();
+    this.loadProcessadores(); 
   }
 
   adicionarAoCarrinho(processador: any, event: MouseEvent) {
@@ -256,7 +276,7 @@ export class ProdutosComponent implements OnInit {
     }
   }
 
-    comprar(card: ProcessadorCard, event: MouseEvent) {
+  comprar(card: ProcessadorCard, event: MouseEvent) {
     if (!card.emEstoque) {
       event.preventDefault();
       event.stopPropagation();
@@ -269,6 +289,5 @@ export class ProdutosComponent implements OnInit {
       quantidade: 1,
       desconto: card.desconto,
     });
-
   }
 }

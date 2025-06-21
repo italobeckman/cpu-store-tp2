@@ -3,11 +3,13 @@ import { Processador } from '../../../models/processador.model';
 import { ListaDesejoService } from '../../../services/lista-desejo.service';
 import { ProcessadorService } from '../../../services/processador.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { CarrinhoService } from '../../../services/carrinho.service';
 
 @Component({
   selector: 'app-lista-desejo',
   templateUrl: './lista-desejo.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   styleUrls: ['./lista-desejo.component.css'],
 })
 export class ListaDesejoComponent implements OnInit {
@@ -17,7 +19,8 @@ export class ListaDesejoComponent implements OnInit {
 
   constructor(
     private listaDesejoService: ListaDesejoService,
-    private processadorService: ProcessadorService
+    private processadorService: ProcessadorService,
+    private carrinhoService: CarrinhoService
   ) {}
 
   ngOnInit(): void {
@@ -58,5 +61,17 @@ export class ListaDesejoComponent implements OnInit {
     return 'assets/imagem-padrao.png';
   }
 
+  comprar(processador: Processador): void {
+    console.log(`Comprando processador: ${processador.nome}`);
+
+    this.carrinhoService.adicionarProduto({
+      id: processador.id,
+      nome: processador.nome,
+      preco: processador.preco,
+      quantidade: 1,
+      desconto: processador.desconto,
+    });
+
+  }
   
 }

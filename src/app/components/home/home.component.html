@@ -1,11 +1,5 @@
 <div class="page-container">
-  <!-- Loading Spinner -->
-  <div *ngIf="isLoading" class="loading-container">
-    <mat-spinner diameter="50" color="accent"></mat-spinner>
-    <p class="loading-text">Carregando processadores...</p>
-  </div>
 
-  <!-- Error Message -->
   
 
   <div class="carousel-container">
@@ -25,6 +19,10 @@
       <span class="timer">⏱  {{ countdown }}</span>
     </div>
   </div>
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="50" color="accent"></mat-spinner>
+    <p class="loading-text">Carregando processadores...</p>
+  </div>
 
   <div *ngIf="!isLoading && errorMessage" class="error-container">
     <mat-icon class="error-icon">error_outline</mat-icon>
@@ -32,16 +30,13 @@
     <button mat-raised-button color="accent" (click)="loadProcessadores()">Tentar Novamente</button>
   </div>
 
-  <!-- Content -->
   <div *ngIf="!isLoading && !errorMessage" class="content-container">
 
-    <!-- Produtos mais vendidos -->
     <div class="section-container">
       <h1 class="section-title">Produtos mais vendidos</h1>
       <div class="products-grid">
         <div class="product-card-wrapper" *ngFor="let proc of cards">
           <div class="product-card">
-            <!-- Product Header -->
             <div class="product-header">
               <h2 class="product-title">{{ proc.nome }}</h2>
               <div class="product-purchase">
@@ -60,14 +55,12 @@
               </ng-template>
               <p *ngIf="proc.desconto > 0.0" class="desconto">{{ proc.desconto * 100 }}%</p>
             </div>
-            <!-- Product Image -->
             <div class="product-image-container">
               <img [src]="proc.primaryImageUrl || '/img/processor-placeholder.png'" 
                    class="product-image"
                    (error)="onImageError($event)"
                    [alt]="proc.nome">
             </div>
-            <!-- Product Actions -->
             <div class="product-actions">
               <a [routerLink]="['/detalhes', proc.id]" class="view-more-link">Ver mais</a>
               <button class="buy-button" (click)="comprar(proc)">COMPRAR</button>
@@ -77,13 +70,11 @@
       </div>
     </div>
 
-    <!-- Intel -->
     <div class="section-container" id="section-container">
       <h1 class="section-title">Intel</h1>
       <div class="products-grid">
         <div class="product-card-wrapper" *ngFor="let proc of cardsIntel">
           <div class="product-card">
-            <!-- Product Header -->
             <div class="product-header">
               <h2 class="product-title">{{ proc.nome }}</h2>
               <div class="installment">
@@ -101,14 +92,12 @@
               </ng-template>
               <p *ngIf="proc.desconto > 0.0" class="desconto">{{ proc.desconto * 100 }}%</p>
             </div>
-            <!-- Product Image -->
             <div class="product-image-container">
               <img [src]="proc.primaryImageUrl || '/img/processor-placeholder.png'" 
                    class="product-image"
                    (error)="onImageError($event)"
                    [alt]="proc.nome">
             </div>
-            <!-- Product Actions -->
             <div class="product-actions">
               <a [routerLink]="['/detalhes', proc.id]" class="view-more-link">Ver mais</a>
               <button class="buy-button" (click)="comprar(proc)">COMPRAR</button>
@@ -118,13 +107,11 @@
       </div>
     </div>
 
-    <!-- AMD -->
     <div class="section-container" id="section-container">
       <h1 class="section-title">AMD</h1>
       <div class="products-grid">
         <div class="product-card-wrapper" *ngFor="let proc of cardsAMD">
           <div class="product-card">
-            <!-- Product Header -->
             <div class="product-header">
               <h2 class="product-title">{{ proc.nome }}</h2>
              
@@ -143,14 +130,12 @@
               </ng-template>
               <p *ngIf="proc.desconto > 0.0" class="desconto">{{ proc.desconto * 100 }}%</p>
             </div>
-            <!-- Product Image -->
             <div class="product-image-container">
               <img [src]="proc.primaryImageUrl || '/img/processor-placeholder.png'" 
                    class="product-image"
                    (error)="onImageError($event)"
                    [alt]="proc.nome">
             </div>
-            <!-- Product Actions -->
             <div class="product-actions">
               <a [routerLink]="['/detalhes', proc.id]" class="view-more-link">Ver mais</a>
               <button class="buy-button" (click)="comprar(proc)">COMPRAR</button>

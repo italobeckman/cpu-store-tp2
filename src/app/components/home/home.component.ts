@@ -4,15 +4,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import type { Processador } from '../../models/processador.model';
 import type { Fabricante } from '../../models/fabricante.model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ProcessadorService } from '../../services/processador.service';
 import { CarrinhoService } from '../../services/carrinho.service';
 import { SearchService } from '../../services/search.service';
-import { BehaviorSubject, interval, Subscription } from 'rxjs';
-import SwiperCore from 'swiper';
+import { BehaviorSubject, interval, Subscription, forkJoin } from 'rxjs';
+import { LoteService } from '../../services/lote.service';
+import { FormsModule } from '@angular/forms';
 
 interface ProcessadorCard {
   id: number;
@@ -32,6 +33,7 @@ interface ProcessadorCard {
   consumoEnergetico?: any;
   conectividade?: any;
   desconto: number;
+  emEstoque?: boolean;
 }
 
 @Component({
@@ -44,6 +46,7 @@ interface ProcessadorCard {
     MatIconModule,
     MatCardModule,
     RouterLink,
+    FormsModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -64,10 +67,11 @@ export class HomeComponent implements OnInit {
   autoSlideInterval: any;
 
   images = [
+    '/img/banner/banner1.png',
+    '/img/banner/banner2.png',
     '/img/banner/banner3.png',
-    // '/img/banner/banner2.png',
-    // '/img/banner/banner1.png',
-    '/img/promocao.jpeg',
+    'img/banner/banner4.jpg',
+
     
   ];
 
@@ -75,7 +79,9 @@ export class HomeComponent implements OnInit {
     private processadorService: ProcessadorService,
     private sanitizer: DomSanitizer,
     private carrinhoService: CarrinhoService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private loteService: LoteService,
+    private router: Router 
   ) {}
 
   ngOnInit(): void {
@@ -99,26 +105,43 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     this.processadorService.findAll().subscribe({
       next: (data) => {
-        this.processadores = data;
-        this.processadores = this.processadores.reverse();
-        this.carregarCardsProcessadores();
-        this.isLoading = false;
+        this.processadores = data.reverse();
 
-        console.log(this.query.length);
-        if (this.query.length > 0) {
-          this.filterCardsByQuery();
-        }
+        const estoqueRequests = this.processadores.map(proc =>
+          this.loteService.findEstoqueById(proc.id)
+        );
 
-        this.loadProcessadoresIbm();
-        this.loadProcessadoresIntel();
+        forkJoin(estoqueRequests).subscribe({
+          next: (estoques) => {
+            const processadoresComEstoque = this.processadores
+              .map((proc, idx) => ({ ...proc, estoque: estoques[idx] }))
+              .filter(proc => proc.estoque && proc.estoque > 0);
+
+            processadoresComEstoque.sort((a, b) => a.estoque - b.estoque);
+
+            this.processadores = processadoresComEstoque;
+            this.carregarCardsProcessadores();
+            this.isLoading = false;
+
+            if (this.query.length > 0) {
+              this.filterCardsByQuery();
+            }
+
+            this.loadProcessadoresIntel();
+            this.loadProcessadoresAmd();
+          },
+          error: (err) => {
+            this.errorMessage = 'Erro ao verificar estoque dos processadores.';
+            this.isLoading = false;
+          }
+        });
       },
       error: (err) => {
-        console.error('Erro ao carregar processadores:', err);
-        this.errorMessage =
-          'Não foi possível carregar os processadores. Tente novamente mais tarde.';
+        this.errorMessage = 'Não foi possível carregar os processadores. Tente novamente mais tarde.';
         this.isLoading = false;
       },
     });
+    console.log('Processadores carregados:', this.processadores);
   }
 
   filterCardsByQuery(): void {
@@ -138,7 +161,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  loadProcessadoresIbm(): void {
+  loadProcessadoresAmd(): void {
     console.log(this.cards[0].fabricante?.nome);
     this.cardsAMD = this.cards.filter(
       (card) => card.fabricante?.nome === 'AMD'
@@ -165,7 +188,7 @@ export class HomeComponent implements OnInit {
         fabricante: processador.fabricante,
         imagensUrl: this.getUrlsImagens(processador.imagens || []),
         socket: processador.socket,
-        frequencia: processador.frequencia?.clockBoost, // Ajustado conforme solicitado
+        frequencia: processador.frequencia?.clockBoost, 
         nucleos: processador.nucleos,
         threads: processador.threads,
         desbloqueado: processador.desbloqueado,
@@ -188,7 +211,6 @@ export class HomeComponent implements OnInit {
   comprar(processador: ProcessadorCard): void {
     console.log(`Comprando processador: ${processador.nome}`);
 
-    // Redirecionar para a página do carrinho
     this.carrinhoService.adicionarProduto({
       id: processador.id,
       nome: processador.nome,
@@ -200,7 +222,6 @@ export class HomeComponent implements OnInit {
     window.location.href = '/carrinho';
   }
 
-  // Método para lidar com erros de carregamento de imagem
   handleImageError(card: ProcessadorCard): void {
     card.safeImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       'assets/images/processor-placeholder.png'
@@ -262,11 +283,25 @@ export class HomeComponent implements OnInit {
   startAutoSlide(): void {
     this.autoSlideInterval = setInterval(() => {
       this.nextSlide();
-    }, 5000); // Troca de slide a cada 5 segundos
+    }, 10000); 
   }
   stopAutoSlide(): void {
     if (this.autoSlideInterval) {
       clearInterval(this.autoSlideInterval);
+    }
+  }
+
+  emEstoque(id: number): boolean {
+    const card = this.cards.find((c) => c.id === id);
+    if (card) {
+      return card.emEstoque ?? false;
+    }
+    return false;
+  }
+
+  pesquisarProdutos(query: string) {
+    if (query && query.trim().length > 0) {
+      this.router.navigate(['/produtos'], { queryParams: { nome: query } });
     }
   }
 }

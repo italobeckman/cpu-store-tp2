@@ -87,7 +87,7 @@ mat-icon {
 .submit-button {
   width: 100%;
   background: var(--primary-color);
-  color: #fff;
+  color: #f68402;
   font-weight: 600;
   font-size: 1.1rem;
   border-radius: 6px;
@@ -100,12 +100,12 @@ mat-icon {
 }
 
 .submit-button:hover:not([disabled]) {
-  background: #e66000;
+  background: #7843ff;
 }
 
 .cancel-button {
   width: 100%;
-  background: #fff;
+  background: #ffffff;
   color: var(--secondary-color);
   font-weight: 600;
   font-size: 1.1rem;
@@ -116,7 +116,7 @@ mat-icon {
 
 .cancel-button:hover {
   background: var(--primary-color);
-  color: #fff;
+  color: #ff0000;
 }
 
 /* Mensagem de erro */

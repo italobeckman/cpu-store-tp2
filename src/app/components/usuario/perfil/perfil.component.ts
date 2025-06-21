@@ -21,11 +21,13 @@ import { EstadoService } from '../../../services/estado.service';
 import { CidadeService } from '../../../services/cidade.service';
 import { Estado } from '../../../models/estado.model';
 import { Cidade } from '../../../models/cidade.model';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatDatepickerModule, MatNativeDateModule],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css'],
 })
