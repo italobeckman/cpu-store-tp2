@@ -7,7 +7,6 @@ import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
 import { MatDividerModule } from "@angular/material/divider";
 import { CommonModule } from "@angular/common";
-import * as QRCode from 'qrcode';
 
 export interface PixData {
   payload: string;
@@ -73,7 +72,7 @@ export interface PixData {
             <!-- QR Code Image -->
             <div *ngIf="!qrCodeLoading && !qrCodeError" class="qr-image-wrapper">
               <img 
-                [src]="qrCodeUrl" 
+                src="/img/qr.jpeg" 
                 alt="QR Code PIX"
                 class="qr-image"
                 (load)="onQrCodeLoad()"
@@ -95,12 +94,13 @@ export interface PixData {
 
           <div class="codigo-container">
             <textarea 
-              readonly 
-              rows="4" 
-              class="codigo-textarea"
-              [value]="data.payload"
-              #pixTextarea>
-            </textarea>
+  readonly 
+  rows="4" 
+  class="codigo-textarea"
+  #pixTextarea>
+00020101021126330014br.gov.bcb.pix01110717308618352040000530398654040.015802BR5921DANILO BELEM OLIVEIRA6013PINDORAMA DO 62070503***6304ED35
+</textarea>
+
             
             <button 
               mat-icon-button 
@@ -164,21 +164,23 @@ export interface PixData {
             </div>
           </div>
         </div>
-      </mat-dialog-content>
+        </mat-dialog-content>
 
-      <mat-dialog-actions align="end" class="dialog-actions">
-        <button mat-button class="close-button" (click)="fechar()">
-          <mat-icon>close</mat-icon>
-          FECHAR
-        </button>
-      </mat-dialog-actions>
+        <mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button class="close-button" (click)="fechar()">
+    <mat-icon>close</mat-icon>
+    FECHAR
+  </button>
+</mat-dialog-actions>
+
+
     </div>
   `,
   styles: [`
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
 
     .pix-dialog {
-      max-width: 450px;
+      max-width: 650px;
       width: 100%;
       background-color: #0a0a0a;
       color: #ffffff;
@@ -723,6 +725,7 @@ export interface PixData {
       text-transform: uppercase;
       letter-spacing: 1px;
       transition: all 0.3s ease;
+      padding-bottom: 100%
     }
 
     .close-button:hover {
@@ -838,10 +841,30 @@ export interface PixData {
       background-color: #f44336 !important;
       color: white !important;
     }
+
+    .floating-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff0000;
+  border-radius: 50%;
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 2;
+}
+
+.floating-close-btn:hover {
+  background-color: rgba(255, 0, 0, 0.3);
+  transform: scale(1.1);
+}
+
+.floating-close-btn mat-icon {
+  font-size: 20px;
+}
+
   `]
 })
 export class PixDialogComponent implements OnInit {
-  qrCodeUrl: string = '';
   qrCodeLoading = true;
   qrCodeError = false;
   copiado = false;
@@ -865,14 +888,7 @@ export class PixDialogComponent implements OnInit {
       this.qrCodeError = false;
       
       // Gerar QR code como Data URL
-      this.qrCodeUrl = await QRCode.toDataURL(this.data.payload, {
-        width: 280,
-        margin: 2,
-        color: {
-          dark: '#000000',  // Pontos escuros
-          light: '#00000000' // Fundo transparente
-        }
-      });
+
       
       this.qrCodeLoading = false;
     } catch (error) {

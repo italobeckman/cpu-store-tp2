@@ -90,7 +90,6 @@
         >
           <option value="pix">Pix</option>
           <!-- Corrigido de "dinheiro" para "pix" -->
-          <option value="boleto">Boleto</option>
           <option value="cartao">Cartão de crédito</option>
         </select>
 
@@ -139,6 +138,15 @@
                     </div>
                   </div>
                 </div>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  class="excluir-btn"
+                  (click)="excluirCartao(cartao.id); $event.stopPropagation()"
+                ><mat-icon 
+  class="close-icon" 
+  (click)="excluirCartao(cartao.id); $event.stopPropagation()"
+>close</mat-icon></button>
               </mat-card>
             </div>
 

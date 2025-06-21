@@ -32,7 +32,7 @@ import { CommonModule } from "@angular/common"
           
           <div class="security-info">
             <mat-icon class="security-icon">security</mat-icon>
-            <span class="security-text">Transação 100% segura</span>
+            <span class="security-text">Transação 100% segura👍</span>
           </div>
         </div>
       </div>
